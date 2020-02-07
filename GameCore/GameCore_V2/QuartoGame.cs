@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Text;
 using System.Collections;
 
@@ -9,6 +10,7 @@ namespace GameCore_V2
     {
         public bool GameOver { get; set; } = false;
         Dictionary<string, int[]> pieceList;
+        Dictionary<string, Point> boardSlotList;
         const int MAXATTRIBUTEVARIANCE = 1;
         public string[,] GameBoard { get; set; } = new string[4, 4];
 
@@ -17,10 +19,11 @@ namespace GameCore_V2
 
         public QuartoGame()
         {
-            initializePieceList();
+            InitializePieceList();
+            InitializeBoardSlotList();
         }
 
-        void initializePieceList()
+        private void InitializePieceList()
         {
             pieceList = new Dictionary<String, int[]>
             {
@@ -49,6 +52,32 @@ namespace GameCore_V2
 
         }
 
+        private void InitializeBoardSlotList()
+        {
+            boardSlotList = new Dictionary<string, Point>
+            {
+                {"A1", new Point(0, 0)},
+                {"A2", new Point(0, 1)},
+                {"A3", new Point(0, 2)},
+                {"A4", new Point(0, 3)},
+
+                {"B1", new Point(1, 0)},
+                {"B2", new Point(1, 1)},
+                {"B3", new Point(1, 2)},
+                {"B4", new Point(1, 3)},
+
+                {"C1", new Point(2, 0)},
+                {"C2", new Point(2, 1)},
+                {"C3", new Point(2, 2)},
+                {"C4", new Point(2, 3)},
+
+                {"D1", new Point(3, 0)},
+                {"D2", new Point(3, 1)},
+                {"D3", new Point(3, 2)},
+                {"D4", new Point(3, 3)}
+            };
+        }
+
        /* public struct gamePiece
         {
             public string Name;
@@ -67,6 +96,13 @@ namespace GameCore_V2
             }
         }*/
 
+
+
+        public bool Move(string boardSlotId, string pieceId)
+        {
+            Point boardSlot = boardSlotList[boardSlotId];
+            return Move(boardSlot.X, boardSlot.Y, pieceId);
+        }
 
         public bool Move(int row, int col, string movedPiece)
         {
