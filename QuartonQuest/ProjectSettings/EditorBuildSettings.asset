@@ -6,9 +6,39 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/main_menu.unity
+    path: Assets/Scenes/MainMenuScene.unity
     guid: 5c550dfd5d7939f4b837313caeb86f64
   - enabled: 1
-    path: Assets/Scenes/level1.unity
+    path: Assets/Scenes/Level1Scene.unity
     guid: 381504b543306ce4e9d80cfb020660ae
+  - enabled: 1
+    path: Assets/Scenes/Story1Scene.unity
+    guid: 9ad6b5f274ead2e42bb205b5d433e09a
+  - enabled: 1
+    path: Assets/Scenes/Story2Scene.unity
+    guid: cc9b66264f55b8749806d3c2b6ac71c3
+  - enabled: 1
+    path: Assets/Scenes/Level2Scene.unity
+    guid: 10356fd9e37bfd741a4e426dbc8bc4a8
+  - enabled: 1
+    path: Assets/Scenes/CreditsScene.unity
+    guid: b64e6014a80c13d47bd31e9f2e34d0f9
+  - enabled: 1
+    path: Assets/Scenes/Level1QuickScene.unity
+    guid: a890167001a156f4bac9459df4fb1099
+  - enabled: 1
+    path: Assets/Scenes/NetGameScene.unity
+    guid: a6a722c64d2810547bf476a14085d6ec
+  - enabled: 1
+    path: Assets/Scenes/NetMenu1Scene.unity
+    guid: 27b626aadacce9a478acaf722ce2f5c0
+  - enabled: 1
+    path: Assets/Scenes/NetMenuChooseGameScene.unity
+    guid: 8d50dd92d8ca85a4193632d8161a62e1
+  - enabled: 1
+    path: Assets/Scenes/NetMenuWaitScene.unity
+    guid: 29b733fb220ad0c479c651ec8e24c2d6
+  - enabled: 1
+    path: Assets/Scenes/QuickPlayMenuScene.unity
+    guid: 039690f3d0d5a834da6233743a982905
   m_configObjects: {}

@@ -11,6 +11,10 @@ public class mainMenuGUI : MonoBehaviour
     public AudioClip multiplayerButtonSound;
     public AudioClip settingsButtonSound;
 
+    public string storyModePath;
+    public string quickPlayPath;
+    public string multiplayerPath;
+
     private AudioSource audio;
 
 
@@ -31,32 +35,21 @@ public class mainMenuGUI : MonoBehaviour
     public void storyMode_buttonClicked()
     {
         Debug.Log("storyMode_button was clicked");
-        audio.clip = storyModeButtonSound;
-        audio.Play(0);
-        SceneManager.LoadScene("level1");
+        //audio.clip = storyModeButtonSound;
+        //audio.Play(0);
+        SceneManager.LoadScene(storyModePath);
     }
 
     public void quickPlay_buttonClicked()
     {
         Debug.Log("quickPlay_button was clicked");
-        audio.clip = quickPlayButtonSound;
-        audio.Play();
-        SceneManager.LoadScene("level1.unity");
+        SceneManager.LoadScene(quickPlayPath);
     }
 
     public void multiplayer_buttonClicked()
     {
         Debug.Log("multiplayer_button was clicked");
-        audio.clip = multiplayerButtonSound;
-        audio.Play();
-        SceneManager.LoadScene("level1.unity");
+        SceneManager.LoadScene(multiplayerPath);
     }
 
-    public void settings_buttonClicked()
-    {
-        Debug.Log("settings_button was clicked");
-        audio.clip = settingsButtonSound;
-        audio.Play();
-        //open panel
-    }
 }
