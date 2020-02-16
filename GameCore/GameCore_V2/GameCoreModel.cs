@@ -6,7 +6,7 @@ using System.Collections;
 
 namespace GameCore_V2
 {
-    public class QuartoGame
+    public class GameCoreModel
     {
         public bool GameOver { get; set; } = false;
         Dictionary<string, int[]> pieceList;
@@ -14,16 +14,15 @@ namespace GameCore_V2
         const int MAXATTRIBUTEVARIANCE = 1;
         public string[,] GameBoard { get; set; } = new string[4, 4];
 
-        public HashSet<string> PlayablePieceList = new HashSet<string>();
+        public HashSet<string> PlayablePieces = new HashSet<string>();
 
-
-        public QuartoGame()
+        public GameCoreModel()
         {
-            InitializePieceList();
+            initializePieceList();
             InitializeBoardSlotList();
         }
 
-        private void InitializePieceList()
+        void initializePieceList()
         {
             pieceList = new Dictionary<String, int[]>
             {
@@ -33,17 +32,17 @@ namespace GameCore_V2
                 {"A2", new int[] {0, 0, 0, 1}},
                 {"A3", new int[] {0, 0, 1, 0}},
                 {"A4", new int[] {0, 0, 1, 1}},
-                                  
+
                 {"B1", new int[] {0, 1, 0, 0}},
                 {"B2", new int[] {0, 1, 0, 1}},
                 {"B3", new int[] {0, 1, 1, 0}},
                 {"B4", new int[] {0, 1, 1, 1}},
-                           
+
                 {"C1", new int[] {1, 0, 0, 0}},
                 {"C2", new int[] {1, 0, 0, 1}},
                 {"C3", new int[] {1, 0, 1, 0}},
                 {"C4", new int[] {1, 0, 1, 1}},
-                                  
+
                 {"D1", new int[] {1, 1, 0, 0}},
                 {"D2", new int[] {1, 1, 0, 1}},
                 {"D3", new int[] {1, 1, 1, 0}},
@@ -51,7 +50,6 @@ namespace GameCore_V2
             };
 
         }
-
         private void InitializeBoardSlotList()
         {
             boardSlotList = new Dictionary<string, Point>
@@ -78,26 +76,6 @@ namespace GameCore_V2
             };
         }
 
-       /* public struct gamePiece
-        {
-            public string Name;
-            public bool Tall;
-            public bool Round;
-            public bool Pitted;
-            public bool Light;
-
-            public gamePiece(string name, bool tall, bool round, bool pitted, bool light)
-            {
-                Name = name;
-                Tall = tall;
-                Round = round;
-                Pitted = pitted;
-                Light = light;
-            }
-        }*/
-
-
-
         public bool Move(string boardSlotId, string pieceId)
         {
             Point boardSlot = boardSlotList[boardSlotId];
@@ -106,11 +84,11 @@ namespace GameCore_V2
 
         public bool Move(int row, int col, string movedPiece)
         {
-            if (PlayablePieceList.Contains(movedPiece) && GameBoard[row, col] == "[]")
+            if (PlayablePieces.Contains(movedPiece) && GameBoard[row, col] == "[]")
             {
                 GameBoard[row, col] = movedPiece;
 
-                PlayablePieceList.Remove(movedPiece);
+                PlayablePieces.Remove(movedPiece);
 
                 GameOver = HasWon(row, col);
                 if (GameOver)
@@ -154,10 +132,7 @@ namespace GameCore_V2
             }
             else
             {
-                attr1.Clear();
-                attr2.Clear();
-                attr3.Clear();
-                attr4.Clear();
+                clearAttr();
                 //check by column
                 for (int y = 0; y < 4; y++)
                 {
@@ -173,10 +148,7 @@ namespace GameCore_V2
                 //check for diagonal \
                 else if (currCol == currRow)
                 {
-                    attr1.Clear();
-                    attr2.Clear();
-                    attr3.Clear();
-                    attr4.Clear();
+                    clearAttr();
                     for (int c = 0; c < 4; c++)
                     {
                         attr1.Add(pieceList[GameBoard[c, c]][0]);
@@ -192,10 +164,7 @@ namespace GameCore_V2
                 //Check for diagonal /
                 else if ((currCol + currRow) == 3)
                 {
-                    attr1.Clear();
-                    attr2.Clear();
-                    attr3.Clear();
-                    attr4.Clear();
+                    clearAttr();
                     for (int c = 0; c < 4; c++)
                     {
                         attr1.Add(pieceList[GameBoard[c, (3 - c)]][0]);
@@ -210,6 +179,15 @@ namespace GameCore_V2
                 }
             }
 
+            bool clearAttr()
+            {
+                attr1.Clear();
+                attr2.Clear();
+                attr3.Clear();
+                attr4.Clear();
+                return true;
+            }
+            
             return hasWon;
         }
 
@@ -217,6 +195,17 @@ namespace GameCore_V2
         {
             return (attrSet.Count == MAXATTRIBUTEVARIANCE);
         }
+
+        public bool CheckForPlayablePiece(string piece)
+        {
+            return (PlayablePieces.Contains(piece));
+        }
+
+        public bool RemovePlayablePiece(string piece)
+        {
+            return (PlayablePieces.Remove(piece));
+        }
+
 
         public void NewGame()
         {
@@ -229,7 +218,7 @@ namespace GameCore_V2
                 }
             }
 
-            PlayablePieceList = new HashSet<string> { "A1", "A2", "A3", "A4", "B1", "B2", "B3", "B4", "C1", "C2", "C3", "C4", "D1", "D2", "D3", "D4" };
+            PlayablePieces = new HashSet<string> { "A1", "A2", "A3", "A4", "B1", "B2", "B3", "B4", "C1", "C2", "C3", "C4", "D1", "D2", "D3", "D4" };
         }
     }
 }
