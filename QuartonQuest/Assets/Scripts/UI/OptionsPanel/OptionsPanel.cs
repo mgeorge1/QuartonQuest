@@ -10,12 +10,6 @@ public class OptionsPanel : MonoBehaviour
     public GameObject Panel;
     public AudioMixer audioMixer;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-  
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -59,7 +53,7 @@ public class OptionsPanel : MonoBehaviour
     public void QuitMatch()
     {
         Debug.Log("Quitting match...");
-        SceneManager.LoadScene("main_Menu");
+        SceneManager.LoadScene("MainMenuScene");
     }
 
     public void QuitGame()

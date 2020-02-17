@@ -8,7 +8,8 @@ namespace Networking {
     public class PlayerNameInput : MonoBehaviour
     {
         [SerializeField] private TMP_InputField nameInputField = null;
-        [SerializeField] private Button startButton = null;
+        [SerializeField] private Button hostbutton = null;
+        [SerializeField] private Button joinButton = null;
 
         private const string PlayerPrefsNameKey = "PlayerNetworkName";
 
@@ -16,18 +17,18 @@ namespace Networking {
 
         private void SetUpInputField()
         {
-            if (!PlayerPrefs.HasKey(PlayerPrefsNameKey)) { return; }
-
-            string defaultName = PlayerPrefs.GetString(PlayerPrefsNameKey);
-
-            nameInputField.text = defaultName;
-
-            SetStartButtonInteractable(defaultName);
+            string defaultName = "";
+            if (!PlayerPrefs.HasKey(PlayerPrefsNameKey))
+            {
+                defaultName = PlayerPrefs.GetString(PlayerPrefsNameKey);
+                nameInputField.text = defaultName;
+            }
+            SetButtonsInteractable(defaultName);
         }
 
-        public void SetStartButtonInteractable(string name)
+        public void SetButtonsInteractable(string name)
         {
-            startButton.interactable = !string.IsNullOrEmpty(name);
+            hostbutton.interactable = joinButton.interactable = !string.IsNullOrEmpty(name);
         }
 
         public void SavePlayerName()

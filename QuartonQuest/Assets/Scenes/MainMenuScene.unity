@@ -479,7 +479,7 @@ MonoBehaviour:
   m_material: {fileID: 0}
   m_sharedMaterial: {fileID: 0}
   m_isDefaultMaterial: 0
-  m_padding: 2.879
+  m_padding: 1.25
   m_canvasRenderer: {fileID: 835454168}
   m_TextComponent: {fileID: 1498331892}
   m_materialReferenceIndex: 1
@@ -5676,7 +5676,7 @@ MonoBehaviour:
   settingsButtonSound: {fileID: 8300000, guid: 5925741551ddd584baa1359a654802f9, type: 3}
   storyModePath: Story1Scene
   quickPlayPath: QuickPlayMenuScene
-  multiplayerPath: NetMenu1Scene
+  multiplayerPath: NetworkMenuScene
 --- !u!114 &1379491903
 MonoBehaviour:
   m_ObjectHideFlags: 0
