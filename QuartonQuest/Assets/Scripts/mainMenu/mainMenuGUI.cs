@@ -15,6 +15,8 @@ public class mainMenuGUI : MonoBehaviour
     public string quickPlayPath;
     public string multiplayerPath;
 
+    public GameObject helpPanel;
+
     private AudioSource audio;
 
 
@@ -28,7 +30,13 @@ public class mainMenuGUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            if (helpPanel.activeInHierarchy)
+                helpPanel.SetActive(false);
+            else
+                helpPanel.SetActive(true);
+        }
     }
 
 
