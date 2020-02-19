@@ -127,7 +127,10 @@ namespace HeuristicCalculator
             byte[] pieces = new byte[16];
             int[] nullPiece = new int[2];
             bool[] rowWon = new bool[10];
-            Array.Fill(rowWon, false);
+            for (int i = 0; i < 10; i++)
+                rowWon[i] = false;
+            // Array.Fill is not working in Unity as of 2/18/2020
+            // Array.Fill(rowWon, false);
 
             pieceBinary = convertToBinaryRepresentation(pieceToPlay);
             for (int i = 0; i < MAXGAMEBOARD; i++)
