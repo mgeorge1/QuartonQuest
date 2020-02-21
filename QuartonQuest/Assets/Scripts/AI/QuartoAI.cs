@@ -77,7 +77,6 @@ namespace QuartoSearchTree
             Node sibling = null;
             parentNode = currentNode;
             currentNode.sibling = null;
-
             currentNode.pieces = currentPieces;
             
             generateChildrenGamestate(currentNode, parentNode, piece, sibling, maxDepth, 0);
@@ -229,6 +228,7 @@ namespace QuartoSearchTree
         {
             int j = 0;
             string pieceString;
+            int boardPosition = 0;
             int negaMaxCompare;
             winningMove winChoice;
             winningMove winChoice2;
@@ -241,13 +241,34 @@ namespace QuartoSearchTree
                 Console.WriteLine("Search Failed: Tree only contains root");
             }
 
-            // If it is the bottom of the tree
-            else if (currentNode.children[0] == null)
+            if(currentNode.parent == null)
             {
+                for (int i = 0; currentNode.children[i] != null; i++)
+                {
+                    if (currentNode.pieceToPlay == NULLPIECE)
+                        pieceString = null;
+                    else
+                        pieceString = currentNode.pieces[currentNode.pieceToPlay].piece;
 
-                int i = 0;
+                    while (currentNode.gameBoard[boardPosition] != null)
+                    {
+                        boardPosition++;
+                    }
+                    bool win = Heuristic.isWin(currentNode.gameBoard, pieceString, boardPosition);
 
-                while (currentNode.parent.children[i] != null)
+                    if (win)
+                    {
+                        winChoice.winningNode = currentNode.children[i];
+                        return winChoice;
+                    }
+                    boardPosition++;
+                }
+            }
+
+            // If it is the bottom of the tree
+            if (currentNode.children[0] == null)
+            {
+                for (int i = 0; currentNode.parent.children[i] != null; i++)
                 {
                     if (currentNode.parent.children[i].pieceToPlay == NULLPIECE)
                         pieceString = null;
@@ -259,16 +280,15 @@ namespace QuartoSearchTree
                     if(i == 0)
                     {
                         negaMax = Heuristic.calculateHeuristic(currentNode.parent.children[i].gameBoard, pieceString);
-                        //winChoice.winningNode = currentNode.parent.children[i];
+                        winChoice.winningNode = currentNode.parent.children[i];
                         winChoice.heuristicValue = negaMax;
                     }
                     else if(-negaMaxCompare > -negaMax)
                     {
-                        negaMax = negaMaxCompare;
-                        //winChoice.winningNode = currentNode.parent.children[i];
+                        negaMax = -negaMaxCompare;
+                        winChoice.winningNode = currentNode.parent.children[i];
                         winChoice.heuristicValue = negaMax;
                     }
-                    i++;
                 }
             }
 
@@ -292,7 +312,7 @@ namespace QuartoSearchTree
                         winChoice2 = searchForBestPlay(currentNode.children[j], depthCounter++, depth, negaMax);
                         if (-winChoice2.heuristicValue > -winChoice.heuristicValue)
                             {
-                                winChoice.heuristicValue = winChoice2.heuristicValue;
+                                winChoice.heuristicValue = -winChoice2.heuristicValue;
 
                                 if (currentNode.parent == null){}
                                 else if (currentNode.parent.parent == null) 
@@ -309,40 +329,41 @@ namespace QuartoSearchTree
                     j++;
                 }
             }
-
+            //printBoard(winChoice.winningNode);
+            Console.WriteLine(winChoice.heuristicValue);
             return winChoice;
         }
         static void Main(string[] args)
         {
            
             QuartoSearchTree tree = new QuartoSearchTree();
-            string[] board = { "A1", "B1", null, null, "B3", null, null, "B4", null, null, "C3", null, null, "D1", "D3", "D2" };
+            string[] board = { "A1", "B1", null, null, 
+                               "B3", null, "C2", "B4", 
+                               "C1", null, "C3", null,
+                               "A4", null, "D3", "D2" };
             Piece[] pieces = new Piece[MAXGAMEBOARD];
             pieces[0].setValues("A1", false);
             pieces[1].setValues("A2", true);
             pieces[2].setValues("A3", true);
-            pieces[3].setValues("A4", true);
+            pieces[3].setValues("A4", false);
             pieces[4].setValues("B1", false);
-            pieces[5].setValues("B2", false);
+            pieces[5].setValues("B2", true);
             pieces[6].setValues("B3", false);
             pieces[7].setValues("B4", false);
-            pieces[8].setValues("C1", true);
-            pieces[9].setValues("C2", true);
-            pieces[10].setValues("C3", true);
+            pieces[8].setValues("C1", false);
+            pieces[9].setValues("C2", false);
+            pieces[10].setValues("C3", false);
             pieces[11].setValues("C4", true);
-            pieces[12].setValues("D1", false);
+            pieces[12].setValues("D1", true);
             pieces[13].setValues("D2", false);
             pieces[14].setValues("D3", false);
             pieces[15].setValues("D4", true);
 
-            int value = Heuristic.calculateHeuristic(board, "C1");
-            tree.generateTree(7, board, 8, pieces);
+            int value = Heuristic.calculateHeuristic(board, "C4");
+            bool val = Heuristic.isWin(board, "C4", 2);
+            tree.generateTree(2, board, 11, pieces);
             Console.WriteLine(value);
-
-            //search works but gives same result no matter depth given a certain piece and boardstate
-            //might need to fix heuristic for null piece?
-            //actually it might work right?
-            //test with real person playing
+            Console.WriteLine(val);
         }
     }
 }

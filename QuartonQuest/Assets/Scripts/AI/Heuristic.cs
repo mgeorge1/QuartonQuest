@@ -9,6 +9,14 @@ namespace HeuristicCalculator
     {
         public const int NULLPIECE = 55;
         public const int MAXGAMEBOARD = 16;
+
+        public class winningValues
+        {
+            public int[] nullPiece = new int[2];
+            public bool[] rowWon = new bool[10];
+            public int finalResult = 0;
+            public bool isPlaying = true;
+        }
         public static byte convertToBinaryRepresentation(string piece)
         {
             byte pieceBinary = 0;
@@ -113,22 +121,86 @@ namespace HeuristicCalculator
             return nullValues;
         }
 
+        public static bool isWin(string[] gameBoard, string pieceToPlay, int boardPosition)
+        {
+            byte pieceBinary;
+            byte[] pieces = new byte[16];
+            winningValues winningValues = new winningValues();
+
+            for (int i = 0; i < 10; i++)
+                winningValues.rowWon[i] = false;
+
+            pieceBinary = convertToBinaryRepresentation(pieceToPlay);
+            for (int i = 0; i < MAXGAMEBOARD; i++)
+            {
+                pieces[i] = convertToBinaryRepresentation(gameBoard[i]);
+            }
+
+            if (boardPosition == 0 || boardPosition == 1 || boardPosition == 2 || boardPosition == 3)
+            {
+                winningValues = comparePiecesInRow(pieces[0], pieces[1], pieces[2], pieces[3], 0, winningValues, pieceBinary, 1);
+                winningValues = comparePiecesInRow(pieces[0], pieces[1], pieces[2], pieces[3], 0, winningValues, pieceBinary, 0);
+            }
+            if (boardPosition == 4 || boardPosition == 5 || boardPosition == 6 || boardPosition == 7)
+            {
+                winningValues = comparePiecesInRow(pieces[4], pieces[5], pieces[6], pieces[7], 1, winningValues, pieceBinary, 1);
+                winningValues = comparePiecesInRow(pieces[4], pieces[5], pieces[6], pieces[7], 1, winningValues, pieceBinary, 0);
+            }
+            if (boardPosition == 8 || boardPosition == 9 || boardPosition == 10 || boardPosition == 11)
+            {
+                winningValues = comparePiecesInRow(pieces[8], pieces[9], pieces[10], pieces[11], 2, winningValues, pieceBinary, 1);
+                winningValues = comparePiecesInRow(pieces[8], pieces[9], pieces[10], pieces[11], 2, winningValues, pieceBinary, 0);
+            }
+            if (boardPosition == 12 || boardPosition == 13 || boardPosition == 14 || boardPosition == 15)
+            {
+                winningValues = comparePiecesInRow(pieces[12], pieces[13], pieces[14], pieces[15], 3, winningValues, pieceBinary, 1);
+                winningValues = comparePiecesInRow(pieces[12], pieces[13], pieces[14], pieces[15], 3, winningValues, pieceBinary, 0);
+            }
+            if (boardPosition == 0 || boardPosition == 4 || boardPosition == 8 || boardPosition == 12)
+            {
+                winningValues = comparePiecesInRow(pieces[0], pieces[4], pieces[8], pieces[12], 4, winningValues, pieceBinary, 1);
+                winningValues = comparePiecesInRow(pieces[0], pieces[4], pieces[8], pieces[12], 4, winningValues, pieceBinary, 0);
+            }
+            if (boardPosition == 1 || boardPosition == 5 || boardPosition == 9 || boardPosition == 13)
+            {
+                winningValues = comparePiecesInRow(pieces[1], pieces[5], pieces[9], pieces[12], 5, winningValues, pieceBinary, 1);
+                winningValues = comparePiecesInRow(pieces[1], pieces[5], pieces[9], pieces[12], 5, winningValues, pieceBinary, 0);
+            }
+            if (boardPosition == 2 || boardPosition == 6 || boardPosition == 10 || boardPosition == 14)
+            {
+                winningValues = comparePiecesInRow(pieces[2], pieces[6], pieces[10], pieces[14], 6, winningValues, pieceBinary, 1);
+                winningValues = comparePiecesInRow(pieces[2], pieces[6], pieces[10], pieces[14], 6, winningValues, pieceBinary, 0);
+            }
+            if (boardPosition == 3 || boardPosition == 7 || boardPosition == 11 || boardPosition == 15)
+            {
+                winningValues = comparePiecesInRow(pieces[3], pieces[7], pieces[11], pieces[15], 7, winningValues, pieceBinary, 1);
+                winningValues = comparePiecesInRow(pieces[3], pieces[7], pieces[11], pieces[15], 7, winningValues, pieceBinary, 0);
+            }
+            if (boardPosition == 0 || boardPosition == 5 || boardPosition == 10 || boardPosition == 15)
+            {
+                winningValues = comparePiecesInRow(pieces[0], pieces[5], pieces[10], pieces[15], 8, winningValues, pieceBinary, 1);
+                winningValues = comparePiecesInRow(pieces[0], pieces[5], pieces[10], pieces[15], 8, winningValues, pieceBinary, 0);               
+            }
+            if (boardPosition == 3 || boardPosition == 6 || boardPosition == 9 || boardPosition == 12)
+            {
+                winningValues = comparePiecesInRow(pieces[3], pieces[6], pieces[9], pieces[12], 9, winningValues, pieceBinary, 1);
+                winningValues = comparePiecesInRow(pieces[3], pieces[6], pieces[9], pieces[12], 9, winningValues, pieceBinary, 0);
+            }
+
+            if (winningValues.finalResult > 0)
+                return true;
+            else
+                return false;
+        }
         // Calculates how many wins each characteristic of the piece to be played can win on any given board.
         public static int calculateHeuristic(string[] gameBoard, string pieceToPlay)
         {
-            bool isPlaying = true;
-            var slot1 = 0;
-            var slot2 = 0;
-            var slot3 = 0;
-            var slot4 = 0;
-            var potentialSlot = 0;
-            int finalResult = 0;
             byte pieceBinary;
             byte[] pieces = new byte[16];
-            int[] nullPiece = new int[2];
-            bool[] rowWon = new bool[10];
+            winningValues winningValues = new winningValues();
+
             for (int i = 0; i < 10; i++)
-                rowWon[i] = false;
+                winningValues.rowWon[i] = false;
             // Array.Fill is not working in Unity as of 2/18/2020
             // Array.Fill(rowWon, false);
 
@@ -140,346 +212,102 @@ namespace HeuristicCalculator
 
             if (pieceToPlay == null)
             {
-                isPlaying = false;
+                winningValues.isPlaying = false;
             }
 
             //checks columns and rows for wins
+            int rowCounter = 0;
+            for (int colCounter = 0; colCounter < 4; colCounter++)
+            {
+                //checks rows for wins on all matches   
+                winningValues = comparePiecesInRow(pieces[rowCounter], pieces[rowCounter+1], pieces[rowCounter+2], pieces[rowCounter+3], colCounter, winningValues, pieceBinary, 1);
+                winningValues = comparePiecesInRow(pieces[rowCounter], pieces[rowCounter + 1], pieces[rowCounter + 2], pieces[rowCounter + 3], colCounter, winningValues, pieceBinary, 0);
+
+                //checks columns for wins on all matches
+                winningValues = comparePiecesInRow(pieces[colCounter], pieces[colCounter + 4], pieces[colCounter + 8], pieces[colCounter + 12], colCounter + 4, winningValues, pieceBinary, 1);
+                winningValues = comparePiecesInRow(pieces[colCounter], pieces[colCounter + 4], pieces[colCounter + 8], pieces[colCounter + 12], colCounter + 4, winningValues, pieceBinary, 0);
+
+                rowCounter += 4;
+            }
+
+
+            //check first diagonal for wins
+            winningValues = comparePiecesInRow(pieces[0], pieces[5], pieces[10], pieces[15], 8, winningValues, pieceBinary, 1);
+            winningValues = comparePiecesInRow(pieces[0], pieces[5], pieces[10], pieces[15], 8, winningValues, pieceBinary, 0);
+
+            //check second diagonal for wins
+            winningValues = comparePiecesInRow(pieces[3], pieces[6], pieces[9], pieces[12], 9, winningValues, pieceBinary, 1);
+            winningValues = comparePiecesInRow(pieces[3], pieces[6], pieces[9], pieces[12], 9, winningValues, pieceBinary, 0);
+
+            return winningValues.finalResult;
+        }
+
+        public static winningValues comparePiecesInRow(byte piece1, byte piece2, byte piece3, byte piece4, int rowNumber, winningValues winningValues, byte pieceBinary, int oddBit)
+        {
+            var slot1 = 0;
+            var slot2 = 0;
+            var slot3 = 0;
+            var slot4 = 0;
+            var potentialSlot = 0;
+            int oppositeBit;
+
+            if (oddBit == 1)
+                oppositeBit = 0;
+            else
+                oppositeBit = 1;
+
             for (int k = 3; k >= 0; k--)
             {
-                int rowCounter = 0;
-                for (int j = 0; j < 4; j++)
-                {
-
                     //checks rows for wins on all matches
-                    slot1 = pieces[rowCounter] >> k;
-                    slot2 = pieces[rowCounter + 1] >> k;
-                    slot3 = pieces[rowCounter + 2] >> k;
-                    slot4 = pieces[rowCounter + 3] >> k;
+                    slot1 = piece1 >> k;
+                    slot2 = piece2 >> k;
+                    slot3 = piece3 >> k;
+                    slot4 = piece4 >> k;
                     potentialSlot = pieceBinary >> k;
 
-                    nullPiece = countNullPieces(pieces[rowCounter], pieces[rowCounter + 1], pieces[rowCounter + 2], pieces[rowCounter + 3]);
+                    winningValues.nullPiece = countNullPieces(piece1, piece2, piece3, piece4);
 
-                    if (nullPiece[1] > 1) { }
-
-                    else
-                    {
-
-                        if (nullPiece[0] == 1)
-                            slot1 = 0;
-                        else if (nullPiece[0] == 2)
-                            slot2 = 0;
-                        else if (nullPiece[0] == 3)
-                            slot3 = 0;
-                        else if (nullPiece[0] == 4)
-                            slot4 = 0;
-
-                        if (isPlaying && (slot1 % 2 == 1 && slot2 % 2 == 1 && slot3 % 2 == 1 && potentialSlot % 2 == 1)
-                            || (slot1 % 2 == 1 && slot2 % 2 == 1 && slot4 % 2 == 1 && potentialSlot % 2 == 1)
-                            || (slot1 % 2 == 1 && slot3 % 2 == 1 && slot4 % 2 == 1 && potentialSlot % 2 == 1)
-                            || (slot2 % 2 == 1 && slot3 % 2 == 1 && slot4 % 2 == 1 && potentialSlot % 2 == 1))
-                        {
-                            if (rowWon[j] == false)
-                            {
-                                finalResult++;
-                                rowWon[j] = true;
-                            }
-                        }
-
-                        else if (!isPlaying && (slot1 % 2 == 1 && slot2 % 2 == 1 && slot3 % 2 == 1)
-                            || (slot1 % 2 == 1 && slot2 % 2 == 1 && slot4 % 2 == 1)
-                            || (slot1 % 2 == 1 && slot3 % 2 == 1 && slot4 % 2 == 1)
-                            || (slot2 % 2 == 1 && slot3 % 2 == 1 && slot4 % 2 == 1))
-                        {
-                            if (rowWon[j] == false)
-                            {
-                                finalResult++;
-                                rowWon[j] = true;
-                            }
-                        }
-
-                        if (nullPiece[0] == 1)
-                            slot1 = 1;
-                        else if (nullPiece[0] == 2)
-                            slot2 = 1;
-                        else if (nullPiece[0] == 3)
-                            slot3 = 1;
-                        else if (nullPiece[0] == 4)
-                            slot4 = 1;
-
-                        if (isPlaying && (slot1 % 2 == 0 && slot2 % 2 == 0 && slot3 % 2 == 0 && potentialSlot % 2 == 0)
-                            || (slot1 % 2 == 0 && slot2 % 2 == 0 && slot4 % 2 == 0 && potentialSlot % 2 == 0)
-                            || (slot1 % 2 == 0 && slot3 % 2 == 0 && slot4 % 2 == 0 && potentialSlot % 2 == 0)
-                            || (slot2 % 2 == 0 && slot3 % 2 == 0 && slot4 % 2 == 0 && potentialSlot % 2 == 0))
-                        {
-                            if (rowWon[j] == false)
-                            {
-                                finalResult++;
-                                rowWon[j] = true;
-                            }
-                        }
-
-                        else if (!isPlaying && (slot1 % 2 == 0 && slot2 % 2 == 0 && slot3 % 2 == 0)
-                            || (slot1 % 2 == 0 && slot2 % 2 == 0 && slot4 % 2 == 0)
-                            || (slot1 % 2 == 0 && slot3 % 2 == 0 && slot4 % 2 == 0)
-                            || (slot2 % 2 == 0 && slot3 % 2 == 0 && slot4 % 2 == 0))
-                        {
-                            if (rowWon[j] == false)
-                            {
-                                finalResult++;
-                                rowWon[j] = true;
-                            }
-                        }
-                    }
-                    rowCounter += 4;
-
-                    //checks columns for wins on all matches
-                    slot1 = pieces[j] >> k;
-                    slot2 = pieces[j + 4] >> k;
-                    slot3 = pieces[j + 8] >> k;
-                    slot4 = pieces[j + 12] >> k;
-
-                    nullPiece = countNullPieces(pieces[j], pieces[j + 4], pieces[j + 8], pieces[j + 12]);
-
-                    if (nullPiece[1] > 1) { }
+                    if (winningValues.nullPiece[1] > 1) { }
 
                     else
                     {
 
-                        if (nullPiece[0] == 1)
-                            slot1 = 0;
-                        else if (nullPiece[0] == 2)
-                            slot2 = 0;
-                        else if (nullPiece[0] == 3)
-                            slot3 = 0;
-                        else if (nullPiece[0] == 4)
-                            slot4 = 0;
+                        if (winningValues.nullPiece[0] == 1)
+                            slot1 = oppositeBit;
+                        else if (winningValues.nullPiece[0] == 2)
+                            slot2 = oppositeBit;
+                        else if (winningValues.nullPiece[0] == 3)
+                            slot3 = oppositeBit;
+                        else if (winningValues.nullPiece[0] == 4)
+                            slot4 = oppositeBit;
 
-                        if (isPlaying && (slot1 % 2 == 1 && slot2 % 2 == 1 && slot3 % 2 == 1 && potentialSlot % 2 == 1)
-                           || (slot1 % 2 == 1 && slot2 % 2 == 1 && slot4 % 2 == 1 && potentialSlot % 2 == 1)
-                           || (slot1 % 2 == 1 && slot3 % 2 == 1 && slot4 % 2 == 1 && potentialSlot % 2 == 1)
-                           || (slot2 % 2 == 1 && slot3 % 2 == 1 && slot4 % 2 == 1 && potentialSlot % 2 == 1))
+                        if (winningValues.isPlaying && (slot1 % 2 == oddBit && slot2 % 2 == oddBit && slot3 % 2 == oddBit && potentialSlot % 2 == oddBit)
+                            || (slot1 % 2 == oddBit && slot2 % 2 == oddBit && slot4 % 2 == oddBit && potentialSlot % 2 == oddBit)
+                            || (slot1 % 2 == oddBit && slot3 % 2 == oddBit && slot4 % 2 == oddBit && potentialSlot % 2 == oddBit)
+                            || (slot2 % 2 == oddBit && slot3 % 2 == oddBit && slot4 % 2 == oddBit && potentialSlot % 2 == oddBit))
                         {
-                            if (rowWon[j + 4] == false)
+                            if (winningValues.rowWon[rowNumber] == false)
                             {
-                                finalResult++;
-                                rowWon[j + 4] = true;
+                                winningValues.finalResult++;
+                                winningValues.rowWon[rowNumber] = true;
                             }
                         }
 
-                        else if (!isPlaying && (slot1 % 2 == 1 && slot2 % 2 == 1 && slot3 % 2 == 1)
-                            || (slot1 % 2 == 1 && slot2 % 2 == 1 && slot4 % 2 == 1)
-                            || (slot1 % 2 == 1 && slot3 % 2 == 1 && slot4 % 2 == 1)
-                            || (slot2 % 2 == 1 && slot3 % 2 == 1 && slot4 % 2 == 1))
+                        else if (!winningValues.isPlaying && (slot1 % 2 == oddBit && slot2 % 2 == oddBit && slot3 % 2 == oddBit)
+                            || (slot1 % 2 == oddBit && slot2 % 2 == oddBit && slot4 % 2 == oddBit)
+                            || (slot1 % 2 == oddBit && slot3 % 2 == oddBit && slot4 % 2 == oddBit)
+                            || (slot2 % 2 == oddBit && slot3 % 2 == oddBit && slot4 % 2 == oddBit))
                         {
-                            if (rowWon[j + 4] == false)
+                            if (winningValues.rowWon[rowNumber] == false)
                             {
-                                finalResult++;
-                                rowWon[j + 4] = true;
+                                winningValues.finalResult++;
+                                winningValues.rowWon[rowNumber] = true;
                             }
                         }
 
-                        if (nullPiece[0] == 1)
-                            slot1 = 1;
-                        else if (nullPiece[0] == 2)
-                            slot2 = 1;
-                        else if (nullPiece[0] == 3)
-                            slot3 = 1;
-                        else if (nullPiece[0] == 4)
-                            slot4 = 1;
-
-                        if (isPlaying && (slot1 % 2 == 0 && slot2 % 2 == 0 && slot3 % 2 == 0 && potentialSlot % 2 == 0)
-                            || (slot1 % 2 == 0 && slot2 % 2 == 0 && slot4 % 2 == 0 && potentialSlot % 2 == 0)
-                            || (slot1 % 2 == 0 && slot3 % 2 == 0 && slot4 % 2 == 0 && potentialSlot % 2 == 0)
-                            || (slot2 % 2 == 0 && slot3 % 2 == 0 && slot4 % 2 == 0 && potentialSlot % 2 == 0))
-                        {
-                            if (rowWon[j + 4] == false)
-                            {
-                                finalResult++;
-                                rowWon[j + 4] = true;
-                            }
-                        }
-
-                        else if (!isPlaying && (slot1 % 2 == 0 && slot2 % 2 == 0 && slot3 % 2 == 0)
-                            || (slot1 % 2 == 0 && slot2 % 2 == 0 && slot4 % 2 == 0)
-                            || (slot1 % 2 == 0 && slot3 % 2 == 0 && slot4 % 2 == 0)
-                            || (slot2 % 2 == 0 && slot3 % 2 == 0 && slot4 % 2 == 0))
-                        {
-                            if (rowWon[j + 4] == false)
-                            {
-                                finalResult++;
-                                rowWon[j + 4] = true;
-                            }
-                        }
                     }
-                }
             }
-
-            //check diagonals for wins
-            for (int k = 3; k >= 0; k--)
-            {
-
-                slot1 = pieces[0] >> k;
-                slot2 = pieces[5] >> k;
-                slot3 = pieces[10] >> k;
-                slot4 = pieces[15] >> k;
-
-                nullPiece = countNullPieces(pieces[0], pieces[5], pieces[10], pieces[15]);
-
-                if (nullPiece[1] > 1) { }
-
-
-                else
-                {
-
-                    if (nullPiece[0] == 1)
-                        slot1 = 0;
-                    else if (nullPiece[0] == 2)
-                        slot2 = 0;
-                    else if (nullPiece[0] == 3)
-                        slot3 = 0;
-                    else if (nullPiece[0] == 4)
-                        slot4 = 0;
-                    if (isPlaying && (slot1 % 2 == 1 && slot2 % 2 == 1 && slot3 % 2 == 1 && potentialSlot % 2 == 1)
-                        || (slot1 % 2 == 1 && slot2 % 2 == 1 && slot4 % 2 == 1 && potentialSlot % 2 == 1)
-                        || (slot1 % 2 == 1 && slot3 % 2 == 1 && slot4 % 2 == 1 && potentialSlot % 2 == 1)
-                        || (slot2 % 2 == 1 && slot3 % 2 == 1 && slot4 % 2 == 1 && potentialSlot % 2 == 1))
-                    {
-                        if (rowWon[8] == false)
-                        {
-                            finalResult++;
-                            rowWon[8] = true;
-                        }
-                    }
-
-                    else if (!isPlaying && (slot1 % 2 == 1 && slot2 % 2 == 1 && slot3 % 2 == 1)
-                        || (slot1 % 2 == 1 && slot2 % 2 == 1 && slot4 % 2 == 1)
-                        || (slot1 % 2 == 1 && slot3 % 2 == 1 && slot4 % 2 == 1)
-                        || (slot2 % 2 == 1 && slot3 % 2 == 1 && slot4 % 2 == 1))
-                    {
-                        if (rowWon[8] == false)
-                        {
-                            finalResult++;
-                            rowWon[8] = true;
-                        }
-                    }
-
-                    if (nullPiece[0] == 1)
-                        slot1 = 1;
-                    else if (nullPiece[0] == 2)
-                        slot2 = 1;
-                    else if (nullPiece[0] == 3)
-                        slot3 = 1;
-                    else if (nullPiece[0] == 4)
-                        slot4 = 1;
-
-                    if (isPlaying && (slot1 % 2 == 0 && slot2 % 2 == 0 && slot3 % 2 == 0 && potentialSlot % 2 == 0)
-                        || (slot1 % 2 == 0 && slot2 % 2 == 0 && slot4 % 2 == 0 && potentialSlot % 2 == 0)
-                        || (slot1 % 2 == 0 && slot3 % 2 == 0 && slot4 % 2 == 0 && potentialSlot % 2 == 0)
-                        || (slot2 % 2 == 0 && slot3 % 2 == 0 && slot4 % 2 == 0 && potentialSlot % 2 == 0))
-                    {
-                        if (rowWon[8] == false)
-                        {
-                            finalResult++;
-                            rowWon[8] = true;
-                        }
-                    }
-
-                    else if (!isPlaying && (slot1 % 2 == 0 && slot2 % 2 == 0 && slot3 % 2 == 0)
-                        || (slot1 % 2 == 0 && slot2 % 2 == 0 && slot4 % 2 == 0)
-                        || (slot1 % 2 == 0 && slot3 % 2 == 0 && slot4 % 2 == 0)
-                        || (slot2 % 2 == 0 && slot3 % 2 == 0 && slot4 % 2 == 0))
-                    {
-                        if (rowWon[8] == false)
-                        {
-                            finalResult++;
-                            rowWon[8] = true;
-                        }
-                    }
-                }
-
-                slot1 = pieces[3] >> k;
-                slot2 = pieces[6] >> k;
-                slot3 = pieces[9] >> k;
-                slot4 = pieces[12] >> k;
-
-                nullPiece = countNullPieces(pieces[3], pieces[6], pieces[9], pieces[12]);
-
-                if (nullPiece[1] > 1) { }
-
-
-                else
-                {
-
-                    if (nullPiece[0] == 1)
-                        slot1 = 0;
-                    else if (nullPiece[0] == 2)
-                        slot2 = 0;
-                    else if (nullPiece[0] == 3)
-                        slot3 = 0;
-                    else if (nullPiece[0] == 4)
-                        slot4 = 0;
-
-                    if (isPlaying && (slot1 % 2 == 1 && slot2 % 2 == 1 && slot3 % 2 == 1 && potentialSlot % 2 == 1)
-                           || (slot1 % 2 == 1 && slot2 % 2 == 1 && slot4 % 2 == 1 && potentialSlot % 2 == 1)
-                           || (slot1 % 2 == 1 && slot3 % 2 == 1 && slot4 % 2 == 1 && potentialSlot % 2 == 1)
-                           || (slot2 % 2 == 1 && slot3 % 2 == 1 && slot4 % 2 == 1 && potentialSlot % 2 == 1))
-                    {
-                        if (rowWon[9] == false)
-                        {
-                            finalResult++;
-                            rowWon[9] = true;
-                        }
-                    }
-
-                    else if (!isPlaying && (slot1 % 2 == 1 && slot2 % 2 == 1 && slot3 % 2 == 1)
-                        || (slot1 % 2 == 1 && slot2 % 2 == 1 && slot4 % 2 == 1)
-                        || (slot1 % 2 == 1 && slot3 % 2 == 1 && slot4 % 2 == 1)
-                        || (slot2 % 2 == 1 && slot3 % 2 == 1 && slot4 % 2 == 1))
-                    {
-                        if (rowWon[9] == false)
-                        {
-                            finalResult++;
-                            rowWon[9] = true;
-                        }
-                    }
-
-                    if (nullPiece[0] == 1)
-                        slot1 = 1;
-                    else if (nullPiece[0] == 2)
-                        slot2 = 1;
-                    else if (nullPiece[0] == 3)
-                        slot3 = 1;
-                    else if (nullPiece[0] == 4)
-                        slot4 = 1;
-
-                    if (isPlaying && (slot1 % 2 == 0 && slot2 % 2 == 0 && slot3 % 2 == 0 && potentialSlot % 2 == 0)
-                            || (slot1 % 2 == 0 && slot2 % 2 == 0 && slot4 % 2 == 0 && potentialSlot % 2 == 0)
-                            || (slot1 % 2 == 0 && slot3 % 2 == 0 && slot4 % 2 == 0 && potentialSlot % 2 == 0)
-                            || (slot2 % 2 == 0 && slot3 % 2 == 0 && slot4 % 2 == 0 && potentialSlot % 2 == 0))
-                    {
-                        if (rowWon[9] == false)
-                        {
-                            finalResult++;
-                            rowWon[9] = true;
-                        }
-                    }
-
-                    else if (!isPlaying && (slot1 % 2 == 0 && slot2 % 2 == 0 && slot3 % 2 == 0)
-                        || (slot1 % 2 == 0 && slot2 % 2 == 0 && slot4 % 2 == 0)
-                        || (slot1 % 2 == 0 && slot3 % 2 == 0 && slot4 % 2 == 0)
-                        || (slot2 % 2 == 0 && slot3 % 2 == 0 && slot4 % 2 == 0))
-                    {
-                        if (rowWon[9] == false)
-                        {
-                            finalResult++;
-                            rowWon[9] = true;
-                        }
-                    }
-                }
-
-            }
-
-            return finalResult;
+            return winningValues;
         }
     }
 }
