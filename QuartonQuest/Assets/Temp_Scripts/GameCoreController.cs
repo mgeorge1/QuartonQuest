@@ -8,11 +8,11 @@ class GameCoreController : MonoBehaviour
 {
     public static GameCoreController instance;
     GameCoreModel model = new GameCoreModel();
-    Board board = new Board();
+    public Board board;
 
     string PieceToBePlaced;
     
-    private enum GameTurnState { NONE, PLAYER1, PLAYER2, GAMEWON};
+    private enum GameTurnState { NONE, PLAYER1, PLAYER2, GAMEWON, GAMETIED};
     GameTurnState currentTurn = GameTurnState.NONE;
 
     public void Awake()
@@ -22,7 +22,7 @@ class GameCoreController : MonoBehaviour
 
     IEnumerator Start()
     {
-        GameCoreModel.GameWon += WinState;
+        GameCoreModel.GameWon += GameOverState;
         yield return PlayGame();
     }
 
@@ -32,7 +32,7 @@ class GameCoreController : MonoBehaviour
         PickFirstTurn();
         yield return PickFirstPiece();
         SwapTurn();
-        while(currentTurn != GameTurnState.GAMEWON)
+        while(currentTurn != GameTurnState.GAMEWON && currentTurn!=GameTurnState.GAMETIED)
         {
             if(currentTurn==GameTurnState.PLAYER1)
             {
@@ -47,12 +47,6 @@ class GameCoreController : MonoBehaviour
                 SwapTurn();
             }
         }
-        //Player who is picked selects a piece, beginning play loop
-        //Keep requesting piece until a correct piece is selected
-        // while (model.GameOver != true )
-        //{
-           
-        //}
     }
 
     IEnumerator Player1Turn()
@@ -105,10 +99,18 @@ class GameCoreController : MonoBehaviour
     }
 
 
-    public void WinState()
+    public void GameOverState()
     {
-        Debug.Log(Convert.ToString(currentTurn)+" Has Won");
-        currentTurn = GameTurnState.GAMEWON;
+        if(!model.isGameTied)
+        {
+            Debug.Log(Convert.ToString(currentTurn) + " Has Won");
+            currentTurn = GameTurnState.GAMEWON;
+        }
+        else
+        {
+            Debug.Log("GAME HAS TIED");
+            currentTurn = GameTurnState.GAMETIED;
+        }
     }
 
     public void SwapTurn()

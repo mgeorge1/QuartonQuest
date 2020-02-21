@@ -5,12 +5,14 @@ using System.Text;
 using System.Collections;
 using UnityEngine;
 
-public class GameCoreModel : MonoBehaviour
+public class GameCoreModel
 {
     public bool GameOver { get; set; } = false;
 
     public delegate void GameOverEvent();
     public static event GameOverEvent GameWon;
+
+    public bool isGameTied = false;
 
     Dictionary<string, int[]> pieceList;
     Dictionary<string, Point> boardSlotList;
@@ -95,6 +97,8 @@ public class GameCoreModel : MonoBehaviour
             PlayablePieces.Remove(movedPiece);
 
             GameOver = HasWon(row, col);
+            CheckTieGame();
+
             if (GameOver)
             {
                 Debug.Log(Environment.NewLine + "GAME OVER" + Environment.NewLine);
@@ -104,6 +108,15 @@ public class GameCoreModel : MonoBehaviour
         }
         else return false;
            
+    }
+
+    public void CheckTieGame()
+    {
+        if(PlayablePieces.Count==0 && !GameOver)
+        {   
+            isGameTied = true;
+            GameOver = true;
+        }
     }
 
     public bool HasWon(int currRow, int currCol)
