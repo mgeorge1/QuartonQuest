@@ -6,7 +6,7 @@ public class Board : MonoBehaviour
 {
     public Color SelectColor;
 
-    public Piece selectedPiece;
+    public Piece SelectedPiece { get; set; }
 
     public GameObject P1OnDeck;
     public GameObject P2OnDeck;
@@ -37,7 +37,7 @@ public class Board : MonoBehaviour
     {
         //Debug.Log("Clicked Tile " + name);
         Tile selectedTile = UnityEngine.GameObject.Find("Tile" + name).GetComponent<Tile>();
-        MovePiece(selectedPiece, selectedTile);
+        MovePiece(SelectedPiece, selectedTile);
         //DisableTileClicking();
         //EnablePieceClicking();
     }
@@ -45,7 +45,7 @@ public class Board : MonoBehaviour
     public void OnClickedPiece(string name)
     {
         //Debug.Log("Clicked Piece" + name);
-        selectedPiece = UnityEngine.GameObject.Find("Piece" + name).GetComponent<Piece>();
+        SelectedPiece = UnityEngine.GameObject.Find("Piece" + name).GetComponent<Piece>();
         MoveOnDeck();
         //DisablePieceClicking();
         //EnableTileClicking();
@@ -63,20 +63,32 @@ public class Board : MonoBehaviour
 
     public void MoveOnDeck()
     {
-        selectedPiece.transform.GetChild(0).gameObject.GetComponent<Renderer>().material.SetColor("_Color", SelectColor);
-        selectedPiece.transform.position = P1OnDeck.transform.position;
+        SelectedPiece.transform.GetChild(0).gameObject.GetComponent<Renderer>().material.SetColor("_Color", SelectColor);
+        SelectedPiece.transform.position = P1OnDeck.transform.position;
     }
 
     public void MovePiece(Piece piece, Tile tile)
      {
-        if(selectedPiece!=null)
+        if(SelectedPiece!=null)
         {
             Vector3 temp = new Vector3(0, 1.0f, 0);
             piece.transform.position = tile.transform.position + temp;
-            tile.localPiece = selectedPiece;
-            selectedPiece.placed = true;
-            selectedPiece = null;
+            tile.localPiece = SelectedPiece;
+            SelectedPiece.placed = true;
+            SelectedPiece = null;
         }
         
+    }
+
+    public void MovePiece(string tileName)
+    {
+        Debug.Log(tileName);
+        OnClickedTile(tileName);
+    }
+
+    public void MoveOnDeck(string pieceName)
+    {
+        Debug.Log(pieceName);
+        OnClickedPiece(pieceName);
     }
 }
