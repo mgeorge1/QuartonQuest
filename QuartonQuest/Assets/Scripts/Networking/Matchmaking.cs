@@ -20,9 +20,10 @@ namespace Networking
 
         private bool isConnecting = false;
         private bool isMasterClient = false;
-
         private const string GameVersion = "0.1";
         private const int MAXPLAYERSPERROOM = 2;
+        private const string MASTERPLAYERNAMEPROPERTY = "MasterPlayerName";
+        private Dictionary<string, GameObject> rooms;
 
         private void Awake() => PhotonNetwork.AutomaticallySyncScene = true;
 
@@ -30,16 +31,29 @@ namespace Networking
         {
             HostPanelController hpc = HostGamePanel.GetComponent<HostPanelController>();
             hpc.OnCancel += CancelMatchmaking;
+
+            JoinPanelController jpc = JoinGamePanel.GetComponent<JoinPanelController>();
+            jpc.OnCancel += CancelMatchmaking;
+
+            rooms = new Dictionary<string, GameObject>();
         }
 
         private void CancelMatchmaking()
         {
-            NameInputPanel.SetActive(true);
             Disconnect();
+            NameInputPanel.SetActive(true);
         }
 
         private void Disconnect()
         {
+            if (PhotonNetwork.CurrentRoom != null && PhotonNetwork.IsMasterClient)
+            {
+                Debug.Log("Leaving Room: " + PhotonNetwork.CurrentRoom.Name);
+                PhotonNetwork.CurrentRoom.IsVisible = false;
+                PhotonNetwork.CurrentRoom.IsOpen = false;
+                PhotonNetwork.LeaveRoom();
+            }
+
             PhotonNetwork.Disconnect();
         }
 
@@ -80,16 +94,64 @@ namespace Networking
 
         public override void OnRoomListUpdate(List<RoomInfo> roomList)
         {
+            Debug.Log("Roomlist update");
+            RemoveUnavailableRooms(roomList);
+            AddNewRoomListItems(roomList);
+        }
 
+        private void AddNewRoomListItems(List<RoomInfo> roomList)
+        {
             foreach (RoomInfo roomInfo in roomList)
             {
-                GameObject newItem = Instantiate<GameObject>(RoomListItemPrefab, RoomListItemsPanel.transform, false);
-                RoomListItemController controller = newItem.GetComponent<RoomListItemController>();
-                controller.RoomId = roomInfo.Name;
-                controller.MasterPlayerName = roomInfo.CustomProperties["MasterPlayerName"].ToString();
-                controller.buttonText.text = controller.MasterPlayerName;
-                controller.button.onClick.AddListener(delegate { OnRoomButtonClicked(roomInfo.Name); });
+                if (!rooms.ContainsKey(roomInfo.Name) && roomInfo.IsOpen && roomInfo.IsVisible)
+                {
+                    Debug.Log("Creating room list item...");
+                    GameObject newItem = Instantiate<GameObject>(RoomListItemPrefab, RoomListItemsPanel.transform, false);
+                    RoomListItemController controller = newItem.GetComponent<RoomListItemController>();
+                    rooms.Add(roomInfo.Name, newItem);
+                    controller.RoomId = roomInfo.Name;
+                    Debug.Log(roomInfo.CustomProperties[MASTERPLAYERNAMEPROPERTY]);
+                    controller.MasterPlayerName = roomInfo.CustomProperties[MASTERPLAYERNAMEPROPERTY].ToString();
+                    controller.buttonText.text = controller.MasterPlayerName;
+                    controller.button.onClick.AddListener(delegate { OnRoomButtonClicked(roomInfo.Name); });
+                }
             }
+        }
+
+        private void RemoveUnavailableRooms(List<RoomInfo> roomList)
+        {
+            List<string> keysToRemove = new List<string>();
+            foreach (string roomName in rooms.Keys)
+            {
+                Debug.Log("Rooms on server:");
+                foreach (var info in roomList)
+                    Debug.Log(info.Name);
+
+                if (!roomList.Exists(roomInfo => roomInfo.Name == roomName))
+                {
+                    DestroyRoomListItem(roomName);
+                    keysToRemove.Add(roomName);
+                } 
+                else
+                {
+                    RoomInfo ri = roomList.Find(roomInfo => roomInfo.Name == roomName);
+                    Debug.Log(ri.IsVisible + " " + ri.IsOpen + " " + ri.RemovedFromList);
+                    if (!ri.IsVisible || !ri.IsOpen || ri.RemovedFromList)
+                    {
+                        DestroyRoomListItem(roomName);
+                    }
+                }
+            }
+
+            foreach (string key in keysToRemove)
+                rooms.Remove(key);
+        }
+
+        private void DestroyRoomListItem(string roomName)
+        {
+            Debug.Log(("Destroying room that doesn't exist on server..."));
+            GameObject item = rooms[roomName];
+            Destroy(item);
         }
 
         public void OnRoomButtonClicked(string roomId)
@@ -100,7 +162,7 @@ namespace Networking
         private void CreateRoom()
         {
             var props = new ExitGames.Client.Photon.Hashtable();
-            props.Add("MasterPlayerName", PhotonNetwork.NickName);
+            props.Add(MASTERPLAYERNAMEPROPERTY, PhotonNetwork.NickName);
 
             PhotonNetwork.CreateRoom(null, new RoomOptions
             {
@@ -108,7 +170,7 @@ namespace Networking
                 IsVisible = true,
                 IsOpen = true,
                 CustomRoomProperties = props,
-                CustomRoomPropertiesForLobby = new string[] {"MasterPlayerName"}
+                CustomRoomPropertiesForLobby = new string[] { MASTERPLAYERNAMEPROPERTY }
             });
            
         }
