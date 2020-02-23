@@ -17,6 +17,13 @@ public class GameCoreController : MonoBehaviour
             return model.PieceNumberMap;
         }
     }
+    public Dictionary<int, String> NumberPieceMap
+    {
+        get
+        {
+            return model.NumberPieceMap;
+        }
+    }
 
     private GameCoreModel model = new GameCoreModel();
     
@@ -106,7 +113,7 @@ public class GameCoreController : MonoBehaviour
     {
         DisableTiles();
         DisablePieces();
-        yield return Opponent.WaitForTurn(Instance, "A2", OnDeckPiece);
+        yield return Opponent.WaitForTurn("A2", OnDeckPiece);
 
         model.Move(Opponent.NextMove.Tile, OnDeckPiece);
         board.MovePiece(Opponent.NextMove.Tile);
@@ -123,7 +130,7 @@ public class GameCoreController : MonoBehaviour
         Debug.Log("Opponent picking first piece");
         DisableTiles();
         DisablePieces();
-        yield return Opponent.WaitForPickFirstPiece(Instance);
+        yield return Opponent.WaitForPickFirstPiece();
         board.MoveOnDeck(Opponent.NextMove.OnDeckPiece);
         OnDeckPiece = Opponent.NextMove.OnDeckPiece;
     }
@@ -187,6 +194,9 @@ public class GameCoreController : MonoBehaviour
 
     public void SwapTurn()
     {
+        if (CurrentTurn == GameTurnState.GAMEWON || CurrentTurn == GameTurnState.GAMETIED)
+            return;
+
         CurrentTurn = CurrentTurn == GameTurnState.OPPONENT ? GameTurnState.PLAYER : GameTurnState.OPPONENT;
         Debug.Log((CurrentTurn == GameTurnState.PLAYER || CurrentTurn == GameTurnState.PLAYERDONE ? "Player" : "Opponent") + "'s Turn");
     }
@@ -218,11 +228,11 @@ public class GameCoreController : MonoBehaviour
     public void SelectTile (string tileName)
     {
         Debug.Log("Attempting to make move - " + OnDeckPiece + " to " + tileName);
+        DisableTiles();
+        EnablePieces();
         model.Move(tileName, OnDeckPiece);
         LastTileClicked = tileName;
         OnDeckPiece = "";
-        DisableTiles();
-        EnablePieces();
     }
 
     public string[,] GetBoard()

@@ -9,9 +9,6 @@ public class AIController : MonoBehaviour, IOpponent
     public Move NextMove { get; set; } = new Move();
     public bool IsMaster { get { return false; } }
 
-    public GameCoreController GameCoreControllerInstance { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
-    public bool HasFirstTurn { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
-
     private const string EMPTYSLOT = "[]";
 
     public IEnumerator GameOver(bool didWin)
@@ -19,18 +16,20 @@ public class AIController : MonoBehaviour, IOpponent
         throw new System.NotImplementedException();
     }
 
-    public IEnumerator WaitForPickFirstPiece(GameCoreController instance)
+    public IEnumerator WaitForPickFirstPiece()
     {
-        NextMove.OnDeckPiece = "A1";
+        // Change to pick random piece
+        int rand = Random.Range(0, GameCoreController.Instance.GetPlayablePiecesList().Count);
+        NextMove.OnDeckPiece = GameCoreController.Instance.NumberPieceMap[rand];
 
         return null;
     }
 
-    public IEnumerator WaitForTurn(GameCoreController instance, string lastTile, string onDeckPiece)
+    public IEnumerator WaitForTurn(string lastTile, string onDeckPiece)
     {
-        string[,] board = instance.GetBoard();
+        string[,] board = GameCoreController.Instance.GetBoard();
         string[] newBoard = new string[board.Length];
-        AI.Piece[] pieces = new AI.Piece[instance.PieceNumberMap.Count];
+        AI.Piece[] pieces = new AI.Piece[GameCoreController.Instance.PieceNumberMap.Count];
         
 
         int newBoardCounter = 0;
@@ -43,9 +42,9 @@ public class AIController : MonoBehaviour, IOpponent
                 newBoardCounter++;
             }
         }
-        intitializeAiPieceList(instance.GetPlayablePiecesList(), ref pieces, instance.PieceNumberMap);
+        intitializeAiPieceList(GameCoreController.Instance.GetPlayablePiecesList(), ref pieces, GameCoreController.Instance.PieceNumberMap);
 
-        AI.moveData moveData = quartoAI.generateTree(2, newBoard, instance.PieceNumberMap[onDeckPiece], pieces);
+        AI.moveData moveData = quartoAI.generateTree(2, newBoard, GameCoreController.Instance.PieceNumberMap[onDeckPiece], pieces);
         NextMove.OnDeckPiece = moveData.pieceToPlay;
         NextMove.Tile = moveData.lastMoveOnBoard;
 
@@ -85,16 +84,21 @@ public class AIController : MonoBehaviour, IOpponent
 
     public IEnumerator WaitForPickFirstTurn(GameCoreController.GameTurnState turn)
     {
-        throw new System.NotImplementedException();
+        // Never called by the AI
+        return null;
     }
 
     public IEnumerable SendFirstMove()
     {
-        throw new System.NotImplementedException();
+        // AI doesn't care what is in this function
+        // It will get the Board state later
+        return null;
     }
 
     public IEnumerable SendMove()
     {
-        throw new System.NotImplementedException();
+        // AI doesn't care what is in this function
+        // It will get the board state later
+        return null;
     }
 }

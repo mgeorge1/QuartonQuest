@@ -5,12 +5,11 @@ public interface IOpponent
 {
     Move NextMove { get; set; }
     bool IsMaster { get; }
-    bool HasFirstTurn { get; set; }
     IEnumerator WaitForPickFirstTurn(GameCoreController.GameTurnState turn);
     IEnumerable SendFirstMove();
     IEnumerable SendMove();
-    IEnumerator WaitForTurn(GameCoreController instance, string lastTile, string onDeckPiece);
-    IEnumerator WaitForPickFirstPiece(GameCoreController instance);
+    IEnumerator WaitForTurn(string lastTile, string onDeckPiece);
+    IEnumerator WaitForPickFirstPiece();
     IEnumerator GameOver(bool didWin);
 }
 

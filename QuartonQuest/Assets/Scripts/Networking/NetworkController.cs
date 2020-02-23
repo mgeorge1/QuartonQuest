@@ -26,7 +26,6 @@ public class NetworkController : MonoBehaviour, IOpponent
         }
     }
 
-    public bool HasFirstTurn { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
     private static bool messageReceived = false;
 
     void Awake()
@@ -85,14 +84,14 @@ public class NetworkController : MonoBehaviour, IOpponent
         messageReceived = true;
     }
 
-    public IEnumerator WaitForTurn(GameCoreController instance, string lastTile, string onDeckPiece)
+    public IEnumerator WaitForTurn(string lastTile, string onDeckPiece)
     {
         Debug.Log("NetworkController WaitforTurn");
         while (messageReceived == false) yield return null;
         messageReceived = false;
     }
 
-    public IEnumerator WaitForPickFirstPiece(GameCoreController instance)
+    public IEnumerator WaitForPickFirstPiece()
     {
         while (messageReceived == false) yield return null;
         Debug.Log("Continuing execution");

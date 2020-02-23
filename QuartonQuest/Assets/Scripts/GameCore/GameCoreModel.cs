@@ -16,7 +16,8 @@ public class GameCoreModel
 
     Dictionary<string, int[]> pieceList;
     Dictionary<string, Point> boardSlotList;
-    public Dictionary<string, int> PieceNumberMap { get; private set; } 
+    public Dictionary<string, int> PieceNumberMap { get; private set; }
+    public Dictionary<int, String> NumberPieceMap { get; private set; }
     const int MAXATTRIBUTEVARIANCE = 1;
     
     public string[,] GameBoard { get; set; } = new string[4, 4];
@@ -28,6 +29,7 @@ public class GameCoreModel
         initializePieceList();
         InitializeBoardSlotList();
         InitializePieceNumberMap();
+        InitializeNumberPieceMap();
     }
 
     void initializePieceList()
@@ -107,6 +109,32 @@ public class GameCoreModel
             {"D2", 13},
             {"D3", 14},
             {"D4", 15}
+        };
+    }
+
+    private void InitializeNumberPieceMap()
+    {
+        NumberPieceMap = new Dictionary<int, String>
+        {
+            {0, "A1"},
+            {1, "A2"},
+            {2, "A3"},
+            {3, "A4"},
+
+            {4, "B1"},
+            {5, "B2"},
+            {6, "B3"},
+            {7, "B4"},
+
+            {8, "C1"},
+            {9, "C2"},
+            {10, "C3"},
+            {11, "C4"},
+
+            {12, "D1"},
+            {13, "D2"},
+            {14, "D3"},
+            {15, "D4"}
         };
     }
 

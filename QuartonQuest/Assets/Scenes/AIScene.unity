@@ -150,8 +150,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 291b0446bd5d6be44977eb1ef37b6a3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GameCoreControllerObject: {fileID: 1467798770}
-  AIControllerObject: {fileID: 939439563}
+  IsNetworkedGame: 0
+  NetworkControllerPrefab: {fileID: 0}
+  OpponentControllerObject: {fileID: 939439563}
 --- !u!4 &442558912
 Transform:
   m_ObjectHideFlags: 0
@@ -361,12 +362,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b8b37ee8186bedf48820ec822770eace, type: 3}
---- !u!1 &1467798770 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 209769502414534223, guid: b8b37ee8186bedf48820ec822770eace,
-    type: 3}
-  m_PrefabInstance: {fileID: 1467798769}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1715048942
 GameObject:
   m_ObjectHideFlags: 0
