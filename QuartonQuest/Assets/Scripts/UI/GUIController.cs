@@ -1,22 +1,30 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class GUIController : MonoBehaviour
 {
-    public GameObject GameCoreControllerObject;
-    private GameCoreController GameCoreController;
-    public GameObject AIControllerObject;
-    private AIController AIController;
+    [SerializeField] public bool IsNetworkedGame = false;
+    public GameObject NetworkControllerPrefab;
+
+    public GameObject OpponentControllerObject;
+    private IOpponent OpponentController;
 
     // Start is called before the first frame update
     void Start()
     {
-        GameCoreController = GameCoreControllerObject.GetComponent<GameCoreController>();
-        AIController = AIControllerObject.GetComponent<AIController>();
-        GameCoreController.Instance.Opponent = AIController;
+        if (IsNetworkedGame)
+            InstantiateNetworkController();
 
-        StartCoroutine(GameCoreController.PlayGame());
+        OpponentController = OpponentControllerObject.GetComponent<IOpponent>();
+        GameCoreController.Instance.Opponent = OpponentController;
+        StartCoroutine(GameCoreController.Instance.PlayGame());
+    }
+
+    void InstantiateNetworkController()
+    {
+        OpponentControllerObject = PhotonNetwork.Instantiate("NetworkController", Vector3.zero, Quaternion.identity);
     }
 
     // Update is called once per frame

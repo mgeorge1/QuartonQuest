@@ -3,10 +3,15 @@ using System.Collections.Generic;
 
 public interface IOpponent
 {
+    Move NextMove { get; set; }
+    bool IsMaster { get; }
+    bool HasFirstTurn { get; set; }
+    IEnumerator WaitForPickFirstTurn(GameCoreController.GameTurnState turn);
+    IEnumerable SendFirstMove();
+    IEnumerable SendMove();
     IEnumerator WaitForTurn(GameCoreController instance, string lastTile, string onDeckPiece);
-    IEnumerator PickFirstPiece(GameCoreController instance);
+    IEnumerator WaitForPickFirstPiece(GameCoreController instance);
     IEnumerator GameOver(bool didWin);
-    Move NextMove {get; set;}
 }
 
 public class Move

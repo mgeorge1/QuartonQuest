@@ -7,6 +7,11 @@ public class AIController : MonoBehaviour, IOpponent
 {
     QuartoSearchTree quartoAI = new QuartoSearchTree();
     public Move NextMove { get; set; } = new Move();
+    public bool IsMaster { get { return false; } }
+
+    public GameCoreController GameCoreControllerInstance { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+    public bool HasFirstTurn { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+
     private const string EMPTYSLOT = "[]";
 
     public IEnumerator GameOver(bool didWin)
@@ -14,7 +19,7 @@ public class AIController : MonoBehaviour, IOpponent
         throw new System.NotImplementedException();
     }
 
-    public IEnumerator PickFirstPiece(GameCoreController instance)
+    public IEnumerator WaitForPickFirstPiece(GameCoreController instance)
     {
         NextMove.OnDeckPiece = "A1";
 
@@ -76,5 +81,20 @@ public class AIController : MonoBehaviour, IOpponent
         {
             aiPieceList[PieceNumberMap[key]].setPlayable(true);
         }
+    }
+
+    public IEnumerator WaitForPickFirstTurn(GameCoreController.GameTurnState turn)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public IEnumerable SendFirstMove()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public IEnumerable SendMove()
+    {
+        throw new System.NotImplementedException();
     }
 }

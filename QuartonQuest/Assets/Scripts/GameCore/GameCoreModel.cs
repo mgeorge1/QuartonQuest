@@ -120,6 +120,7 @@ public class GameCoreModel
     {
         if (PlayablePieces.Contains(movedPiece) && GameBoard[row, col] == "[]")
         {
+            Debug.Log("Setting move in model - " + movedPiece);
             GameBoard[row, col] = movedPiece;
 
             PlayablePieces.Remove(movedPiece);

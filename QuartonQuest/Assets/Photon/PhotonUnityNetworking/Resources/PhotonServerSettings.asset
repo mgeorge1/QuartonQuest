@@ -31,5 +31,9 @@ MonoBehaviour:
   RpcList:
   - ClickRpc
   - DestroyRpc
+  - GetMessage
+  - SetCurrentTurn
+  - SetOnDeckPiece
+  - SendMove
   DisableAutoOpenWizard: 1
   ShowSettings: 0

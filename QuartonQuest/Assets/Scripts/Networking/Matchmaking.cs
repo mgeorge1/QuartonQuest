@@ -175,7 +175,7 @@ namespace Networking
                 Debug.Log("Match is ready to begin");
 
                 if (PhotonNetwork.IsMasterClient)
-                    PhotonNetwork.LoadLevel("Level1Scene");
+                    PhotonNetwork.LoadLevel("NetGameScene");
             }
         }
     }
