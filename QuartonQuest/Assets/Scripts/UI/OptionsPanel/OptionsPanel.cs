@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Audio;
+using Photon.Pun;
 
 public class OptionsPanel : MonoBehaviour
 {
     public static bool OptionsPanelShowing = false;
     public GameObject Panel;
     public AudioMixer audioMixer;
+    public bool IsNetworkedGame = false;
 
     // Update is called once per frame
     void Update()
@@ -53,6 +55,10 @@ public class OptionsPanel : MonoBehaviour
     public void QuitMatch()
     {
         Debug.Log("Quitting match...");
+        if (IsNetworkedGame)
+        {
+            PhotonNetwork.Disconnect();
+        }
         SceneManager.LoadScene("MainMenuScene");
     }
 

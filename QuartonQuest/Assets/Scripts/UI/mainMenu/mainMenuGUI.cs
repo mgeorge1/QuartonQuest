@@ -60,4 +60,9 @@ public class mainMenuGUI : MonoBehaviour
         SceneManager.LoadScene(multiplayerPath);
     }
 
+    public void quit_buttonClicked()
+    {
+        Debug.Log("Quitting game");
+        Application.Quit();
+    }
 }

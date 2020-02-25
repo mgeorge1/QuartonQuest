@@ -4,6 +4,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Networking
 {
@@ -36,6 +37,12 @@ namespace Networking
             jpc.OnCancel += CancelMatchmaking;
 
             rooms = new Dictionary<string, GameObject>();
+        }
+
+        // This probably shouldn't live here forever
+        public void ReturnToMainMenu()
+        {
+            SceneManager.LoadScene("MainMenuScene");
         }
 
         private void CancelMatchmaking()

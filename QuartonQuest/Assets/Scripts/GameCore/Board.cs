@@ -64,7 +64,7 @@ public class Board : MonoBehaviour
     public void MoveOnDeck()
     {
         SelectedPiece.transform.GetChild(0).gameObject.GetComponent<Renderer>().material.SetColor("_Color", SelectColor);
-        SelectedPiece.transform.position = P1OnDeck.transform.position;
+        SelectedPiece.transform.position = P1OnDeck.transform.position + new Vector3(0, 1.0f, 0);
     }
 
     public void MovePiece(Piece piece, Tile tile)
