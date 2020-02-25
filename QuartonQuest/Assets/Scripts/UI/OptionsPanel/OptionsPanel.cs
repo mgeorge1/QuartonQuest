@@ -59,6 +59,7 @@ public class OptionsPanel : MonoBehaviour
         {
             PhotonNetwork.Disconnect();
         }
+        ClosePanel();
         SceneManager.LoadScene("MainMenuScene");
     }
 

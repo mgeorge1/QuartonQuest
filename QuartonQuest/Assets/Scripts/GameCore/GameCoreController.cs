@@ -65,11 +65,19 @@ public class GameCoreController : MonoBehaviour
         GameCoreModel.GameWon += GameOverState;
     }
 
-    public IEnumerator PlayGame ()
+    void ResetGame()
     {
         model.NewGame();
         DisableTiles();
         DisablePieces();
+        CurrentTurn = GameTurnState.NONE;
+        OnDeckPiece = "";
+        LastTileClicked = "";
+    }
+
+    public IEnumerator PlayGame ()
+    {
+        ResetGame();
         //EnablePieces();
         //EnableTiles();
         yield return StartCoroutine(PickFirstTurn());
