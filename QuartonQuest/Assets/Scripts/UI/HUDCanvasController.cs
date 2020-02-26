@@ -16,13 +16,29 @@ public class HUDCanvasController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (GameCoreController.Instance.CurrentTurn == GameCoreController.GameTurnState.PLAYER)
+        switch (GameCoreController.Instance.CurrentTurn)
         {
-            TurnText.text = "Player's Turn";
-        } 
-        else if (GameCoreController.Instance.CurrentTurn == GameCoreController.GameTurnState.OPPONENT)
-        {
-            TurnText.text = "Opponent's Turn";
+            case GameCoreController.GameTurnState.PLAYER:
+                TurnText.text = "Your Turn";
+                break;
+            case GameCoreController.GameTurnState.PLAYERCHOOSEPIECE:
+                TurnText.text = "Select a piece";
+                break;
+            case GameCoreController.GameTurnState.PLAYERCHOOSETILE:
+                TurnText.text = "Select a tile";
+                break;
+            case GameCoreController.GameTurnState.OPPONENT:
+                TurnText.text = "Opponent's Turn";
+                break;
+            case GameCoreController.GameTurnState.PLAYERWON:
+                TurnText.text = "You won!";
+                break;
+            case GameCoreController.GameTurnState.OPPONENTWON:
+                TurnText.text = "Opponent Won";
+                break;
+            case GameCoreController.GameTurnState.GAMETIED:
+                TurnText.text = "Tie!";
+                break;
         }
     }
 }

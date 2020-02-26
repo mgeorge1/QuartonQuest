@@ -11,6 +11,30 @@ public class GameCoreController : MonoBehaviour
     public IOpponent Opponent;
     public string OnDeckPiece { get; set; }
     public string LastTileClicked { get; set; }
+    public bool IsGameOver
+    {
+        get
+        {
+            return (
+                CurrentTurn == GameTurnState.PLAYERWON ||
+                CurrentTurn == GameTurnState.OPPONENTWON ||
+                CurrentTurn == GameTurnState.GAMETIED
+            );
+        }
+    }
+    public bool IsPlayerTurn
+    {
+        get
+        {
+            return (
+                CurrentTurn == GameTurnState.PLAYER || 
+                CurrentTurn == GameTurnState.PLAYERCHOOSEPIECE ||
+                CurrentTurn == GameTurnState.PLAYERCHOOSETILE ||
+                CurrentTurn == GameTurnState.PLAYERDONE
+            );
+        }
+    }
+    public bool IsPlayerDone { get { return CurrentTurn == GameTurnState.PLAYERDONE; } }
     public Dictionary<String, int> PieceNumberMap { 
         get
         {
@@ -26,38 +50,24 @@ public class GameCoreController : MonoBehaviour
     }
 
     private GameCoreModel model = new GameCoreModel();
-    
-    public enum GameTurnState { NONE, PLAYER, OPPONENT, PLAYERWON, OPPONENTWON, GAMEWON, GAMETIED, PLAYERDONE };
+    private const string NOSELECTION = "";
+    public enum GameTurnState { 
+        NONE, 
+        PLAYER, 
+        OPPONENT, 
+        PLAYERWON, 
+        OPPONENTWON, 
+        GAMEWON, 
+        GAMETIED, 
+        PLAYERDONE, 
+        PLAYERCHOOSEPIECE, 
+        PLAYERCHOOSETILE 
+    };
     public GameTurnState CurrentTurn { get; set; } = GameTurnState.NONE;
-
-    //private class TestOpponent : IOpponent
-    //{
-    //    public Move NextMove { get; set; } = new Move();
-
-    //    public IEnumerator WaitForTurn(GameCoreController instance, string lastTile, string onDeckPiece)
-    //    {
-    //        NextMove.Piece = "";
-    //        NextMove.Tile = "A1";
-    //        NextMove.OnDeckPiece = "A2";
-    //        yield return new WaitForSeconds(5);
-    //    }
-
-    //    public IEnumerator PickFirstPiece(GameCoreController instance)
-    //    {
-    //        NextMove.OnDeckPiece = "A4";
-    //        yield return new WaitForSeconds(2);
-    //    }
-
-    //    public IEnumerator GameOver(bool didWin)
-    //    {
-    //        return null;
-    //    }
-    //}
 
     public void Awake()
     {
         Instance = this;
-        //Opponent = new TestOpponent();
     }
 
     void Start()
@@ -71,18 +81,17 @@ public class GameCoreController : MonoBehaviour
         DisableTiles();
         DisablePieces();
         CurrentTurn = GameTurnState.NONE;
-        OnDeckPiece = "";
-        LastTileClicked = "";
+        OnDeckPiece = NOSELECTION;
+        LastTileClicked = NOSELECTION;
     }
 
     public IEnumerator PlayGame ()
     {
         ResetGame();
-        //EnablePieces();
-        //EnableTiles();
         yield return StartCoroutine(PickFirstTurn());
         yield return StartCoroutine(PickFirstPiece());
-        while(CurrentTurn != GameTurnState.GAMEWON && CurrentTurn!=GameTurnState.GAMETIED)
+
+        while(!IsGameOver)
         {
             if(CurrentTurn==GameTurnState.PLAYER)
             {
@@ -104,7 +113,8 @@ public class GameCoreController : MonoBehaviour
         Debug.Log("Enabling tiles for player and waiting for input");
         EnableTiles();
         DisablePieces();
-        while (CurrentTurn == GameTurnState.PLAYER) yield return null;
+        CurrentTurn = GameTurnState.PLAYERCHOOSETILE;
+        while (!IsPlayerDone) yield return null;
         yield return Opponent.SendMove();
     }
 
@@ -113,7 +123,8 @@ public class GameCoreController : MonoBehaviour
         Debug.Log("Player picking first piece");
         EnablePieces();
         DisableTiles();
-        while (CurrentTurn == GameTurnState.PLAYER) yield return null;
+        CurrentTurn = GameTurnState.PLAYERCHOOSEPIECE;
+        while (!IsPlayerDone) yield return null;
         yield return Opponent.SendFirstMove();
     }
 
@@ -126,7 +137,7 @@ public class GameCoreController : MonoBehaviour
         model.Move(Opponent.NextMove.Tile, OnDeckPiece);
         board.MovePiece(Opponent.NextMove.Tile);
         
-        if (CurrentTurn != GameTurnState.GAMEWON && CurrentTurn != GameTurnState.GAMETIED)
+        if (!IsGameOver)
         {
             board.MoveOnDeck(Opponent.NextMove.OnDeckPiece);
             OnDeckPiece = Opponent.NextMove.OnDeckPiece;
@@ -156,7 +167,6 @@ public class GameCoreController : MonoBehaviour
                 SwapTurn();
                 break;
         }
-        //Debug.Log((CurrentTurn == GameTurnState.PLAYER ? "Player" : "Opponent") + " Choose a Piece");
     }
 
     public void EnableTiles()
@@ -190,8 +200,12 @@ public class GameCoreController : MonoBehaviour
 
         if(!model.isGameTied)
         {
-            Debug.Log((CurrentTurn == GameTurnState.PLAYER || CurrentTurn == GameTurnState.PLAYERDONE ? "Player" : "Opponent") + " Has Won");
-            CurrentTurn = GameTurnState.GAMEWON;
+            Debug.Log((IsPlayerTurn ? "Player" : "Opponent") + " Has Won");
+
+            if (IsPlayerTurn)
+                CurrentTurn = GameTurnState.PLAYERWON;
+            else
+                CurrentTurn = GameTurnState.OPPONENTWON;
         }
         else
         {
@@ -202,11 +216,11 @@ public class GameCoreController : MonoBehaviour
 
     public void SwapTurn()
     {
-        if (CurrentTurn == GameTurnState.GAMEWON || CurrentTurn == GameTurnState.GAMETIED)
+        if (IsGameOver)
             return;
 
-        CurrentTurn = CurrentTurn == GameTurnState.OPPONENT ? GameTurnState.PLAYER : GameTurnState.OPPONENT;
-        Debug.Log((CurrentTurn == GameTurnState.PLAYER || CurrentTurn == GameTurnState.PLAYERDONE ? "Player" : "Opponent") + "'s Turn");
+        CurrentTurn = (IsPlayerTurn ? GameTurnState.OPPONENT : GameTurnState.PLAYER);
+        Debug.Log((IsPlayerTurn ? "Player" : "Opponent") + "'s Turn");
     }
 
     private IEnumerator PickFirstTurn()
@@ -222,13 +236,14 @@ public class GameCoreController : MonoBehaviour
             Debug.Log("Picking first turn");
             System.Random rand = new System.Random();
             CurrentTurn = rand.Next(0, 2) == 1 ? GameTurnState.PLAYER : GameTurnState.OPPONENT;
-            Debug.Log((CurrentTurn == GameTurnState.PLAYER ? "Player" : "Opponent") + "'s Turn");
-            yield return Opponent.WaitForPickFirstTurn((CurrentTurn == GameTurnState.OPPONENT ? GameTurnState.PLAYER : GameTurnState.OPPONENT));
+            Debug.Log((IsPlayerTurn ? "Player" : "Opponent") + "'s Turn");
+            yield return Opponent.WaitForPickFirstTurn((IsPlayerTurn ? GameTurnState.OPPONENT : GameTurnState.PLAYER));
         }
     }
 
     public void SelectPiece(string pieceName)
     {
+        Debug.Log("Piece selected - " + pieceName);
         OnDeckPiece = pieceName;
         CurrentTurn = GameTurnState.PLAYERDONE;
     }
@@ -240,13 +255,15 @@ public class GameCoreController : MonoBehaviour
         EnablePieces();
         model.Move(tileName, OnDeckPiece);
         LastTileClicked = tileName;
-        OnDeckPiece = "";
+        OnDeckPiece = NOSELECTION;
+        CurrentTurn = GameTurnState.PLAYERCHOOSEPIECE;
     }
 
     public string[,] GetBoard()
     {
         return model.GameBoard;
     }
+
     //Only for console application version
     public void PrintBoard()
     {

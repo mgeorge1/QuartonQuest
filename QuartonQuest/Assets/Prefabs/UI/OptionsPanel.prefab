@@ -203,6 +203,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Panel: {fileID: 9052541957061042582}
   audioMixer: {fileID: 24100000, guid: 52e0a9c4a88e16647866396ba92d43ce, type: 2}
+  IsNetworkedGame: 0
 --- !u!1 &9052541957184589523
 GameObject:
   m_ObjectHideFlags: 0
@@ -1213,6 +1214,12 @@ PrefabInstance:
       propertyPath: m_textInfo.spaceCount
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6690656162424181770, guid: bf2169c813a08cc4c8097b2f6264b699,
+        type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee,
+        type: 2}
     - target: {fileID: 6690656162816654864, guid: bf2169c813a08cc4c8097b2f6264b699,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
@@ -1393,6 +1400,12 @@ PrefabInstance:
       propertyPath: m_text
       value: Close
       objectReference: {fileID: 0}
+    - target: {fileID: 6690656162424181770, guid: bf2169c813a08cc4c8097b2f6264b699,
+        type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee,
+        type: 2}
     - target: {fileID: 6690656162816654864, guid: bf2169c813a08cc4c8097b2f6264b699,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
@@ -1578,6 +1591,12 @@ PrefabInstance:
       propertyPath: m_textInfo.spaceCount
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6690656162424181770, guid: bf2169c813a08cc4c8097b2f6264b699,
+        type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee,
+        type: 2}
     - target: {fileID: 6690656162816654864, guid: bf2169c813a08cc4c8097b2f6264b699,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
