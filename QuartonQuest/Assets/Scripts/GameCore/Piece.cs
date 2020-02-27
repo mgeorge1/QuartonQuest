@@ -17,7 +17,6 @@ public class Piece: MonoBehaviour
     {
         UnityEngine.GameObject Piece = UnityEngine.GameObject.Find(name);
         PieceVisual = Piece.transform.GetChild(0).gameObject;
-        //Debug.Log(PieceVisual.name);
     }
     
     private void OnMouseEnter()

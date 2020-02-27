@@ -8,8 +8,7 @@ public class Board : MonoBehaviour
 
     public Piece SelectedPiece { get; set; }
 
-    public GameObject P1OnDeck;
-    public GameObject P2OnDeck;
+    public GameObject OnDeckTile;
 
     public Vector3 currentOnDeck;
 
@@ -35,36 +34,31 @@ public class Board : MonoBehaviour
 
     public void OnClickedTile(string name)
     {
-        //Debug.Log("Clicked Tile " + name);
         Tile selectedTile = UnityEngine.GameObject.Find("Tile" + name).GetComponent<Tile>();
         MovePiece(SelectedPiece, selectedTile);
-        //DisableTileClicking();
-        //EnablePieceClicking();
     }
 
     public void OnClickedPiece(string name)
     {
-        //Debug.Log("Clicked Piece" + name);
         SelectedPiece = UnityEngine.GameObject.Find("Piece" + name).GetComponent<Piece>();
         MoveOnDeck();
-        //DisablePieceClicking();
-        //EnableTileClicking();
     }
 
     public void Start()
     {
         DisableTileClicking();
         EnablePieceClicking();
-        //P1OnDeck = UnityEngine.GameObject.Find("P1OnDeck");
-        //currentOnDeck = new Vector3();
-        //currentOnDeck = P1OnDeck.transform.position;
     }
 
 
     public void MoveOnDeck()
     {
+        // Not sure why this line is necessary, but it really is
+        if (OnDeckTile == null)
+            return;
+
         SelectedPiece.transform.GetChild(0).gameObject.GetComponent<Renderer>().material.SetColor("_Color", SelectColor);
-        SelectedPiece.transform.position = P1OnDeck.transform.position + new Vector3(0, 1.0f, 0);
+        SelectedPiece.transform.position = OnDeckTile.transform.position + new Vector3(0, 1.0f, 0);
     }
 
     public void MovePiece(Piece piece, Tile tile)

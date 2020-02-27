@@ -256,7 +256,9 @@ public class GameCoreController : MonoBehaviour
         model.Move(tileName, OnDeckPiece);
         LastTileClicked = tileName;
         OnDeckPiece = NOSELECTION;
-        CurrentTurn = GameTurnState.PLAYERCHOOSEPIECE;
+
+        if (!IsGameOver)
+            CurrentTurn = GameTurnState.PLAYERCHOOSEPIECE;
     }
 
     public string[,] GetBoard()

@@ -1527,7 +1527,7 @@ GameObject:
   - component: {fileID: 8648606270401023925}
   - component: {fileID: 8648606270401023926}
   m_Layer: 0
-  m_Name: OnDeck
+  m_Name: OnDeckTileVisual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3371,8 +3371,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SelectColor: {r: 1, g: 0.50591254, b: 0, a: 1}
-  P1OnDeck: {fileID: 8648606271445177023}
-  P2OnDeck: {fileID: 0}
+  OnDeckTile: {fileID: 8648606271445177023}
   currentOnDeck: {x: 0, y: 0, z: -1.25}
 --- !u!1 &8648606271238177073
 GameObject:
@@ -3970,7 +3969,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8648606271865946378}
   m_Layer: 0
-  m_Name: P1OnDeck
+  m_Name: OnDeckTile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -17,7 +17,6 @@ public class Tile : MonoBehaviour
     {
         GameObject Tile = UnityEngine.GameObject.Find(name);
         TileVisual = Tile.transform.GetChild(0).gameObject;
-        //Debug.Log(TileVisual.name);
     }
 
     private void OnMouseEnter()
