@@ -15,7 +15,6 @@ namespace AI
         public const int NULLPIECE = 55;
         public int totalGamestates;
         public Node finalMoveDesicion;
-        int winnerHeuristicValue = -1;
         public class Node
         {
             public string[] gameBoard = new string[MAXGAMEBOARD];
@@ -26,8 +25,6 @@ namespace AI
             public int pieceToPlay;
             public int moveOnBoard;
         }
-
-       
 
         public struct winningMove
         {
@@ -41,14 +38,17 @@ namespace AI
             root = null;
         }
 
-        public moveData generateTree(int maxDepth, string[] newGameBoard, int piece, Piece[] currentPieces)
+        public moveData generateTree(string[] newGameBoard, int piece, Piece[] currentPieces)
         {
             totalGamestates = 0;
+            bool hasWon = false;
+            int piecesOnBoard = 0;
+            int maxDepth = 0;
+
             Node newNode = new Node();
             newNode.gameBoard = newGameBoard;
             newNode.pieceToPlay = piece;
             root = newNode;
-
             Node currentNode = root;
             Node parentNode;
             Node sibling = null;
@@ -56,18 +56,33 @@ namespace AI
             currentNode.sibling = null;
             currentNode.pieces = currentPieces;
 
+            // Sets tree depth according to how many pieces are on the board
+            piecesOnBoard = countPiecesOnBoard(newGameBoard);
+            maxDepth = setTreeDepth(piecesOnBoard);
+
             generateChildrenGamestate(currentNode, parentNode, piece, sibling, maxDepth, 0);
 
             winningMove move = searchForBestPlay(currentNode, 0, maxDepth, 0);
+
+            //Checks for win by opponent, given the piece chosen
+            //If win it makes it equal to the next child and so on
+            if (piecesOnBoard != 0 && move.winningNode.pieceToPlay != NULLPIECE)
+                move.winningNode = checkForOpponentWin(move.winningNode);
+
             Console.Write("Total moves generated: ");
             Console.WriteLine(totalGamestates);
             printBoard(move.winningNode);
-
+            Console.WriteLine();
+            Console.Write("Heuristic of Final Node: ");
+            Console.Write(move.heuristicValue);
+            Console.WriteLine();
             // This is bad but it works.
-            string pieceOnDeck = move.winningNode.pieceToPlay == NULLPIECE ? 
+            string pieceOnDeck = move.winningNode.pieceToPlay == NULLPIECE ?
                 NULLPIECE.ToString() : move.winningNode.pieces[move.winningNode.pieceToPlay].piece;
-            return new moveData { 
-                lastMoveOnBoard = move.winningNode.pieces[move.winningNode.moveOnBoard].piece, 
+
+            return new moveData
+            {
+                lastMoveOnBoard = move.winningNode.pieces[move.winningNode.moveOnBoard].piece,
                 pieceToPlay = pieceOnDeck
             };
         }
@@ -77,7 +92,7 @@ namespace AI
             int boardPosCount = 0;
             int childCount = 0;
             int siblingCount = 0;
-   
+
 
             while (boardPosCount < MAXGAMEBOARD)
             {
@@ -132,7 +147,7 @@ namespace AI
 
             while (pieceMapCount < MAXGAMEBOARD)
             {
-                if(currentNode.pieces[pieceMapCount].getPlayablePiece())
+                if (currentNode.pieces[pieceMapCount].getPlayablePiece())
                 {
                     totalGamestates++;
                     Node nextNode = new Node();
@@ -161,7 +176,7 @@ namespace AI
 
                     previousSibling = nextNode;
 
-                    
+
                     childCount++;
                     //printBoard(nextNode);
                     if (depth < maxDepth)
@@ -181,7 +196,7 @@ namespace AI
         {
             string pieceString;
             bool piecePlayable;
-            for(int i = 0; i < MAXGAMEBOARD; i++)
+            for (int i = 0; i < MAXGAMEBOARD; i++)
             {
                 pieceString = nodeToCopy.pieces[i].getPiece();
                 piecePlayable = nodeToCopy.pieces[i].getPlayablePiece();
@@ -190,7 +205,7 @@ namespace AI
             }
             recievingNode.pieces[pieceToFind].setPlayable(false);
         }
-        
+
         public void printBoard(Node current)
         {
             for (int j = 0; j < MAXGAMEBOARD; j++)
@@ -201,9 +216,9 @@ namespace AI
                     Console.Write(" ");
                 }
                 else
-                    Console.Write("X ");
+                    Console.Write("XX ");
 
-                if((j + 1) % 4 == 0)
+                if ((j + 1) % 4 == 0)
                 {
                     Console.WriteLine();
                 }
@@ -214,6 +229,83 @@ namespace AI
             Console.WriteLine();
         }
 
+        public int countPiecesOnBoard(string[] gameBoard)
+        {
+            int pieceCount = 0;
+            for(int i = 0; i < MAXGAMEBOARD; i++)
+            {
+                if (gameBoard[i] != null)
+                    pieceCount += 1;
+            }
+
+            return pieceCount;
+        }
+
+        // Depths set to perform under 5 seconds in current state
+        public int setTreeDepth(int piecesOnBoard)
+        {
+            int newDepth = 1;
+            if (piecesOnBoard == 1)
+                newDepth = 1;
+            else if (piecesOnBoard >= 2 && piecesOnBoard <= 5)
+                newDepth = 3;
+            else if (piecesOnBoard >= 6 && piecesOnBoard <= 7)
+                newDepth = 4;
+            else if (piecesOnBoard == 8)
+                newDepth = 5;
+            else if (piecesOnBoard == 9)
+                newDepth = 6;
+            else if (piecesOnBoard > 9)
+                newDepth = 14;
+
+            return newDepth;
+        }
+
+        public Node checkForOpponentWin(Node currentNode)
+        {
+            Node newWinNode = null;
+            bool hasWon = true;
+            string[] gameBoard;
+            string piece;
+            int move;
+            for (int i = 0; hasWon && currentNode.parent.children[i] != null; i++)
+            {
+                gameBoard = currentNode.parent.children[i].gameBoard;
+                piece = currentNode.parent.children[i].pieces[currentNode.parent.children[i].pieceToPlay].getPiece();
+                move = currentNode.parent.children[i].moveOnBoard;
+
+                hasWon = isWinOnBoard(gameBoard, piece);
+
+                if (!hasWon)
+                {
+                    newWinNode = currentNode.parent.children[i];
+                }
+            }
+
+            if (hasWon && newWinNode == null)
+            {
+                newWinNode = currentNode;
+            }
+
+            return newWinNode;
+        }
+
+        public bool isWinOnBoard(string[] gameBoard, string pieceString)
+        {
+            bool hasWon = true;
+            for(int i =0; i < MAXGAMEBOARD; i++)
+            {
+                if(gameBoard[i] == null)
+                {
+                    hasWon = Heuristic.isWin(gameBoard, pieceString, i);
+                    if (hasWon)
+                        return hasWon;
+                }
+            }
+
+            return hasWon;
+        }
+
         public winningMove searchForBestPlay(Node currentNode, int depthCounter, int depth, int negaMax)
         {
             int j = 0;
@@ -222,7 +314,6 @@ namespace AI
             int negaMaxCompare;
             winningMove winChoice = new winningMove();
             winningMove winChoice2 = new winningMove();
-            winChoice.heuristicValue = -1;
             winChoice.winningNode = new Node();
 
             // If only root in tree
@@ -269,17 +360,19 @@ namespace AI
 
                     negaMaxCompare = Heuristic.calculateHeuristic(currentNode.parent.children[i].gameBoard, pieceString);
 
-                    if(i == 0)
+                    if (i == 0)
                     {
                         negaMax = Heuristic.calculateHeuristic(currentNode.parent.children[i].gameBoard, pieceString);
                         winChoice.winningNode = currentNode.parent.children[i];
                         winChoice.heuristicValue = negaMax;
+                        //Console.WriteLine(winChoice.heuristicValue);
                     }
-                    else if(-negaMaxCompare > -negaMax)
+                    else if (-negaMaxCompare > -negaMax)
                     {
                         negaMax = -negaMaxCompare;
                         winChoice.winningNode = currentNode.parent.children[i];
                         winChoice.heuristicValue = negaMax;
+                        //Console.WriteLine(winChoice.heuristicValue);
                     }
                 }
             }
@@ -293,7 +386,9 @@ namespace AI
                     {
                         winChoice = searchForBestPlay(currentNode.children[j], depthCounter++, depth, negaMax);
 
-                        if (currentNode.parent == null || currentNode.parent.parent == null){}
+                        if (currentNode.parent == null || currentNode.parent.parent == null) { }
+
+                        // When it is evaluating the next move from the root
                         else if (currentNode.parent.parent.parent == null)
                         {
                             winChoice.winningNode = currentNode;
@@ -303,90 +398,119 @@ namespace AI
                     {
                         winChoice2 = searchForBestPlay(currentNode.children[j], depthCounter++, depth, negaMax);
                         if (-winChoice2.heuristicValue > -winChoice.heuristicValue)
+                        {
+                            winChoice.heuristicValue = -winChoice2.heuristicValue;
+
+                            if (currentNode.parent == null)
+                            {
+                                winChoice.winningNode = winChoice2.winningNode;
+                            }
+                            else if (currentNode.parent.parent == null)
                             {
                                 winChoice.heuristicValue = -winChoice2.heuristicValue;
-
-                                if (currentNode.parent == null){}
-                                else if (currentNode.parent.parent == null) 
-                                {
-                                    winChoice.heuristicValue = winChoice2.heuristicValue;
-                                }
-                                else if (currentNode.parent.parent.parent == null) 
-                                {
-                                    winChoice.winningNode = currentNode;
-                                    winChoice.heuristicValue = winChoice2.heuristicValue;
-                                }
+                                winChoice.winningNode = winChoice2.winningNode;
+                                //Console.WriteLine(winChoice.heuristicValue);
                             }
+
+                            // When it is evaluating the next move from the root
+                            else if (currentNode.parent.parent.parent == null)
+                            {
+                                winChoice.winningNode = currentNode;
+                                winChoice.heuristicValue = -winChoice2.heuristicValue;
+                                //Console.WriteLine(winChoice.heuristicValue);
+                            }
+                        }
                     }
                     j++;
                 }
             }
             //printBoard(winChoice.winningNode);
-            Console.WriteLine(winChoice.heuristicValue);
             return winChoice;
         }
-        //static void Main(string[] args)
-        //{
-           
-        //    QuartoSearchTree tree = new QuartoSearchTree();
-        //    string[] board = { "A1", "B1", null, null, 
-        //                       "B3", null, "C2", "B4", 
-        //                       "C1", null, "C3", null,
-        //                       "A4", null, "D3", "D2" };
-        //    Piece[] pieces = new Piece[MAXGAMEBOARD];
-        //    pieces[0].setValues("A1", false);
-        //    pieces[1].setValues("A2", true);
-        //    pieces[2].setValues("A3", true);
-        //    pieces[3].setValues("A4", false);
-        //    pieces[4].setValues("B1", false);
-        //    pieces[5].setValues("B2", true);
-        //    pieces[6].setValues("B3", false);
-        //    pieces[7].setValues("B4", false);
-        //    pieces[8].setValues("C1", false);
-        //    pieces[9].setValues("C2", false);
-        //    pieces[10].setValues("C3", false);
-        //    pieces[11].setValues("C4", true);
-        //    pieces[12].setValues("D1", true);
-        //    pieces[13].setValues("D2", false);
-        //    pieces[14].setValues("D3", false);
-        //    pieces[15].setValues("D4", true);
+        static void Main(string[] args)
+        {
 
-        //    int value = Heuristic.calculateHeuristic(board, "C4");
-        //    bool val = Heuristic.isWin(board, "C4", 2);
-        //    tree.generateTree(2, board, 11, pieces);
-        //    Console.WriteLine(value);
-        //    Console.WriteLine(val);
-        //}
+            QuartoSearchTree tree = new QuartoSearchTree();
+            string[] board = { "D4", "A3", "C3", "D2",
+                               "C2", null, "B1", "B4",
+                               null, null, null, "D3",
+                               null, "A1", null, "C1",};
+            Piece[] pieces = new Piece[MAXGAMEBOARD];
+            pieces[0].setValues("A1", false);
+            pieces[1].setValues("A2", true);
+            pieces[2].setValues("A3", false);
+            pieces[3].setValues("A4", true);
+            pieces[4].setValues("B1", false);
+            pieces[5].setValues("B2", true);
+            pieces[6].setValues("B3", true);
+            pieces[7].setValues("B4", false);
+            pieces[8].setValues("C1", false);
+            pieces[9].setValues("C2", false);
+            pieces[10].setValues("C3",false);
+            pieces[11].setValues("C4",true);
+            pieces[12].setValues("D1",true);
+            pieces[13].setValues("D2",false);
+            pieces[14].setValues("D3",false);
+            pieces[15].setValues("D4", false);
+
+            int value = Heuristic.calculateHeuristic(board, "B1");
+            bool val = Heuristic.isWin(board, "B3", 15);
+            tree.generateTree(board, 6, pieces);
+            Console.WriteLine(value);
+            Console.WriteLine(val);
+        }
     }
+
+    //string[] board = { "D1", "A2", "D3", "C1",
+    //                                   "D4", null, null, "B4",
+    //                                   "B1", null, "D2", "A4",
+    //                                   "A1", "C4", null, "B3" };
+    //Piece[] pieces = new Piece[MAXGAMEBOARD];
+    //pieces[0].setValues("A1", false);
+    //pieces[1].setValues("A2", false);
+    //pieces[2].setValues("A3", true);
+    //pieces[3].setValues("A4", false);
+    //pieces[4].setValues("B1",  false);
+    //pieces[5].setValues("B2", true);
+    //pieces[6].setValues("B3",  false);
+    //pieces[7].setValues("B4",  false);
+    //pieces[8].setValues("C1", false);
+    //pieces[9].setValues("C2",  true);
+    //pieces[10].setValues("C3", true);
+    //pieces[11].setValues("C4", false);
+    //pieces[12].setValues("D1", false);
+    //pieces[13].setValues("D2", false);
+    //pieces[14].setValues("D3", false);
+    //pieces[15].setValues("D4", false);
     public struct Piece
-    {
-        public string piece;
-        public bool playable;
-
-        public void setValues(string piece, bool playable)
         {
-            this.piece = piece;
-            this.playable = playable;
+            public string piece;
+            public bool playable;
+
+            public void setValues(string piece, bool playable)
+            {
+                this.piece = piece;
+                this.playable = playable;
+            }
+
+            public void setPlayable(bool playable)
+            {
+                this.playable = playable;
+            }
+            public bool getPlayablePiece()
+            {
+                return this.playable;
+            }
+
+            public string getPiece()
+            {
+                return this.piece;
+            }
         }
 
-        public void setPlayable(bool playable)
+        public struct moveData
         {
-            this.playable = playable;
+            public string lastMoveOnBoard;
+            public string pieceToPlay;
         }
-        public bool getPlayablePiece()
-        {
-            return this.playable;
-        }
-
-        public string getPiece()
-        {
-            return this.piece;
-        }
-    }
-
-    public struct moveData
-    {
-        public string lastMoveOnBoard;
-        public string pieceToPlay;
-    }
 }

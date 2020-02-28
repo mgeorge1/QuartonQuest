@@ -163,8 +163,8 @@ namespace HeuristicCalculator
             }
             if (boardPosition == 1 || boardPosition == 5 || boardPosition == 9 || boardPosition == 13)
             {
-                winningValues = checkWinRows(pieces[1], pieces[5], pieces[9], pieces[12], 5, winningValues, pieceBinary, 1);
-                winningValues = checkWinRows(pieces[1], pieces[5], pieces[9], pieces[12], 5, winningValues, pieceBinary, 0);
+                winningValues = checkWinRows(pieces[1], pieces[5], pieces[9], pieces[13], 5, winningValues, pieceBinary, 1);
+                winningValues = checkWinRows(pieces[1], pieces[5], pieces[9], pieces[13], 5, winningValues, pieceBinary, 0);
             }
             if (boardPosition == 2 || boardPosition == 6 || boardPosition == 10 || boardPosition == 14)
             {
@@ -192,6 +192,7 @@ namespace HeuristicCalculator
             else
                 return false;
         }
+
         // Calculates how many wins each characteristic of the piece to be played can win on any given board.
         public static int calculateHeuristic(string[] gameBoard, string pieceToPlay)
         {
@@ -201,8 +202,6 @@ namespace HeuristicCalculator
 
             for (int i = 0; i < 10; i++)
                 winningValues.rowWon[i] = false;
-            // Array.Fill is not working in Unity as of 2/18/2020
-            // Array.Fill(rowWon, false);
 
             pieceBinary = convertToBinaryRepresentation(pieceToPlay);
             for (int i = 0; i < MAXGAMEBOARD; i++)
@@ -251,13 +250,19 @@ namespace HeuristicCalculator
             var potentialSlot = 0;
             int oppositeBit;
 
-            if (oddBit == 1)
-                oppositeBit = 0;
-            else
-                oppositeBit = 1;
+            winningValues.nullPiece = countNullPieces(piece1, piece2, piece3, piece4);
 
-            for (int k = 3; k >= 0; k--)
+            if (winningValues.nullPiece[1] > 1 || winningValues.nullPiece[1] == 0) { }
+
+            else
             {
+                if (oddBit == 1)
+                    oppositeBit = 0;
+                else
+                    oppositeBit = 1;
+
+                for (int k = 3; k >= 0; k--)
+                {
                     //checks rows for wins on all matches
                     slot1 = piece1 >> k;
                     slot2 = piece2 >> k;
@@ -265,47 +270,39 @@ namespace HeuristicCalculator
                     slot4 = piece4 >> k;
                     potentialSlot = pieceBinary >> k;
 
-                    winningValues.nullPiece = countNullPieces(piece1, piece2, piece3, piece4);
+                    if (winningValues.nullPiece[0] == 1)
+                        slot1 = oppositeBit;
+                    else if (winningValues.nullPiece[0] == 2)
+                        slot2 = oppositeBit;
+                    else if (winningValues.nullPiece[0] == 3)
+                        slot3 = oppositeBit;
+                    else if (winningValues.nullPiece[0] == 4)
+                        slot4 = oppositeBit;
 
-                    if (winningValues.nullPiece[1] > 1) { }
-
-                    else
+                    if ((slot1 % 2 == oddBit && slot2 % 2 == oddBit && slot3 % 2 == oddBit)
+                        || (slot1 % 2 == oddBit && slot2 % 2 == oddBit && slot4 % 2 == oddBit)
+                        || (slot1 % 2 == oddBit && slot3 % 2 == oddBit && slot4 % 2 == oddBit)
+                        || (slot2 % 2 == oddBit && slot3 % 2 == oddBit && slot4 % 2 == oddBit))
                     {
-
-                        if (winningValues.nullPiece[0] == 1)
-                            slot1 = oppositeBit;
-                        else if (winningValues.nullPiece[0] == 2)
-                            slot2 = oppositeBit;
-                        else if (winningValues.nullPiece[0] == 3)
-                            slot3 = oppositeBit;
-                        else if (winningValues.nullPiece[0] == 4)
-                            slot4 = oppositeBit;
-
-                        if (winningValues.isPlaying && (slot1 % 2 == oddBit && slot2 % 2 == oddBit && slot3 % 2 == oddBit && potentialSlot % 2 == oddBit)
-                            || (slot1 % 2 == oddBit && slot2 % 2 == oddBit && slot4 % 2 == oddBit && potentialSlot % 2 == oddBit)
-                            || (slot1 % 2 == oddBit && slot3 % 2 == oddBit && slot4 % 2 == oddBit && potentialSlot % 2 == oddBit)
-                            || (slot2 % 2 == oddBit && slot3 % 2 == oddBit && slot4 % 2 == oddBit && potentialSlot % 2 == oddBit))
+                        if (winningValues.rowWon[rowNumber] == false)
                         {
-                            if (winningValues.rowWon[rowNumber] == false)
-                            {
-                                winningValues.finalResult++;
-                                winningValues.rowWon[rowNumber] = true;
-                            }
+                            winningValues.finalResult++;
+                            winningValues.rowWon[rowNumber] = true;
                         }
-
-                        else if (!winningValues.isPlaying && (slot1 % 2 == oddBit && slot2 % 2 == oddBit && slot3 % 2 == oddBit)
-                            || (slot1 % 2 == oddBit && slot2 % 2 == oddBit && slot4 % 2 == oddBit)
-                            || (slot1 % 2 == oddBit && slot3 % 2 == oddBit && slot4 % 2 == oddBit)
-                            || (slot2 % 2 == oddBit && slot3 % 2 == oddBit && slot4 % 2 == oddBit))
-                        {
-                            if (winningValues.rowWon[rowNumber] == false)
-                            {
-                                winningValues.finalResult++;
-                                winningValues.rowWon[rowNumber] = true;
-                            }
-                        }
-
                     }
+
+                    else if ((slot1 % 2 == oddBit && slot2 % 2 == oddBit && slot3 % 2 == oddBit)
+                        || (slot1 % 2 == oddBit && slot2 % 2 == oddBit && slot4 % 2 == oddBit)
+                        || (slot1 % 2 == oddBit && slot3 % 2 == oddBit && slot4 % 2 == oddBit)
+                        || (slot2 % 2 == oddBit && slot3 % 2 == oddBit && slot4 % 2 == oddBit))
+                    {
+                        if (winningValues.rowWon[rowNumber] == false)
+                        {
+                            winningValues.finalResult++;
+                            winningValues.rowWon[rowNumber] = true;
+                        }
+                    }
+                }
             }
             return winningValues;
         }
@@ -319,27 +316,25 @@ namespace HeuristicCalculator
             var potentialSlot = 0;
             int oppositeBit;
 
-            if (oddBit == 1)
-                oppositeBit = 0;
+            winningValues.nullPiece = countNullPieces(piece1, piece2, piece3, piece4);
+
+            if (winningValues.nullPiece[1] > 1) { }
+
             else
-                oppositeBit = 1;
-
-            for (int k = 3; k >= 0; k--)
             {
-                //checks rows for wins on all matches
-                slot1 = piece1 >> k;
-                slot2 = piece2 >> k;
-                slot3 = piece3 >> k;
-                slot4 = piece4 >> k;
-                potentialSlot = pieceBinary >> k;
-
-                winningValues.nullPiece = countNullPieces(piece1, piece2, piece3, piece4);
-
-                if (winningValues.nullPiece[1] > 1) { }
-
+                if (oddBit == 1)
+                    oppositeBit = 0;
                 else
-                {
+                    oppositeBit = 1;
 
+                for (int k = 3; k >= 0; k--)
+                {
+                    //checks rows for wins on all matches
+                    slot1 = piece1 >> k;
+                    slot2 = piece2 >> k;
+                    slot3 = piece3 >> k;
+                    slot4 = piece4 >> k;
+                    potentialSlot = pieceBinary >> k;
                     if (winningValues.nullPiece[0] == 1)
                         slot1 = oppositeBit;
                     else if (winningValues.nullPiece[0] == 2)
@@ -360,6 +355,7 @@ namespace HeuristicCalculator
                             winningValues.rowWon[rowNumber] = true;
                         }
                     }
+
 
                 }
             }

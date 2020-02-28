@@ -44,7 +44,7 @@ public class AIController : MonoBehaviour, IOpponent
         }
         intitializeAiPieceList(GameCoreController.Instance.GetPlayablePiecesList(), ref pieces, GameCoreController.Instance.PieceNumberMap);
 
-        AI.moveData moveData = quartoAI.generateTree(2, newBoard, GameCoreController.Instance.PieceNumberMap[onDeckPiece], pieces);
+        AI.moveData moveData = quartoAI.generateTree(newBoard, GameCoreController.Instance.PieceNumberMap[onDeckPiece], pieces);
         NextMove.OnDeckPiece = moveData.pieceToPlay;
         NextMove.Tile = moveData.lastMoveOnBoard;
 
