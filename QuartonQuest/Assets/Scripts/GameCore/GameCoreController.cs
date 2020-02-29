@@ -80,15 +80,23 @@ public class GameCoreController : MonoBehaviour
         model.NewGame();
         DisableTiles();
         DisablePieces();
-        CurrentTurn = GameTurnState.NONE;
         OnDeckPiece = NOSELECTION;
         LastTileClicked = NOSELECTION;
     }
 
-    public IEnumerator PlayGame ()
+    public IEnumerator PlayGame(bool playerGoesFirst)
+    {
+        CurrentTurn = (playerGoesFirst) ? GameTurnState.PLAYER : GameTurnState.OPPONENT;
+        return PlayGame();
+    }
+
+    public IEnumerator PlayGame()
     {
         ResetGame();
-        yield return StartCoroutine(PickFirstTurn());
+
+        if (CurrentTurn == GameTurnState.NONE)
+            yield return StartCoroutine(PickFirstTurn());
+
         yield return StartCoroutine(PickFirstPiece());
 
         while(!IsGameOver)
