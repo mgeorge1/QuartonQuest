@@ -34,7 +34,14 @@ public class GameCoreController : MonoBehaviour
             );
         }
     }
-    public bool IsPlayerDone { get { return CurrentTurn == GameTurnState.PLAYERDONE; } }
+    public bool IsPlayerDone { get 
+        {
+            return (
+                CurrentTurn == GameTurnState.PLAYERDONE ||
+                CurrentTurn == GameTurnState.PLAYERWON
+            );
+        } 
+    }
     public Dictionary<String, int> PieceNumberMap { 
         get
         {

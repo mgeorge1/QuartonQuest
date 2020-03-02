@@ -41,6 +41,7 @@ public class Board : MonoBehaviour
     public void OnClickedPiece(string name)
     {
         SelectedPiece = UnityEngine.GameObject.Find("Piece" + name).GetComponent<Piece>();
+        SelectedPiece.transform.GetChild(0).gameObject.GetComponent<Renderer>().material.SetColor("_Color", SelectColor);
         MoveOnDeck();
     }
 
@@ -57,7 +58,6 @@ public class Board : MonoBehaviour
         if (OnDeckTile == null)
             return;
 
-        SelectedPiece.transform.GetChild(0).gameObject.GetComponent<Renderer>().material.SetColor("_Color", SelectColor);
         SelectedPiece.transform.position = OnDeckTile.transform.position + new Vector3(0, 1.0f, 0);
     }
 
@@ -83,6 +83,7 @@ public class Board : MonoBehaviour
     public void MoveOnDeck(string pieceName)
     {
         Debug.Log(pieceName);
-        OnClickedPiece(pieceName);
+        SelectedPiece = UnityEngine.GameObject.Find("Piece" + pieceName).GetComponent<Piece>();
+        MoveOnDeck();
     }
 }
