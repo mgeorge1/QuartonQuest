@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 
-// Fix to be able to calculate heurisic for game generation and piece generation
 namespace HeuristicCalculator
 {
     public class Heuristic
