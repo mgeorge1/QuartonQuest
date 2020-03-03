@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2186050771239871883}
   - component: {fileID: 2186050771239871882}
   m_Layer: 0
-  m_Name: NetworkController
+  m_Name: RPCController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

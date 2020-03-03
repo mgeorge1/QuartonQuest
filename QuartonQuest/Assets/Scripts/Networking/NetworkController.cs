@@ -1,126 +1,77 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Util;
 using Photon.Pun;
+using Photon.Realtime;
 
-public class NetworkController : MonoBehaviour, IOpponent
+public class NetworkController : MonoBehaviorPunSingleton<NetworkController>, IOpponent
 {
-    public static NetworkController Instance { get; private set; }
-    [SerializeField] private PhotonView photonView;
-    private static string messageToSend;
-    public static Move move = new Move();
-    public Move NextMove {
+    private RPCController rpcController;
+    private static bool messageReceived = false;
+    public delegate void DisconnectedCallback();
+    public Move NextMove
+    {
         get
         {
-            return move;
+            return rpcController.NextMove;
         }
         set
         {
-            move = value;
+            rpcController.NextMove = value;
         }
     }
-    public bool IsMaster { 
+    public bool IsMaster
+    {
         get
         {
             return !PhotonNetwork.IsMasterClient;
         }
     }
 
-    private static bool messageReceived = false;
-
-    void Awake()
+    public void InstantiateRPCController()
     {
-        Instance = this;
+        GameObject photonObject = PhotonNetwork.Instantiate("RPCController", Vector3.zero, Quaternion.identity);
+        rpcController = photonObject.GetComponent<RPCController>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public IEnumerator WaitForTurn()
     {
-        if (!photonView.IsMine)
-            return;
-
-        if (Input.GetKeyDown(KeyCode.M))
-        {
-            photonView.RPC("GetMessage", RpcTarget.All, messageToSend);
-        }
-    }
-
-    [PunRPC]
-    void GetMessage(string message)
-    {
-        Debug.Log("Here is some message: " + message);
-    }
-
-    [PunRPC]
-    void SetCurrentTurn(GameCoreController.GameTurnState turn)
-    {
-        if (photonView.IsMine)
-            return;
-
-        Debug.Log("Received turn from master client");
-        GameCoreController.Instance.CurrentTurn = turn;
-    }
-
-    [PunRPC]
-    void SetOnDeckPiece(string onDeckPiece)
-    {
-        if (photonView.IsMine)
-            return;
-
-        Debug.Log("Receiving on-deck piece = " + onDeckPiece);
-        NextMove.OnDeckPiece = onDeckPiece;
-        messageReceived = true;
-    }
-
-    [PunRPC]
-    void SendMove(string lastTile, string onDeckPiece)
-    {
-        if (photonView.IsMine)
-            return;
-
-        Debug.Log("Receiving move");
-        NextMove.OnDeckPiece = onDeckPiece;
-        NextMove.Tile = lastTile;
-        messageReceived = true;
-    }
-
-    public IEnumerator WaitForTurn(string lastTile, string onDeckPiece)
-    {
-        Debug.Log("NetworkController WaitforTurn");
-        while (messageReceived == false) yield return null;
-        messageReceived = false;
+        yield return rpcController.WaitForTurn();
     }
 
     public IEnumerator WaitForPickFirstPiece()
     {
-        while (messageReceived == false) yield return null;
-        Debug.Log("Continuing execution");
-        messageReceived = false;
+        yield return rpcController.WaitForPickFirstPiece();
     }
 
-    public IEnumerator GameOver(bool didWin)
+    public void SendFirstTurn(GameCoreController.GameTurnState turn)
     {
-        throw new System.NotImplementedException();
+        rpcController.SendFirstTurn(turn);
     }
 
-    public IEnumerator WaitForPickFirstTurn(GameCoreController.GameTurnState turn)
+    public void SendFirstMove()
     {
-        Debug.Log("Sending who goes first");
-        photonView.RPC("SetCurrentTurn", RpcTarget.All, turn);
-        return null;
+        rpcController.SendFirstMove();
     }
 
-    public IEnumerable SendFirstMove()   
+    public void SendMove()
     {
-        Debug.Log("Sending first move");
-        photonView.RPC("SetOnDeckPiece", RpcTarget.All, GameCoreController.Instance.OnDeckPiece);
-        return null;
+        rpcController.SendMove();
     }
 
-    public IEnumerable SendMove()
+    public IEnumerator Disconnect(DisconnectedCallback callback = null)
     {
-        Debug.Log("Sending move");
-        photonView.RPC("SendMove", RpcTarget.All, GameCoreController.Instance.LastTileClicked, GameCoreController.Instance.OnDeckPiece);
-        return null;
+        PhotonNetwork.Disconnect();
+        while (PhotonNetwork.IsConnected)
+            yield return null;
+
+        callback?.Invoke();
+    }
+
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        Debug.Log("Player " + otherPlayer.NickName + " has left the room.");
+        GUIController.Instance.DisplayPlayerDisconnectedPanel(otherPlayer.NickName);
     }
 }

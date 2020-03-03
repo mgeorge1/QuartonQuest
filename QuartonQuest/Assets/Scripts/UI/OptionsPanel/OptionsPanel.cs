@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Audio;
-using Photon.Pun;
 
 public class OptionsPanel : MonoBehaviour
 {
@@ -61,10 +60,15 @@ public class OptionsPanel : MonoBehaviour
 
     public void QuitMatch()
     {
+        StartCoroutine(QuitMatchCoroutine());
+    }
+
+    private IEnumerator QuitMatchCoroutine()
+    {
         Debug.Log("Quitting match...");
         if (IsNetworkedGame)
         {
-            PhotonNetwork.Disconnect();
+            yield return StartCoroutine(NetworkController.Instance.Disconnect());
         }
         ClosePanel();
         SceneManager.LoadScene("MainMenuScene");

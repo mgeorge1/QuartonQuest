@@ -10,12 +10,6 @@ public class AIController : MonoBehaviour, IOpponent
     public bool IsMaster { get { return false; } }
 
     private const string EMPTYSLOT = "[]";
-
-    public IEnumerator GameOver(bool didWin)
-    {
-        throw new System.NotImplementedException();
-    }
-
     public IEnumerator WaitForPickFirstPiece()
     {
         // Change to pick random piece
@@ -25,7 +19,7 @@ public class AIController : MonoBehaviour, IOpponent
         return null;
     }
 
-    public IEnumerator WaitForTurn(string lastTile, string onDeckPiece)
+    public IEnumerator WaitForTurn()
     {
         string[,] board = GameCoreController.Instance.GetBoard();
         string[] newBoard = new string[board.Length];
@@ -43,7 +37,7 @@ public class AIController : MonoBehaviour, IOpponent
             }
         }
         intitializeAiPieceList(GameCoreController.Instance.GetPlayablePiecesList(), ref pieces, GameCoreController.Instance.PieceNumberMap);
-
+        string onDeckPiece = GameCoreController.Instance.OnDeckPiece;
         AI.moveData moveData = quartoAI.generateTree(newBoard, GameCoreController.Instance.PieceNumberMap[onDeckPiece], pieces);
         NextMove.OnDeckPiece = moveData.pieceToPlay;
         NextMove.Tile = moveData.lastMoveOnBoard;
@@ -82,23 +76,20 @@ public class AIController : MonoBehaviour, IOpponent
         }
     }
 
-    public IEnumerator WaitForPickFirstTurn(GameCoreController.GameTurnState turn)
+    public void SendFirstTurn(GameCoreController.GameTurnState turn)
     {
         // Never called by the AI
-        return null;
     }
 
-    public IEnumerable SendFirstMove()
+    public void SendFirstMove()
     {
         // AI doesn't care what is in this function
         // It will get the Board state later
-        return null;
     }
 
-    public IEnumerable SendMove()
+    public void SendMove()
     {
         // AI doesn't care what is in this function
         // It will get the board state later
-        return null;
     }
 }

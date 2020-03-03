@@ -2,46 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Util;
 using Photon.Pun;
 
-public class GUIController : MonoBehaviour
+public class GUIController : MonoBehaviorSingleton<GUIController>
 {
-    // https://wiki.unity3d.com/index.php/Singleton
-    // This allows for GUIController to be a singleton
-    private static GUIController _instance;
-    private static bool _shuttingDown = false;
-    private static object _lock = new object();
-    public static GUIController Instance 
-    {
-        get
-        {
-            if (_shuttingDown)
-                return null;
-
-            lock (_lock)
-            {
-                if (_instance == null)
-                {
-                    _instance = (GUIController)FindObjectOfType(typeof(GUIController));
-
-                    if (_instance == null)
-                    {
-                        GameObject singleton = new GameObject();
-                        _instance = singleton.AddComponent<GUIController>();
-                        singleton.name = typeof(GUIController).ToString() + "Singleton";
-
-                        DontDestroyOnLoad(singleton);
-                    }
-                }
-
-                return _instance;
-            }
-        }
-    }
-
     [SerializeField] public bool IsNetworkedGame = false;
     public bool IsPlayerFirst = true;
-
+    public GameObject PlayerDisconnectedPanel;
+    public GameObject UICanvas;
     public GameObject OpponentControllerObject;
     private IOpponent OpponentController;
 
@@ -109,12 +78,9 @@ public class GUIController : MonoBehaviour
     void StartGame()
     {
         if (IsNetworkedGame)
-            InstantiateNetworkController();
+            AttachNetworkController();
         else
-            InstantiateAIController();
-           
-        OpponentController = OpponentControllerObject.GetComponent<IOpponent>();
-        GameCoreController.Instance.Opponent = OpponentController;
+            AttachAIController();
 
         Debug.Log("PlayerDidSelectTurn = " + playerDidSelectTurn);
         if (playerDidSelectTurn)
@@ -126,31 +92,33 @@ public class GUIController : MonoBehaviour
             StartCoroutine(GameCoreController.Instance.PlayGame());
     }
 
-    void InstantiateNetworkController()
+    void AttachNetworkController()
     {
-        OpponentControllerObject = PhotonNetwork.Instantiate("NetworkController", Vector3.zero, Quaternion.identity);
+        Debug.Log(NetworkController.Instance);
+        NetworkController.Instance.InstantiateRPCController();
+        GameCoreController.Instance.Opponent = NetworkController.Instance;
     }
 
-    void InstantiateAIController()
+    void AttachAIController()
     {
         OpponentControllerObject = new GameObject();
         OpponentControllerObject.AddComponent(typeof(AIController));
         OpponentControllerObject.name = typeof(AIController).ToString();
+        GameCoreController.Instance.Opponent = OpponentControllerObject.GetComponent<IOpponent>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void DisplayPlayerDisconnectedPanel(string playerName)
     {
-        
+        if (PlayerDisconnectedPanel != null)
+        {
+            PlayerDisconnectedPanel script = PlayerDisconnectedPanel.GetComponent<PlayerDisconnectedPanel>();
+            script.SetPlayerName(playerName);
+            PlayerDisconnectedPanel.SetActive(true);
+        }
     }
 
-    void OnApplicationQuit()
+    public void LoadScene(string sceneName)
     {
-        _shuttingDown = true;
-    }
-
-    void OnDestory()
-    {
-        _shuttingDown = true;
+        SceneManager.LoadScene(sceneName);
     }
 }

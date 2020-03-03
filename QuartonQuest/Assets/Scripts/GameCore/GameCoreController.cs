@@ -130,7 +130,7 @@ public class GameCoreController : MonoBehaviour
         DisablePieces();
         CurrentTurn = GameTurnState.PLAYERCHOOSETILE;
         while (!IsPlayerDone) yield return null;
-        yield return Opponent.SendMove();
+        Opponent.SendMove();
     }
 
     IEnumerator PlayerFirstTurn()
@@ -140,14 +140,14 @@ public class GameCoreController : MonoBehaviour
         DisableTiles();
         CurrentTurn = GameTurnState.PLAYERCHOOSEPIECE;
         while (!IsPlayerDone) yield return null;
-        yield return Opponent.SendFirstMove();
+        Opponent.SendFirstMove();
     }
 
     IEnumerator OpponentTurn()
     {
         DisableTiles();
         DisablePieces();
-        yield return Opponent.WaitForTurn("A2", OnDeckPiece);
+        yield return Opponent.WaitForTurn();
 
         model.Move(Opponent.NextMove.Tile, OnDeckPiece);
         board.MovePiece(Opponent.NextMove.Tile);
@@ -252,7 +252,7 @@ public class GameCoreController : MonoBehaviour
             System.Random rand = new System.Random();
             CurrentTurn = rand.Next(0, 2) == 1 ? GameTurnState.PLAYER : GameTurnState.OPPONENT;
             Debug.Log((IsPlayerTurn ? "Player" : "Opponent") + "'s Turn");
-            yield return Opponent.WaitForPickFirstTurn((IsPlayerTurn ? GameTurnState.OPPONENT : GameTurnState.PLAYER));
+            Opponent.SendFirstTurn((IsPlayerTurn ? GameTurnState.OPPONENT : GameTurnState.PLAYER));
         }
     }
 

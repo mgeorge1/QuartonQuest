@@ -18,7 +18,7 @@ namespace Networking {
         private void SetUpInputField()
         {
             string defaultName = "";
-            if (!PlayerPrefs.HasKey(PlayerPrefsNameKey))
+            if (PlayerPrefs.HasKey(PlayerPrefsNameKey))
             {
                 defaultName = PlayerPrefs.GetString(PlayerPrefsNameKey);
                 nameInputField.text = defaultName;
