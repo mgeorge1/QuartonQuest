@@ -72,6 +72,6 @@ public class NetworkController : MonoBehaviorPunSingleton<NetworkController>, IO
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         Debug.Log("Player " + otherPlayer.NickName + " has left the room.");
-        GUIController.Instance.DisplayPlayerDisconnectedPanel(otherPlayer.NickName);
+        GUIController.Instance.DisplayPlayerForfeitedCanvas(otherPlayer.NickName);
     }
 }

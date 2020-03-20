@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class PlayerDisconnectedPanel : MonoBehaviour
+public class PlayerForfeitedCanvas : MonoBehaviour
 {
-    public TextMeshProUGUI PlayerDisconnectedText;
+    public TextMeshProUGUI PlayerForfeitedText;
 
     public void SetPlayerName(string name)
     {
-        PlayerDisconnectedText.text = name + " has disconnected.";
+        PlayerForfeitedText.text = name + " has forfeited.";
     }
 
     public void ReturnToMainMenu()

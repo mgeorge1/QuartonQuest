@@ -1,11 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class Tile : MonoBehaviour
 {
     public delegate void ClickedTile(string name);
     public static event ClickedTile OnClickTile;
+    public bool IsClickable
+    {
+        get
+        {
+            return (!EventSystem.current.IsPointerOverGameObject());
+        }
+    }
 
     public Color DefaultColor;
     public Color MouseOverColor;
@@ -21,6 +29,9 @@ public class Tile : MonoBehaviour
 
     private void OnMouseEnter()
     {
+        if (!IsClickable)
+            return;
+
         if (localPiece==null)
         {
             TileVisual.GetComponent<Renderer>().material.SetColor("_Color", MouseOverColor);
@@ -29,6 +40,9 @@ public class Tile : MonoBehaviour
 
     private void OnMouseExit()
     {
+        if (!IsClickable)
+            return;
+
         if (localPiece==null)
         {
             TileVisual.GetComponent<Renderer>().material.SetColor("_Color", DefaultColor);
@@ -37,6 +51,9 @@ public class Tile : MonoBehaviour
 
     public void OnMouseDown()
     {
+        if (!IsClickable)
+            return;
+
         if (localPiece==null)
         {
             OnClickTile?.Invoke(getName());

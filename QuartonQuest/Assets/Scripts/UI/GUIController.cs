@@ -9,8 +9,7 @@ public class GUIController : MonoBehaviorSingleton<GUIController>
 {
     [SerializeField] public bool IsNetworkedGame = false;
     public bool IsPlayerFirst = true;
-    public GameObject PlayerDisconnectedPanel;
-    public GameObject UICanvas;
+    public GameObject PlayerForfeitedCanvas;
     public GameObject OpponentControllerObject;
     private IOpponent OpponentController;
 
@@ -107,13 +106,14 @@ public class GUIController : MonoBehaviorSingleton<GUIController>
         GameCoreController.Instance.Opponent = OpponentControllerObject.GetComponent<IOpponent>();
     }
 
-    public void DisplayPlayerDisconnectedPanel(string playerName)
+    public void DisplayPlayerForfeitedCanvas(string playerName)
     {
-        if (PlayerDisconnectedPanel != null)
+        if (PlayerForfeitedCanvas != null)
         {
-            PlayerDisconnectedPanel script = PlayerDisconnectedPanel.GetComponent<PlayerDisconnectedPanel>();
+            PlayerForfeitedCanvas script = PlayerForfeitedCanvas.GetComponent<PlayerForfeitedCanvas>();
             script.SetPlayerName(playerName);
-            PlayerDisconnectedPanel.SetActive(true);
+            PlayerForfeitedCanvas.SetActive(true);
+            GameCoreController.Instance.CurrentTurn = GameCoreController.GameTurnState.PLAYERWON;
         }
     }
 

@@ -1,11 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class Piece: MonoBehaviour
 {
     public delegate void ClickedPiece(string name);
     public static event ClickedPiece OnClickPiece;
+
+    public bool IsClickable
+    {
+        get
+        {
+            return (!EventSystem.current.IsPointerOverGameObject());
+        }
+    }
 
     public Color DefaultColor;
     public Color MouseOverColor;
@@ -21,17 +30,26 @@ public class Piece: MonoBehaviour
     
     private void OnMouseEnter()
     {
-            PieceVisual.GetComponent<Renderer>().material.SetColor("_Color", MouseOverColor);      
+        if (!IsClickable)
+            return;
+
+        PieceVisual.GetComponent<Renderer>().material.SetColor("_Color", MouseOverColor);      
     }
 
     private void OnMouseExit()
     {
-            PieceVisual.GetComponent<Renderer>().material.SetColor("_Color", DefaultColor);
+        if (!IsClickable)
+            return;
+
+        PieceVisual.GetComponent<Renderer>().material.SetColor("_Color", DefaultColor);
     }
 
     private void OnMouseDown()
     {
-        if(!placed)
+        if (!IsClickable)
+            return;
+
+        if (!placed)
         {
             OnClickPiece?.Invoke(getName());
         }

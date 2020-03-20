@@ -19,22 +19,6 @@ public class OptionsPanel : MonoBehaviour
     }
     public GameObject Panel;
     public AudioMixer audioMixer;
-    public bool IsNetworkedGame = false;
-
-    void FixedUpdate()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            if (OptionsPanelShowing)
-            {
-                ClosePanel();
-            } 
-            else
-            {
-                OpenPanel();
-            }
-        }
-    }
 
     public void SetVolume(float volume)
     {
@@ -66,7 +50,7 @@ public class OptionsPanel : MonoBehaviour
     private IEnumerator QuitMatchCoroutine()
     {
         Debug.Log("Quitting match...");
-        if (IsNetworkedGame)
+        if (GUIController.Instance.IsNetworkedGame)
         {
             yield return StartCoroutine(NetworkController.Instance.Disconnect());
         }

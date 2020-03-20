@@ -11,9 +11,8 @@ GameObject:
   - component: {fileID: 4964916011837308675}
   - component: {fileID: 4964916011837308677}
   - component: {fileID: 4964916011837308674}
-  - component: {fileID: 6507304431559719832}
   m_Layer: 5
-  m_Name: PlayerDisconnectedPanel
+  m_Name: PlayerForfeitedPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -76,19 +75,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &6507304431559719832
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4964916011837308672}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d4e82256a5ac984c9d9e2f08d2096a7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PlayerDisconnectedText: {fileID: 4964916012976554878}
 --- !u!1 &4964916012976554876
 GameObject:
   m_ObjectHideFlags: 0
@@ -101,7 +87,7 @@ GameObject:
   - component: {fileID: 4964916012976554865}
   - component: {fileID: 4964916012976554878}
   m_Layer: 5
-  m_Name: PlayerHasDisconnectedText
+  m_Name: PlayerHasForfeitedText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -321,7 +307,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 6507304431559719832}
+      objectReference: {fileID: 0}
     - target: {fileID: 6690656162816654864, guid: bf2169c813a08cc4c8097b2f6264b699,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName

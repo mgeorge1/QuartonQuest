@@ -43,7 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 291b0446bd5d6be44977eb1ef37b6a3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsNetworkedGame: 1
+  IsNetworkedGame: 0
   IsPlayerFirst: 1
   PlayerDisconnectedPanel: {fileID: 0}
   UICanvas: {fileID: 0}
