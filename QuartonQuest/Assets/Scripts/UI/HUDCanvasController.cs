@@ -6,6 +6,7 @@ using TMPro;
 public class HUDCanvasController : MonoBehaviour
 {
     public TextMeshProUGUI TurnText;
+    public GameObject HelpPanel;
 
     // Start is called before the first frame update
     void Start()
@@ -40,5 +41,13 @@ public class HUDCanvasController : MonoBehaviour
                 TurnText.text = "Tie!";
                 break;
         }
+    }
+
+    public void DisplayHelpPanel()
+    {
+        if (HelpPanel.activeSelf)
+            HelpPanel.SetActive(false);
+        else
+            HelpPanel.SetActive(true);
     }
 }

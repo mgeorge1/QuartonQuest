@@ -128,6 +128,46 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1379491906}
     m_Modifications:
+    - target: {fileID: 3266380519272716617, guid: 8b14a14d6ce38af449a343380a5b17d2,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1379491902}
+    - target: {fileID: 3266380519272716617, guid: 8b14a14d6ce38af449a343380a5b17d2,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: DisplayHelpPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 3306242790445508264, guid: 8b14a14d6ce38af449a343380a5b17d2,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3306242790445508264, guid: 8b14a14d6ce38af449a343380a5b17d2,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3306242790445508264, guid: 8b14a14d6ce38af449a343380a5b17d2,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3306242790445508264, guid: 8b14a14d6ce38af449a343380a5b17d2,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1379491902}
+    - target: {fileID: 3306242790445508264, guid: 8b14a14d6ce38af449a343380a5b17d2,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: DisplayHelpPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 3306242790445508264, guid: 8b14a14d6ce38af449a343380a5b17d2,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 5721974307664994489, guid: 8b14a14d6ce38af449a343380a5b17d2,
         type: 3}
       propertyPath: m_textInfo.characterCount

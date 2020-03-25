@@ -32,13 +32,17 @@ public class mainMenuGUI : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.H))
         {
-            if (helpPanel.activeInHierarchy)
-                helpPanel.SetActive(false);
-            else
-                helpPanel.SetActive(true);
+            DisplayHelpPanel();
         }
     }
 
+    public void DisplayHelpPanel()
+    {
+        if (helpPanel.activeInHierarchy)
+            helpPanel.SetActive(false);
+        else
+            helpPanel.SetActive(true);
+    }
 
     public void storyMode_buttonClicked()
     {
