@@ -1,20 +1,27 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using HeuristicCalculator;
+
 namespace AI
 {
+    
+    public struct winningMove
+    {
+        public QuartoSearchTree.Node winningNode;
+        public int heuristicValue;
+    }
     class NegaMax
     {
+        public static int totalSearch = 0;
+        public const int INFINITY = 100;
         // Searches tree generated for the best play. Selects the best move from the move given by the opponent.
-        public static QuartoSearchTree.winningMove searchForBestPlay(QuartoSearchTree.Node currentNode, int depthCounter, int depth, int negaMax)
+        public static winningMove searchForBestPlay(QuartoSearchTree.Node currentNode, int depth, int minimax, int alpha, int beta, bool maxPlayer)
         {
             int j = 0;
             string pieceString;
             int boardPosition = 0;
-            int negaMaxCompare;
-            QuartoSearchTree.winningMove winChoice = new QuartoSearchTree.winningMove();
-            QuartoSearchTree.winningMove winChoice2 = new QuartoSearchTree.winningMove();
+            int minimaxCompare;
+            winningMove winChoice = new winningMove();
+            winningMove winChoice2 = new winningMove();
             winChoice.winningNode = new QuartoSearchTree.Node();
 
             // If only root in tree
@@ -52,6 +59,8 @@ namespace AI
             // If it is the bottom of the tree
             if (currentNode.children[0] == null)
             {
+                int value;
+
                 for (int i = 0; i < QuartoSearchTree.MAXGAMEBOARD && currentNode.parent.children[i] != null; i++)
                 {
                     if (currentNode.parent.children[i].pieceToPlay == QuartoSearchTree.NULLPIECE)
@@ -59,31 +68,60 @@ namespace AI
                     else
                         pieceString = currentNode.parent.children[i].pieces[currentNode.parent.children[i].pieceToPlay].piece;
 
-                    negaMaxCompare = Heuristic.calculateHeuristic(currentNode.parent.children[i].gameBoard, pieceString);
+                    minimaxCompare = Heuristic.calculateHeuristic(currentNode.parent.children[i].gameBoard, pieceString);
 
                     if (i == 0)
                     {
-                        negaMax = Heuristic.calculateHeuristic(currentNode.parent.children[i].gameBoard, pieceString);
+                        minimax = Heuristic.calculateHeuristic(currentNode.parent.children[i].gameBoard, pieceString);
                         winChoice.winningNode = currentNode.parent.children[i];
-                        winChoice.heuristicValue = negaMax;
+                        winChoice.heuristicValue = minimax;
+                        totalSearch++;
                     }
-                    else if (-negaMaxCompare > -negaMax)
+                    else if ((minimaxCompare > minimax && maxPlayer == true) || (minimaxCompare < minimax && maxPlayer == false))
                     {
-                        negaMax = -negaMaxCompare;
+                        minimax = minimaxCompare;
                         winChoice.winningNode = currentNode.parent.children[i];
-                        winChoice.heuristicValue = negaMax;
+                        winChoice.heuristicValue = minimax;
+                        totalSearch++;
                     }
+
+                    if (maxPlayer)
+                    {
+                        value = -INFINITY;
+                        if (winChoice.heuristicValue > value)
+                            value = winChoice.heuristicValue;
+                        if (value > alpha)
+                            alpha = value;
+                        if (alpha >= beta)
+                            break;
+                    }
+
+                    else
+                    {
+                        value = INFINITY;
+                        if (winChoice.heuristicValue < value)
+                            value = winChoice.heuristicValue;
+                        if (value < beta)
+                            beta = value;
+                        if (alpha >= beta)
+                            break;
+                    }
+
+                    j++;
                 }
             }
 
             // Iterates through all children nodes
             else
             {
+                int value;
+
                 while (j < QuartoSearchTree.MAXGAMEBOARD && currentNode.children[j] != null)
                 {
                     if (j == 0)
                     {
-                        winChoice = searchForBestPlay(currentNode.children[j], depthCounter++, depth, negaMax);
+                        
+                        winChoice = searchForBestPlay(currentNode.children[j], depth, minimax, alpha, beta, !maxPlayer);
 
                         if (currentNode.parent == null || currentNode.parent.parent == null) { }
 
@@ -91,32 +129,62 @@ namespace AI
                         else if (currentNode.parent.parent.parent == null)
                         {
                             winChoice.winningNode = currentNode;
+                            totalSearch++;
                         }
+
                     }
+
                     else
                     {
-                        winChoice2 = searchForBestPlay(currentNode.children[j], depthCounter++, depth, negaMax);
-                        if (-winChoice2.heuristicValue > -winChoice.heuristicValue)
+                        winChoice2 = searchForBestPlay(currentNode.children[j], depth, minimax, alpha, beta, !maxPlayer);
+
+                        if ((winChoice2.heuristicValue > winChoice.heuristicValue && maxPlayer == true) || (winChoice2.heuristicValue < winChoice.heuristicValue && maxPlayer == false))
                         {
-                            winChoice.heuristicValue = -winChoice2.heuristicValue;
+                            winChoice.heuristicValue = winChoice2.heuristicValue;
 
                             if (currentNode.parent == null)
                             {
                                 winChoice.winningNode = winChoice2.winningNode;
+                                totalSearch++;
                             }
                             else if (currentNode.parent.parent == null)
                             {
-                                winChoice.heuristicValue = -winChoice2.heuristicValue;
+                                winChoice.heuristicValue = winChoice2.heuristicValue;
                                 winChoice.winningNode = winChoice2.winningNode;
+                                totalSearch++;
                             }
 
                             // When it is evaluating the next move from the root
                             else if (currentNode.parent.parent.parent == null)
                             {
                                 winChoice.winningNode = currentNode;
-                                winChoice.heuristicValue = -winChoice2.heuristicValue;
+                                winChoice.heuristicValue = winChoice2.heuristicValue;
+                                totalSearch++;
                             }
                         }
+                    }
+
+                    //prunes the rest of children if they can be pruned
+                    if (maxPlayer)
+                    {
+                        value = -INFINITY;
+                        if (winChoice.heuristicValue > value)
+                            value = winChoice.heuristicValue;
+                        if (value > alpha)
+                            alpha = value;
+                        if (alpha >= beta)
+                            break;
+                    }
+
+                    else
+                    {
+                        value = INFINITY;
+                        if (winChoice.heuristicValue < value)
+                            value = winChoice.heuristicValue;
+                        if (value < beta)
+                            beta = value;
+                        if (alpha >= beta)
+                            break;
                     }
                     j++;
                 }

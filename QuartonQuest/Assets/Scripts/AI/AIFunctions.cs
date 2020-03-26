@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using AI;
 using HeuristicCalculator;
 
 namespace AI
@@ -64,15 +61,15 @@ namespace AI
         {
             int newDepth = 1;
             if (piecesOnBoard == 1)
-                newDepth = 1;
-            else if (piecesOnBoard >= 2 && piecesOnBoard <= 5)
                 newDepth = 3;
-            else if (piecesOnBoard >= 6 && piecesOnBoard <= 7)
+            else if (piecesOnBoard >= 2 && piecesOnBoard <= 5)
                 newDepth = 4;
-            else if (piecesOnBoard == 8)
-                newDepth = 5;
-            else if (piecesOnBoard == 9)
+            else if (piecesOnBoard >= 6 && piecesOnBoard <= 7)
                 newDepth = 6;
+            else if (piecesOnBoard == 8)
+                newDepth = 7;
+            else if (piecesOnBoard == 9)
+                newDepth = 8;
             else if (piecesOnBoard > 9)
                 newDepth = 14;
 

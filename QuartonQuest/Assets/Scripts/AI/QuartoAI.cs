@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Diagnostics;
-using System.Collections;
-using HeuristicCalculator;
 
 namespace AI
 {
@@ -23,12 +16,6 @@ namespace AI
             public Piece[] pieces = new Piece[MAXGAMEBOARD];
             public int pieceToPlay;
             public int moveOnBoard;
-        }
-
-        public struct winningMove
-        {
-            public Node winningNode;
-            public int heuristicValue;
         }
 
         public Node root;
@@ -59,7 +46,7 @@ namespace AI
 
             generateChildrenGamestate(currentNode, parentNode, piece, maxDepth, 0);
 
-            winningMove move = NegaMax.searchForBestPlay(currentNode, 0, maxDepth, 0);
+            winningMove move = NegaMax.searchForBestPlay(currentNode, maxDepth, 0, -MAXGAMEBOARD, MAXGAMEBOARD, false);
 
             //Checks for win by opponent, given the piece chosen
             //If win it makes it equal to the next child and so on
@@ -73,6 +60,7 @@ namespace AI
             Console.Write("Heuristic of Final Node: ");
             Console.Write(move.heuristicValue);
             Console.WriteLine();
+
             // This is bad but it works.
             string pieceOnDeck = move.winningNode.pieceToPlay == NULLPIECE ?
                 NULLPIECE.ToString() : move.winningNode.pieces[move.winningNode.pieceToPlay].piece;
@@ -167,35 +155,34 @@ namespace AI
             }
         }
 
-        
         static void Main(string[] args)
         {
 
             QuartoSearchTree tree = new QuartoSearchTree();
-            string[] board = { "D1", null, null, "A1",
-                               null, "C3", null, "C2",
-                               "B1", null, null, null,
-                               null, null, "D2", "B2" 
+            string[] board = { "C1", null, null, null,
+                               "A4", null, null, "A3",
+                               "D3", "B2", null, null,
+                               "B1", "B3", "A2", "C2"
                              };
             Piece[] pieces = new Piece[MAXGAMEBOARD];
-            pieces[0].setValues("A1", false);
-            pieces[1].setValues("A2", true);
-            pieces[2].setValues("A3", true);
-            pieces[3].setValues("A4", true);
+            pieces[0].setValues("A1",  true);
+            pieces[1].setValues("A2",  false);
+            pieces[2].setValues("A3",  false);
+            pieces[3].setValues("A4", false);
             pieces[4].setValues("B1", false);
-            pieces[5].setValues("B2", false);
-            pieces[6].setValues("B3", true);
-            pieces[7].setValues("B4", true);
-            pieces[8].setValues("C1", true);
-            pieces[9].setValues("C2", true);
-            pieces[10].setValues("C3",false);
-            pieces[11].setValues("C4",true);
-            pieces[12].setValues("D1",false);
-            pieces[13].setValues("D2",false);
-            pieces[14].setValues("D3",true);
+            pieces[5].setValues("B2",  false);
+            pieces[6].setValues("B3",  false);
+            pieces[7].setValues("B4",  true);
+            pieces[8].setValues("C1",  false);
+            pieces[9].setValues("C2", false);
+            pieces[10].setValues("C3", true);
+            pieces[11].setValues("C4", true);
+            pieces[12].setValues("D1", true);
+            pieces[13].setValues("D2", true);
+            pieces[14].setValues("D3", false);
             pieces[15].setValues("D4", true);
 
-            tree.generateTree(board, 7, pieces);
+            tree.generateTree(board, 0, pieces);
         }
     }
     public struct Piece
