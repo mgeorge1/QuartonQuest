@@ -1,5 +1,7 @@
-﻿using System;
-using HeuristicCalculator;
+﻿using HeuristicCalculator;
+using UnityEngine;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace AI
 {
@@ -27,7 +29,7 @@ namespace AI
             // If only root in tree
             if (currentNode.parent == null && currentNode.children[0] == null)
             {
-                Console.WriteLine("Search Failed: Tree only contains root");
+                Debug.LogError("Search Failed: Tree only contains root");
             }
 
             // Detects for win
@@ -85,6 +87,7 @@ namespace AI
                         totalSearch++;
                     }
 
+                    //prunes the rest of children if they can be pruned
                     if (maxPlayer)
                     {
                         value = -INFINITY;
@@ -120,7 +123,7 @@ namespace AI
                 {
                     if (j == 0)
                     {
-                        
+
                         winChoice = searchForBestPlay(currentNode.children[j], depth, minimax, alpha, beta, !maxPlayer);
 
                         if (currentNode.parent == null || currentNode.parent.parent == null) { }
@@ -131,7 +134,6 @@ namespace AI
                             winChoice.winningNode = currentNode;
                             totalSearch++;
                         }
-
                     }
 
                     else
@@ -189,6 +191,31 @@ namespace AI
                     j++;
                 }
             }
+
+            if (currentNode.parent == null)
+                RandomPlay(winChoice);
+
+            return winChoice;
+        }
+
+        // Only selects a random piece and position when there is no plays better than the one originally selected
+        public static winningMove RandomPlay(winningMove winChoice)
+        {
+            int rand;
+            List<int> playablePieces;
+            List<int> playablePositions;
+
+            if (winChoice.heuristicValue == 0)
+            {
+                playablePositions = AIFunctions.makePlayablePositionList(winChoice.winningNode.gameBoard);
+                rand = Random.Range(0, playablePositions.Count());
+                winChoice.winningNode.moveOnBoard = playablePositions[rand];
+
+                playablePieces = AIFunctions.makePlayablePiecesOnly(winChoice.winningNode.pieces);
+                rand = Random.Range(0, playablePieces.Count());
+                winChoice.winningNode.pieceToPlay = playablePieces[rand];
+            }
+
             return winChoice;
         }
     }

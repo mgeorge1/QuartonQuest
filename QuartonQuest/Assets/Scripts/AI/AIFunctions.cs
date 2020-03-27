@@ -1,6 +1,6 @@
 ﻿using System;
 using HeuristicCalculator;
-
+using System.Collections.Generic;
 namespace AI
 {
     public static class AIFunctions
@@ -61,9 +61,9 @@ namespace AI
         {
             int newDepth = 1;
             if (piecesOnBoard == 1)
-                newDepth = 3;
-            else if (piecesOnBoard >= 2 && piecesOnBoard <= 5)
                 newDepth = 4;
+            else if (piecesOnBoard >= 2 && piecesOnBoard <= 5)
+                newDepth = 5;
             else if (piecesOnBoard >= 6 && piecesOnBoard <= 7)
                 newDepth = 6;
             else if (piecesOnBoard == 8)
@@ -121,6 +121,33 @@ namespace AI
             }
 
             return hasWon;
+        }
+
+        public static List<int> makePlayablePiecesOnly(Piece[] pieces)
+        {
+            List<int> piecesPlayable = new List<int>();
+            for(int i = 0; i < QuartoSearchTree.MAXGAMEBOARD; i++)
+            {
+                if(pieces[i].playable == true)
+                {
+                    piecesPlayable.Add(i);
+                }
+            }
+
+            return piecesPlayable;
+        }
+
+        public static List<int> makePlayablePositionList(string[] gameBoard)
+        {
+            List<int> positionsPlayable = new List<int>();
+            for (int i = 0; i < QuartoSearchTree.MAXGAMEBOARD; i++)
+            {
+                if (gameBoard[i] == null)
+                {
+                    positionsPlayable.Add(i);
+                }
+            }
+            return positionsPlayable;
         }
     }
 }

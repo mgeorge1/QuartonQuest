@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 
 namespace AI
 {
@@ -6,8 +7,14 @@ namespace AI
     {
         public const int MAXGAMEBOARD = 16;
         public const int NULLPIECE = 55;
-        public int totalGamestates;
+        public static int totalGamestates;
         public Node finalMoveDesicion;
+
+        private static Node nodeToProcess;
+        private static Node parentOfNodeToProcess;
+        private static int pieceToProcess;
+        private static int currentMaxDepth;
+
         public class Node
         {
             public string[] gameBoard = new string[MAXGAMEBOARD];
@@ -24,6 +31,10 @@ namespace AI
             root = null;
         }
 
+       public static void AIThread()
+        {
+            generateChildrenGamestate(nodeToProcess, parentOfNodeToProcess, pieceToProcess, currentMaxDepth, 0);
+        }
         public moveData generateTree(string[] newGameBoard, int piece, Piece[] currentPieces)
         {
             totalGamestates = 0;
@@ -44,9 +55,18 @@ namespace AI
             piecesOnBoard = AIFunctions.countPiecesOnBoard(newGameBoard);
             maxDepth = AIFunctions.setTreeDepth(piecesOnBoard);
 
-            generateChildrenGamestate(currentNode, parentNode, piece, maxDepth, 0);
+            // Values stored for use within the thread function.
+            // Runs the tree generation on a seperate thread
+            nodeToProcess = currentNode;
+            parentOfNodeToProcess = parentNode;
+            pieceToProcess = piece;
+            currentMaxDepth = maxDepth;
+            Thread aiThread = new Thread(AIThread);
+            aiThread.Start();
+            aiThread.Join();
+            //generateChildrenGamestate(nodeToProcess, parentOfNodeToProcess, pieceToProcess, currentMaxDepth, 0);
 
-            winningMove move = NegaMax.searchForBestPlay(currentNode, maxDepth, 0, -MAXGAMEBOARD, MAXGAMEBOARD, false);
+            winningMove move = NegaMax.searchForBestPlay(currentNode, maxDepth, 0, -MAXGAMEBOARD, MAXGAMEBOARD, true);
 
             //Checks for win by opponent, given the piece chosen
             //If win it makes it equal to the next child and so on
@@ -73,7 +93,7 @@ namespace AI
         }
 
         // Generates all the moves that could possibly be made for a given gamestate and piece.
-        public void generateChildrenGamestate(Node currentNode, Node parentNode, int piece, int maxDepth, int depth)
+        public static void generateChildrenGamestate(Node currentNode, Node parentNode, int piece, int maxDepth, int depth)
         {
             int boardPosCount = 0;
             int childCount = 0;
@@ -113,7 +133,7 @@ namespace AI
         }
 
         // Generates all the piece selections that could possibly be made for a given gamestate.
-        public void generateChildrenPiece(Node currentNode, Node parentNode, int maxDepth, int depth)
+        public static void generateChildrenPiece(Node currentNode, Node parentNode, int maxDepth, int depth)
         {
             int pieceMapCount = 0;
             int childCount = 0;
