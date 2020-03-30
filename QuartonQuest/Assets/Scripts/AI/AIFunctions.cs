@@ -21,29 +21,6 @@ namespace AI
             recievingNode.pieces[pieceToFind].setPlayable(false);
         }
 
-        public static void printBoard(QuartoSearchTree.Node current)
-        {
-            for (int j = 0; j < QuartoSearchTree.MAXGAMEBOARD; j++)
-            {
-                if (current.gameBoard[j] != null)
-                {
-                    Console.Write(current.gameBoard[j]);
-                    Console.Write(" ");
-                }
-                else
-                    Console.Write("XX ");
-
-                if ((j + 1) % 4 == 0)
-                {
-                    Console.WriteLine();
-                }
-            }
-            Console.WriteLine();
-            Console.Write("Piece to Play: ");
-            Console.WriteLine(current.pieceToPlay);
-            Console.WriteLine();
-        }
-
         public static int countPiecesOnBoard(string[] gameBoard)
         {
             int pieceCount = 0;

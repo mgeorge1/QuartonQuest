@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 
 namespace AI
 {
@@ -31,10 +30,6 @@ namespace AI
             root = null;
         }
 
-       public static void AIThread()
-        {
-            generateChildrenGamestate(nodeToProcess, parentOfNodeToProcess, pieceToProcess, currentMaxDepth, 0);
-        }
         public moveData generateTree(string[] newGameBoard, int piece, Piece[] currentPieces)
         {
             totalGamestates = 0;
@@ -55,16 +50,7 @@ namespace AI
             piecesOnBoard = AIFunctions.countPiecesOnBoard(newGameBoard);
             maxDepth = AIFunctions.setTreeDepth(piecesOnBoard);
 
-            // Values stored for use within the thread function.
-            // Runs the tree generation on a seperate thread
-            nodeToProcess = currentNode;
-            parentOfNodeToProcess = parentNode;
-            pieceToProcess = piece;
-            currentMaxDepth = maxDepth;
-            Thread aiThread = new Thread(AIThread);
-            aiThread.Start();
-            aiThread.Join();
-            //generateChildrenGamestate(nodeToProcess, parentOfNodeToProcess, pieceToProcess, currentMaxDepth, 0);
+            generateChildrenGamestate(currentNode, parentNode, piece, maxDepth, 0);
 
             winningMove move = NegaMax.searchForBestPlay(currentNode, maxDepth, 0, -MAXGAMEBOARD, MAXGAMEBOARD, true);
 
@@ -72,14 +58,6 @@ namespace AI
             //If win it makes it equal to the next child and so on
             if (piecesOnBoard != 0 && move.winningNode.pieceToPlay != NULLPIECE)
                 move.winningNode = AIFunctions.checkForOpponentWin(move.winningNode);
-
-            Console.Write("Total moves generated: ");
-            Console.WriteLine(totalGamestates);
-            AIFunctions.printBoard(move.winningNode);
-            Console.WriteLine();
-            Console.Write("Heuristic of Final Node: ");
-            Console.Write(move.heuristicValue);
-            Console.WriteLine();
 
             // This is bad but it works.
             string pieceOnDeck = move.winningNode.pieceToPlay == NULLPIECE ?
@@ -173,36 +151,6 @@ namespace AI
                 }
                 pieceMapCount++;
             }
-        }
-
-        static void Main(string[] args)
-        {
-
-            QuartoSearchTree tree = new QuartoSearchTree();
-            string[] board = { "C1", null, null, null,
-                               "A4", null, null, "A3",
-                               "D3", "B2", null, null,
-                               "B1", "B3", "A2", "C2"
-                             };
-            Piece[] pieces = new Piece[MAXGAMEBOARD];
-            pieces[0].setValues("A1",  true);
-            pieces[1].setValues("A2",  false);
-            pieces[2].setValues("A3",  false);
-            pieces[3].setValues("A4", false);
-            pieces[4].setValues("B1", false);
-            pieces[5].setValues("B2",  false);
-            pieces[6].setValues("B3",  false);
-            pieces[7].setValues("B4",  true);
-            pieces[8].setValues("C1",  false);
-            pieces[9].setValues("C2", false);
-            pieces[10].setValues("C3", true);
-            pieces[11].setValues("C4", true);
-            pieces[12].setValues("D1", true);
-            pieces[13].setValues("D2", true);
-            pieces[14].setValues("D3", false);
-            pieces[15].setValues("D4", true);
-
-            tree.generateTree(board, 0, pieces);
         }
     }
     public struct Piece

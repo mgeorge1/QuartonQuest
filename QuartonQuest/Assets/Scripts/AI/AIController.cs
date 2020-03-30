@@ -2,29 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 using AI;
-
+using System.Threading.Tasks;
+using System.Threading;
 public class AIController : MonoBehaviour, IOpponent
 {
-    QuartoSearchTree quartoAI = new QuartoSearchTree();
+    static QuartoSearchTree quartoAI = new QuartoSearchTree();
     public Move NextMove { get; set; } = new Move();
     public bool IsMaster { get { return false; } }
 
     private const string EMPTYSLOT = "[]";
-    public IEnumerator WaitForPickFirstPiece()
-    {
-        // Change to pick random piece
-        int rand = Random.Range(0, GameCoreController.Instance.GetPlayablePiecesList().Count);
-        NextMove.OnDeckPiece = GameCoreController.Instance.NumberPieceMap[rand];
 
-        return null;
-    }
+    public static AI.moveData AIMoveData;
 
-    public IEnumerator WaitForTurn()
+    
+    public static void AIThreadProcedure()
     {
+        Debug.Log("AI thread is running...");
         string[,] board = GameCoreController.Instance.GetBoard();
         string[] newBoard = new string[board.Length];
         AI.Piece[] pieces = new AI.Piece[GameCoreController.Instance.PieceNumberMap.Count];
-        
 
         int newBoardCounter = 0;
 
@@ -38,9 +34,26 @@ public class AIController : MonoBehaviour, IOpponent
         }
         intitializeAiPieceList(GameCoreController.Instance.GetPlayablePiecesList(), ref pieces, GameCoreController.Instance.PieceNumberMap);
         string onDeckPiece = GameCoreController.Instance.OnDeckPiece;
-        AI.moveData moveData = quartoAI.generateTree(newBoard, GameCoreController.Instance.PieceNumberMap[onDeckPiece], pieces);
-        NextMove.OnDeckPiece = moveData.pieceToPlay;
-        NextMove.Tile = moveData.lastMoveOnBoard;
+        int pieceToFind = GameCoreController.Instance.PieceNumberMap[onDeckPiece];
+        AIMoveData = quartoAI.generateTree(newBoard, pieceToFind, pieces);
+    }
+
+    public IEnumerator WaitForPickFirstPiece()
+    {
+        // Change to pick random piece
+        int rand = Random.Range(0, GameCoreController.Instance.GetPlayablePiecesList().Count);
+        NextMove.OnDeckPiece = GameCoreController.Instance.NumberPieceMap[rand];
+        return null;
+    }
+
+    public IEnumerator WaitForTurn()
+    {
+        Task AITask = new Task(AIThreadProcedure);
+        AITask.Start();
+        AITask.Wait();
+
+        NextMove.OnDeckPiece = AIMoveData.pieceToPlay;
+        NextMove.Tile = AIMoveData.lastMoveOnBoard;
 
         return null; 
     }
@@ -49,9 +62,10 @@ public class AIController : MonoBehaviour, IOpponent
     void Start()
     {
         Debug.Log("AIController initiated");
+        
     }
 
-    private void intitializeAiPieceList(HashSet<string> gameCorePieceList, ref AI.Piece[] aiPieceList, Dictionary<string, int> PieceNumberMap)
+    private static void intitializeAiPieceList(HashSet<string> gameCorePieceList, ref AI.Piece[] aiPieceList, Dictionary<string, int> PieceNumberMap)
     {
         aiPieceList[0].setValues("A1", false);
         aiPieceList[1].setValues("A2", false);

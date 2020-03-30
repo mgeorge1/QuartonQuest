@@ -1,7 +1,7 @@
 ﻿using HeuristicCalculator;
-using UnityEngine;
 using System.Linq;
 using System.Collections.Generic;
+using System;
 
 namespace AI
 {
@@ -29,7 +29,7 @@ namespace AI
             // If only root in tree
             if (currentNode.parent == null && currentNode.children[0] == null)
             {
-                Debug.LogError("Search Failed: Tree only contains root");
+                
             }
 
             // Detects for win
@@ -202,17 +202,19 @@ namespace AI
         public static winningMove RandomPlay(winningMove winChoice)
         {
             int rand;
+            var rnd = new Random();
             List<int> playablePieces;
             List<int> playablePositions;
 
             if (winChoice.heuristicValue == 0)
             {
+                
                 playablePositions = AIFunctions.makePlayablePositionList(winChoice.winningNode.gameBoard);
-                rand = Random.Range(0, playablePositions.Count());
+                rand = rnd.Next(0, playablePositions.Count());
                 winChoice.winningNode.moveOnBoard = playablePositions[rand];
 
                 playablePieces = AIFunctions.makePlayablePiecesOnly(winChoice.winningNode.pieces);
-                rand = Random.Range(0, playablePieces.Count());
+                rand = rnd.Next(0, playablePositions.Count());
                 winChoice.winningNode.pieceToPlay = playablePieces[rand];
             }
 
