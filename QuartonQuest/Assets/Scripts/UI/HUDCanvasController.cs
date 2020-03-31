@@ -7,11 +7,13 @@ public class HUDCanvasController : MonoBehaviour
 {
     public TextMeshProUGUI TurnText;
     public GameObject HelpPanel;
+    public GameObject GameOverCanvas;
+    private GameOverCanvas gameOverCanvasScript;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        gameOverCanvasScript = GameOverCanvas.GetComponent<GameOverCanvas>();
     }
 
     // Update is called once per frame
@@ -34,8 +36,14 @@ public class HUDCanvasController : MonoBehaviour
             case GameCoreController.GameTurnState.PLAYERWON:
                 TurnText.text = "You won!";
                 break;
+            case GameCoreController.GameTurnState.OPPONENTFORFEIT:
+                TurnText.text = "You won!";
+                break;
             case GameCoreController.GameTurnState.OPPONENTWON:
                 TurnText.text = "Opponent Won";
+                break;
+            case GameCoreController.GameTurnState.PLAYERFORFEIT:
+                TurnText.text = "Opponent won!";
                 break;
             case GameCoreController.GameTurnState.GAMETIED:
                 TurnText.text = "Tie!";
@@ -49,5 +57,27 @@ public class HUDCanvasController : MonoBehaviour
             HelpPanel.SetActive(false);
         else
             HelpPanel.SetActive(true);
+    }
+
+    public void DisplayGameOverCanvas(string gameOverText)
+    {
+        gameOverCanvasScript.SetGameOverText(gameOverText);
+        GameOverCanvas.SetActive(true);
+    }
+
+    public void HideGameOverCanvas()
+    {
+        gameOverCanvasScript.HideRematchRequest();
+        GameOverCanvas.SetActive(false);
+    }
+
+    public void SetGameOverText(string newText)
+    {
+        gameOverCanvasScript.SetGameOverText(newText);
+    }
+
+    public void DisplayRematchRequest(string text)
+    {
+        gameOverCanvasScript.DisplayRematchRequest(text);
     }
 }

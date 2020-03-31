@@ -58,6 +58,33 @@ public class RPCController : MonoBehaviour
         messageReceived = true;
     }
 
+    [PunRPC]
+    void SendForfeit()
+    {
+        if (photonView.IsMine)
+            return;
+
+        Debug.Log("Received forfeit from opponent");
+        GameCoreController.Instance.CurrentTurn = GameCoreController.GameTurnState.OPPONENTFORFEIT;
+    }
+
+    [PunRPC]
+    void SendRematchRequest()
+    {
+        if (photonView.IsMine)
+            return;
+
+        Debug.Log("Received rematch request from opponent");
+        GameCoreController.Instance.RequestRematchFromPlayer();
+    }
+
+    [PunRPC]
+    void SendReloadSceneRequest()
+    {
+        Debug.Log("Received request to reload level");
+        NetworkController.Instance.ReloadGameScene();
+    }
+
     public IEnumerator WaitForTurn()
     {
         Debug.Log("Waiting for the opponent's turn to finish...");
@@ -95,5 +122,23 @@ public class RPCController : MonoBehaviour
         Debug.Log("Sending move");
         photonView.RPC("SendMove", RpcTarget.All, GameCoreController.Instance.LastTileClicked, GameCoreController.Instance.OnDeckPiece);
         return null;
+    }
+
+    public void Forfeit()
+    {
+        Debug.Log("Sending forfeit to opponent");
+        photonView.RPC("SendForfeit", RpcTarget.All);
+    }
+
+    public void RequestRematch()
+    {
+        Debug.Log("Sending rematch request");
+        photonView.RPC("SendRematchRequest", RpcTarget.All);
+    }
+    
+    public void ReplayGame()
+    {
+        Debug.Log("Sending replay game request");
+        photonView.RPC("SendReloadSceneRequest", RpcTarget.All);
     }
 }

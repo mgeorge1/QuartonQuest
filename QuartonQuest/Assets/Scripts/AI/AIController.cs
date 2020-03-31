@@ -106,4 +106,25 @@ public class AIController : MonoBehaviour, IOpponent
         // AI doesn't care what is in this function
         // It will get the board state later
     }
+
+    public void SendForfeit()
+    {
+        //Ignore forfeit in the AI
+    }
+
+    public void RequestRematch()
+    {
+        GameCoreController.Instance.ResetGameScene();
+    }
+
+    public IEnumerator Disconnect()
+    {
+        // Possibly end thread execution here
+        return null;
+    }
+
+    public void ReplayGame()
+    {
+        // AI ignores this for now
+    }
 }

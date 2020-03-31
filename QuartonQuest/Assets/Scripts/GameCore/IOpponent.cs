@@ -8,8 +8,12 @@ public interface IOpponent
     void SendFirstTurn(GameCoreController.GameTurnState turn);
     void SendFirstMove();
     void SendMove();
+    void SendForfeit();
+    void RequestRematch();
+    void ReplayGame();
     IEnumerator WaitForTurn();
     IEnumerator WaitForPickFirstPiece();
+    IEnumerator Disconnect();
 }
 
 public class Move

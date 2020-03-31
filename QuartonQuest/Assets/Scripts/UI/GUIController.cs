@@ -9,7 +9,7 @@ public class GUIController : MonoBehaviorSingleton<GUIController>
 {
     [SerializeField] public bool IsNetworkedGame = false;
     public bool IsPlayerFirst = true;
-    public GameObject PlayerForfeitedCanvas;
+    public GameObject HUDCanvas;
     public GameObject OpponentControllerObject;
     private IOpponent OpponentController;
 
@@ -27,6 +27,14 @@ public class GUIController : MonoBehaviorSingleton<GUIController>
             Debug.Log("Setting PlayerGoesFirst");
             playerDidSelectTurn = true;
             playerGoesFirst = value;
+        }
+    }
+
+    public string CurrentScene
+    {
+        get
+        {
+            return SceneManager.GetActiveScene().name;
         }
     }
 
@@ -81,6 +89,8 @@ public class GUIController : MonoBehaviorSingleton<GUIController>
         else
             AttachAIController();
 
+        GameCoreController.Instance.GameOver += GameOver;
+
         Debug.Log("PlayerDidSelectTurn = " + playerDidSelectTurn);
         if (playerDidSelectTurn)
         {
@@ -106,15 +116,61 @@ public class GUIController : MonoBehaviorSingleton<GUIController>
         GameCoreController.Instance.Opponent = OpponentControllerObject.GetComponent<IOpponent>();
     }
 
-    public void DisplayPlayerForfeitedCanvas(string playerName)
+    public void GameOver()
     {
-        if (PlayerForfeitedCanvas != null)
+        Debug.Log("GameOver from the GUIController");
+        if (HUDCanvas != null)
         {
-            PlayerForfeitedCanvas script = PlayerForfeitedCanvas.GetComponent<PlayerForfeitedCanvas>();
-            script.SetPlayerName(playerName);
-            PlayerForfeitedCanvas.SetActive(true);
-            GameCoreController.Instance.CurrentTurn = GameCoreController.GameTurnState.PLAYERWON;
+            string gameOverText = GetGameOverText();
+            HUDCanvasController script = HUDCanvas.GetComponent<HUDCanvasController>();
+            script.DisplayGameOverCanvas(gameOverText);
         }
+    }
+
+    public void ReloadCurrentScene()
+    {
+        Debug.Log("Reloading current scene");
+        Scene scene = SceneManager.GetActiveScene();
+        LoadScene(scene.name);
+    }
+
+    string GetGameOverText()
+    {
+        switch (GameCoreController.Instance.CurrentTurn)
+        {
+            case GameCoreController.GameTurnState.PLAYERWON:
+                return "You won!";
+            case GameCoreController.GameTurnState.OPPONENTFORFEIT:
+                return "You won!";
+            case GameCoreController.GameTurnState.OPPONENTWON:
+                return "Opponent Won";
+            case GameCoreController.GameTurnState.PLAYERFORFEIT:
+                return "Opponent won!";
+            case GameCoreController.GameTurnState.GAMETIED:
+                return "Tie!";
+            default:
+                throw new System.Exception("Invalid end game state");
+        }
+    }
+
+    public void RequestRematchFromOpponent()
+    {
+        Debug.Log("Requesting rematch from opponent in the GUIController");
+        GameCoreController.Instance.RequestRematchFromOpponent();
+        HUDCanvasController script = HUDCanvas.GetComponent<HUDCanvasController>();
+
+        // This string should have the opponent's name in it. 
+        // Or maybe this should be a whole different panel.
+        script.DisplayGameOverCanvas("Requesting rematch from opponent...");
+    }
+
+    public void RequestRematchFromPlayer()
+    {
+        Debug.Log("Requesting rematch from player in the GUIController");
+        HUDCanvasController script = HUDCanvas.GetComponent<HUDCanvasController>();
+
+        // This string should have the opponents name in it
+        script.DisplayRematchRequest("Opponent would like a rematch");
     }
 
     public void LoadScene(string sceneName)

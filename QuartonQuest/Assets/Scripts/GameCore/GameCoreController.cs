@@ -18,6 +18,8 @@ public class GameCoreController : MonoBehaviour
             return (
                 CurrentTurn == GameTurnState.PLAYERWON ||
                 CurrentTurn == GameTurnState.OPPONENTWON ||
+                CurrentTurn == GameTurnState.PLAYERFORFEIT ||
+                CurrentTurn == GameTurnState.OPPONENTFORFEIT ||
                 CurrentTurn == GameTurnState.GAMETIED
             );
         }
@@ -30,7 +32,8 @@ public class GameCoreController : MonoBehaviour
                 CurrentTurn == GameTurnState.PLAYER || 
                 CurrentTurn == GameTurnState.PLAYERCHOOSEPIECE ||
                 CurrentTurn == GameTurnState.PLAYERCHOOSETILE ||
-                CurrentTurn == GameTurnState.PLAYERDONE
+                CurrentTurn == GameTurnState.PLAYERDONE ||
+                CurrentTurn == GameTurnState.OPPONENTFORFEIT
             );
         }
     }
@@ -57,20 +60,38 @@ public class GameCoreController : MonoBehaviour
     }
 
     private GameCoreModel model = new GameCoreModel();
+    public delegate void GameOverListener();
+    public event GameOverListener GameOver;
     private const string NOSELECTION = "";
     public enum GameTurnState { 
         NONE, 
         PLAYER, 
         OPPONENT, 
         PLAYERWON, 
-        OPPONENTWON, 
+        OPPONENTWON,
+        PLAYERFORFEIT,
+        OPPONENTFORFEIT,
         GAMEWON, 
         GAMETIED, 
         PLAYERDONE, 
         PLAYERCHOOSEPIECE, 
         PLAYERCHOOSETILE 
     };
-    public GameTurnState CurrentTurn { get; set; } = GameTurnState.NONE;
+
+    private GameTurnState currentTurn = GameTurnState.NONE;
+    public GameTurnState CurrentTurn
+    {
+        get
+        {
+            return currentTurn;
+        }
+        set
+        {
+            currentTurn = value;
+            if (IsGameOver)
+                GameOver?.Invoke();
+        }
+    }
 
     public void Awake()
     {
@@ -82,7 +103,7 @@ public class GameCoreController : MonoBehaviour
         GameCoreModel.GameWon += GameOverState;
     }
 
-    void ResetGame()
+    void ResetGameData()
     {
         model.NewGame();
         DisableTiles();
@@ -99,7 +120,7 @@ public class GameCoreController : MonoBehaviour
 
     public IEnumerator PlayGame()
     {
-        ResetGame();
+        ResetGameData();
 
         if (CurrentTurn == GameTurnState.NONE)
             yield return StartCoroutine(PickFirstTurn());
@@ -227,6 +248,8 @@ public class GameCoreController : MonoBehaviour
             Debug.Log("GAME HAS TIED");
             CurrentTurn = GameTurnState.GAMETIED;
         }
+
+        GameOver?.Invoke();
     }
 
     public void SwapTurn()
@@ -274,6 +297,38 @@ public class GameCoreController : MonoBehaviour
 
         if (!IsGameOver)
             CurrentTurn = GameTurnState.PLAYERCHOOSEPIECE;
+    }
+
+    public void Forfeit()
+    {
+        Opponent.SendForfeit();
+        CurrentTurn = GameTurnState.PLAYERFORFEIT;
+    }
+
+    public void RequestRematchFromOpponent()
+    {
+        Opponent.RequestRematch();
+    }
+
+    public void RequestRematchFromPlayer()
+    {
+        GUIController.Instance.RequestRematchFromPlayer();
+    }
+
+    public IEnumerator Disconnect()
+    {
+        yield return Opponent.Disconnect();
+    }
+
+    public void ResetGameScene()
+    {
+        ResetGameData();
+        GUIController.Instance.ReloadCurrentScene();
+    }
+
+    public void ReplayGame()
+    {
+        Opponent.ReplayGame();
     }
 
     public string[,] GetBoard()

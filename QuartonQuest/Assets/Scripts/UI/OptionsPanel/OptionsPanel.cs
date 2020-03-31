@@ -42,20 +42,12 @@ public class OptionsPanel : MonoBehaviour
         // Time.timeScale = 1f;
     }
 
-    public void QuitMatch()
+    public void ForfeitButtonClicked()
     {
-        StartCoroutine(QuitMatchCoroutine());
-    }
-
-    private IEnumerator QuitMatchCoroutine()
-    {
-        Debug.Log("Quitting match...");
-        if (GUIController.Instance.IsNetworkedGame)
-        {
-            yield return StartCoroutine(NetworkController.Instance.Disconnect());
-        }
+        Debug.Log("Forfeiting match...");
+        GameCoreController.Instance.Forfeit();
         ClosePanel();
-        SceneManager.LoadScene("MainMenuScene");
+        GUIController.Instance.GameOver();
     }
 
     public void QuitGame()

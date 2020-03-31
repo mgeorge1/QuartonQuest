@@ -9,7 +9,6 @@ public class NetworkController : MonoBehaviorPunSingleton<NetworkController>, IO
 {
     private RPCController rpcController;
     private static bool messageReceived = false;
-    public delegate void DisconnectedCallback();
     public Move NextMove
     {
         get
@@ -60,18 +59,42 @@ public class NetworkController : MonoBehaviorPunSingleton<NetworkController>, IO
         rpcController.SendMove();
     }
 
-    public IEnumerator Disconnect(DisconnectedCallback callback = null)
+    public void SendForfeit()
+    {
+        rpcController.Forfeit();
+    }
+
+    public void RequestRematch()
+    {
+        rpcController.RequestRematch();
+    }
+
+    public IEnumerator Disconnect()
     {
         PhotonNetwork.Disconnect();
         while (PhotonNetwork.IsConnected)
             yield return null;
-
-        callback?.Invoke();
+        Debug.Log("Disconnected from the PhotonNetwork");
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         Debug.Log("Player " + otherPlayer.NickName + " has left the room.");
-        GUIController.Instance.DisplayPlayerForfeitedCanvas(otherPlayer.NickName);
+        //GUIController.Instance.DisplayGameOverCanvas(otherPlayer.NickName);
+    }
+
+    public void ReplayGame()
+    {
+        rpcController.ReplayGame();
+    }
+
+    public void ReloadGameScene()
+    {
+        // Normally, only the master should be able to run
+        // this. There is no guard here because when a rematch
+        // is requested, every client needs to reload the scene
+        // themselves. Photon clients seem to ignore the master
+        // when it reloads the exact same scene
+        PhotonNetwork.LoadLevel(GUIController.Instance.CurrentScene);
     }
 }

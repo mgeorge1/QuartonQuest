@@ -5682,6 +5682,11 @@ PrefabInstance:
       propertyPath: OpponentControllerObject
       value: 
       objectReference: {fileID: 321082948}
+    - target: {fileID: 7351229049958445368, guid: 2ec08724dc95ce541b911fec398b2563,
+        type: 3}
+      propertyPath: HUDCanvas
+      value: 
+      objectReference: {fileID: 1967237983}
     - target: {fileID: 7351229049958445369, guid: 2ec08724dc95ce541b911fec398b2563,
         type: 3}
       propertyPath: m_Name
@@ -9547,7 +9552,7 @@ PrefabInstance:
     - target: {fileID: 128981115967825022, guid: c2e71f4e477c70e49a3869bf04fa257f,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 235.20001
+      value: 235.20197
       objectReference: {fileID: 0}
     - target: {fileID: 128981116981610417, guid: c2e71f4e477c70e49a3869bf04fa257f,
         type: 3}
@@ -9661,6 +9666,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c2e71f4e477c70e49a3869bf04fa257f, type: 3}
+--- !u!1 &1967237983 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 128981116981610421, guid: c2e71f4e477c70e49a3869bf04fa257f,
+    type: 3}
+  m_PrefabInstance: {fileID: 1967237982}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1994398635 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: 6f26150247cd67248ab81618d9c76324,
