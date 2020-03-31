@@ -15,7 +15,7 @@ public class AIController : MonoBehaviour, IOpponent
     public static AI.moveData AIMoveData;
 
     
-    public static void AIThreadProcedure()
+    public IEnumerator AIThreadProcedure()
     {
         Debug.Log("AI thread is running...");
         string[,] board = GameCoreController.Instance.GetBoard();
@@ -32,10 +32,17 @@ public class AIController : MonoBehaviour, IOpponent
                 newBoardCounter++;
             }
         }
+
         intitializeAiPieceList(GameCoreController.Instance.GetPlayablePiecesList(), ref pieces, GameCoreController.Instance.PieceNumberMap);
+
         string onDeckPiece = GameCoreController.Instance.OnDeckPiece;
         int pieceToFind = GameCoreController.Instance.PieceNumberMap[onDeckPiece];
-        AIMoveData = quartoAI.generateTree(newBoard, pieceToFind, pieces);
+        Task<AI.moveData> AITask = Task.Run(() => quartoAI.generateTree(newBoard, pieceToFind, pieces));
+
+        while (AITask.Status != TaskStatus.RanToCompletion)
+            yield return null;
+
+        AIMoveData = AITask.Result;
     }
 
     public IEnumerator WaitForPickFirstPiece()
@@ -48,14 +55,10 @@ public class AIController : MonoBehaviour, IOpponent
 
     public IEnumerator WaitForTurn()
     {
-        Task AITask = new Task(AIThreadProcedure);
-        AITask.Start();
-        AITask.Wait();
+        yield return AIThreadProcedure();
 
         NextMove.OnDeckPiece = AIMoveData.pieceToPlay;
         NextMove.Tile = AIMoveData.lastMoveOnBoard;
-
-        return null; 
     }
 
     // Start is called before the first frame update
