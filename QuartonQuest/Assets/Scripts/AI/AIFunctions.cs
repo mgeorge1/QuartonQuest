@@ -37,17 +37,13 @@ namespace AI
         public static int setTreeDepth(int piecesOnBoard)
         {
             int newDepth = 1;
-            if (piecesOnBoard == 1)
+            if (piecesOnBoard >= 2 && piecesOnBoard <= 4)
+                newDepth = 3;
+            else if (piecesOnBoard == 5)
                 newDepth = 4;
-            else if (piecesOnBoard >= 2 && piecesOnBoard <= 5)
+            else if (piecesOnBoard >= 6)
                 newDepth = 5;
-            else if (piecesOnBoard >= 6 && piecesOnBoard <= 7)
-                newDepth = 6;
-            else if (piecesOnBoard == 8)
-                newDepth = 7;
-            else if (piecesOnBoard == 9)
-                newDepth = 8;
-            else if (piecesOnBoard > 9)
+            else if (piecesOnBoard > 7)
                 newDepth = 14;
 
             return newDepth;

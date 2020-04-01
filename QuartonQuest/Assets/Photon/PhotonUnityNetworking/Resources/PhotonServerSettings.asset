@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PhotonServerSettings
   m_EditorClassIdentifier: 
   AppSettings:
-    AppIdRealtime: 189f28fa-c582-4ffa-bd9d-19cfb073ffb0
+    AppIdRealtime: 
     AppIdChat: 
     AppIdVoice: 
     AppVersion: 
@@ -31,13 +31,11 @@ MonoBehaviour:
   RpcList:
   - ClickRpc
   - DestroyRpc
+  - SendForfeit
   - SendMove
+  - SendReloadSceneRequest
+  - SendRematchRequest
   - SetCurrentTurn
   - SetOnDeckPiece
-  - SendForfeit
-  - SendRematchRequest
-  - SendReplayRequestToMaster
-  - SendRelodSceneRequest
-  - SendReloadSceneRequest
   DisableAutoOpenWizard: 1
   ShowSettings: 0

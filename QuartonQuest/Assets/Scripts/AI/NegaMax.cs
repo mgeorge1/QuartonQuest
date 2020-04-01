@@ -210,11 +210,11 @@ namespace AI
             {
                 
                 playablePositions = AIFunctions.makePlayablePositionList(winChoice.winningNode.gameBoard);
-                rand = rnd.Next(0, playablePositions.Count());
+                rand = rnd.Next(0, playablePositions.Count() - 1);
                 winChoice.winningNode.moveOnBoard = playablePositions[rand];
 
                 playablePieces = AIFunctions.makePlayablePiecesOnly(winChoice.winningNode.pieces);
-                rand = rnd.Next(0, playablePositions.Count());
+                rand = rnd.Next(0, playablePositions.Count() - 1);
                 winChoice.winningNode.pieceToPlay = playablePieces[rand];
             }
 
