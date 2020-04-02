@@ -9,6 +9,7 @@ public class HUDCanvasController : MonoBehaviour
     public GameObject HelpPanel;
     public GameObject GameOverCanvas;
     private GameOverCanvas gameOverCanvasScript;
+    public string OpponentName;
 
     // Start is called before the first frame update
     void Start()
@@ -19,35 +20,31 @@ public class HUDCanvasController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        TurnText.text = DecideTurnText();
+    }
+
+    public string DecideTurnText()
+    {
         switch (GameCoreController.Instance.CurrentTurn)
         {
             case GameCoreController.GameTurnState.PLAYER:
-                TurnText.text = "Your Turn";
-                break;
+                return $"Your Turn";
             case GameCoreController.GameTurnState.PLAYERCHOOSEPIECE:
-                TurnText.text = "Select a piece";
-                break;
+                return "Select a piece";
             case GameCoreController.GameTurnState.PLAYERCHOOSETILE:
-                TurnText.text = "Select a tile";
-                break;
+                return "Select a tile";
             case GameCoreController.GameTurnState.OPPONENT:
-                TurnText.text = "Opponent's Turn";
-                break;
+                return $"{OpponentName}'s Turn";
             case GameCoreController.GameTurnState.PLAYERWON:
-                TurnText.text = "You won!";
-                break;
             case GameCoreController.GameTurnState.OPPONENTFORFEIT:
-                TurnText.text = "You won!";
-                break;
+                return $"You won!";
             case GameCoreController.GameTurnState.OPPONENTWON:
-                TurnText.text = "Opponent Won";
-                break;
-            case GameCoreController.GameTurnState.PLAYERFORFEIT:
-                TurnText.text = "Opponent won!";
-                break;
+            case GameCoreController.GameTurnState.PLAYERFORFEIT:   
+                return $"{OpponentName} won!";
             case GameCoreController.GameTurnState.GAMETIED:
-                TurnText.text = "Tie!";
-                break;
+                return "Tie!";
+            default:
+                return null;
         }
     }
 
@@ -59,8 +56,12 @@ public class HUDCanvasController : MonoBehaviour
             HelpPanel.SetActive(true);
     }
 
-    public void DisplayGameOverCanvas(string gameOverText)
+    public void DisplayGameOverCanvas(string gameOverText = null)
     {
+        if (gameOverText == null)
+        {
+            gameOverText = DecideTurnText();
+        }
         gameOverCanvasScript.SetGameOverText(gameOverText);
         GameOverCanvas.SetActive(true);
     }
@@ -76,8 +77,8 @@ public class HUDCanvasController : MonoBehaviour
         gameOverCanvasScript.SetGameOverText(newText);
     }
 
-    public void DisplayRematchRequest(string text)
+    public void DisplayRematchRequest()
     {
-        gameOverCanvasScript.DisplayRematchRequest(text);
+        gameOverCanvasScript.DisplayRematchRequest($"{OpponentName} has requested a rematch");
     }
 }

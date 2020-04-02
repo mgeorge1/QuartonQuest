@@ -7,6 +7,14 @@ using Photon.Realtime;
 
 public class NetworkController : MonoBehaviorPunSingleton<NetworkController>, IOpponent
 {
+    public string PlayerName
+    {
+        get
+        {
+            return PhotonNetwork.NickName;
+        }
+    }
+    public static string OpponentName = "";
     private RPCController rpcController;
     private static bool messageReceived = false;
     public Move NextMove

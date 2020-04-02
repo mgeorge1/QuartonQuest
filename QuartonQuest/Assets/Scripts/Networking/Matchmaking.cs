@@ -118,9 +118,10 @@ namespace Networking
                     rooms.Add(roomInfo.Name, newItem);
                     controller.RoomId = roomInfo.Name;
                     Debug.Log(roomInfo.CustomProperties[MASTERPLAYERNAMEPROPERTY]);
-                    controller.MasterPlayerName = roomInfo.CustomProperties[MASTERPLAYERNAMEPROPERTY].ToString();
+                    string opponent = roomInfo.CustomProperties[MASTERPLAYERNAMEPROPERTY].ToString();
+                    controller.MasterPlayerName = opponent;
                     controller.buttonText.text = controller.MasterPlayerName;
-                    controller.button.onClick.AddListener(delegate { OnRoomButtonClicked(roomInfo.Name); });
+                    controller.button.onClick.AddListener(delegate { OnRoomButtonClicked(roomInfo.Name, opponent); });
                 }
             }
         }
@@ -161,8 +162,9 @@ namespace Networking
             Destroy(item);
         }
 
-        public void OnRoomButtonClicked(string roomId)
+        public void OnRoomButtonClicked(string roomId, string opponentName)
         {
+            NetworkController.OpponentName = opponentName;
             PhotonNetwork.JoinRoom(roomId);
         }
 
@@ -196,8 +198,6 @@ namespace Networking
             }
         }
 
-        
-
         public override void OnCreatedRoom()
         {
             Debug.Log("Room " + PhotonNetwork.CurrentRoom.Name + " created.");
@@ -224,7 +224,8 @@ namespace Networking
             }
             else
             {
-                waitingStatus.text = "Opponent Found";
+                string opponent = PhotonNetwork.CurrentRoom.CustomProperties[MASTERPLAYERNAMEPROPERTY].ToString();
+                waitingStatus.text = "Opponent Found: " + opponent;
                 Debug.Log("Match is ready to begin");
             }
         }
@@ -243,11 +244,13 @@ namespace Networking
             {
                 PhotonNetwork.CurrentRoom.IsOpen = false;
 
-                waitingStatus.text = "Opponent Found";
-                Debug.Log("Match is ready to begin");
+                waitingStatus.text = "Opponent Found: " + newPlayer.NickName;
+                Debug.Log("Match is ready to begin with " + newPlayer.NickName);
+
+                NetworkController.OpponentName = newPlayer.NickName;
 
                 if (PhotonNetwork.IsMasterClient)
-                    PhotonNetwork.LoadLevel("NetGameScene");
+                    PhotonNetwork.LoadLevel(GUIController.SceneNames.NetworkGame);
             }
         }
     }

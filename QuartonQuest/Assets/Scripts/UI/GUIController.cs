@@ -107,6 +107,9 @@ public class GUIController : MonoBehaviorSingleton<GUIController>
         Debug.Log(NetworkController.Instance);
         NetworkController.Instance.InstantiateRPCController();
         GameCoreController.Instance.Opponent = NetworkController.Instance;
+
+        HUDCanvasController script = HUDCanvas.GetComponent<HUDCanvasController>();
+        script.OpponentName = NetworkController.OpponentName;
     }
 
     void AttachAIController()
@@ -115,6 +118,9 @@ public class GUIController : MonoBehaviorSingleton<GUIController>
         OpponentControllerObject.AddComponent(typeof(AIController));
         OpponentControllerObject.name = typeof(AIController).ToString();
         GameCoreController.Instance.Opponent = OpponentControllerObject.GetComponent<IOpponent>();
+
+        HUDCanvasController script = HUDCanvas.GetComponent<HUDCanvasController>();
+        script.OpponentName = "Opponent";
     }
 
     public void GameOver()
@@ -122,9 +128,8 @@ public class GUIController : MonoBehaviorSingleton<GUIController>
         Debug.Log("GameOver from the GUIController");
         if (HUDCanvas != null)
         {
-            string gameOverText = GetGameOverText();
             HUDCanvasController script = HUDCanvas.GetComponent<HUDCanvasController>();
-            script.DisplayGameOverCanvas(gameOverText);
+            script.DisplayGameOverCanvas();
         }
     }
 
@@ -135,25 +140,6 @@ public class GUIController : MonoBehaviorSingleton<GUIController>
         LoadScene(scene.name);
     }
 
-    string GetGameOverText()
-    {
-        switch (GameCoreController.Instance.CurrentTurn)
-        {
-            case GameCoreController.GameTurnState.PLAYERWON:
-                return "You won!";
-            case GameCoreController.GameTurnState.OPPONENTFORFEIT:
-                return "You won!";
-            case GameCoreController.GameTurnState.OPPONENTWON:
-                return "Opponent Won";
-            case GameCoreController.GameTurnState.PLAYERFORFEIT:
-                return "Opponent won!";
-            case GameCoreController.GameTurnState.GAMETIED:
-                return "Tie!";
-            default:
-                throw new System.Exception("Invalid end game state");
-        }
-    }
-
     public void RequestRematchFromOpponent()
     {
         Debug.Log("Requesting rematch from opponent in the GUIController");
@@ -162,7 +148,7 @@ public class GUIController : MonoBehaviorSingleton<GUIController>
 
         // This string should have the opponent's name in it. 
         // Or maybe this should be a whole different panel.
-        script.DisplayGameOverCanvas("Requesting rematch from opponent...");
+        script.DisplayGameOverCanvas($"Requesting rematch from {script.OpponentName}...");
     }
 
     public void RequestRematchFromPlayer()
@@ -171,7 +157,7 @@ public class GUIController : MonoBehaviorSingleton<GUIController>
         HUDCanvasController script = HUDCanvas.GetComponent<HUDCanvasController>();
 
         // This string should have the opponents name in it
-        script.DisplayRematchRequest("Opponent would like a rematch");
+        script.DisplayRematchRequest();
     }
 
     public void LoadScene(string sceneName)
