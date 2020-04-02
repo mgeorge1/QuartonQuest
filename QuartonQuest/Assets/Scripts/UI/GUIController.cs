@@ -11,6 +11,7 @@ public class GUIController : MonoBehaviorSingleton<GUIController>
     public bool IsPlayerFirst = true;
     public GameObject HUDCanvas;
     public GameObject OpponentControllerObject;
+    public GameObject ErrorCanvas;
     private IOpponent OpponentController;
 
     private static bool playerGoesFirst = true;
@@ -176,5 +177,12 @@ public class GUIController : MonoBehaviorSingleton<GUIController>
     public void LoadScene(string sceneName)
     {
         SceneManager.LoadScene(sceneName);
+    }
+
+    public void DisplayErrorCanvas(string errorText)
+    {
+        ErrorCanvas script = ErrorCanvas.GetComponent<ErrorCanvas>();
+        script.SetErrorText(errorText);
+        ErrorCanvas.SetActive(true);
     }
 }

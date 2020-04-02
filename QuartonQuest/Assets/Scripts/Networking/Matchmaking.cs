@@ -196,6 +196,8 @@ namespace Networking
             }
         }
 
+        
+
         public override void OnCreatedRoom()
         {
             Debug.Log("Room " + PhotonNetwork.CurrentRoom.Name + " created.");
@@ -207,11 +209,6 @@ namespace Networking
             Debug.LogError("Creating room failed. Trying again...");
             waitingStatus.text = "Creating room failed. Trying again...";
             CreateRoom();
-        }
-
-        public override void OnDisconnected(DisconnectCause cause)
-        {
-            Debug.Log($"Disconnected due to: {cause}");
         }
 
         public override void OnJoinedRoom()
@@ -230,6 +227,12 @@ namespace Networking
                 waitingStatus.text = "Opponent Found";
                 Debug.Log("Match is ready to begin");
             }
+        }
+
+        public override void OnJoinRoomFailed(short returnCode, string message)
+        {
+            base.OnJoinRoomFailed(returnCode, message);
+            Debug.Log("Client failed to join the room");
         }
 
         public override void OnPlayerEnteredRoom(Player newPlayer)

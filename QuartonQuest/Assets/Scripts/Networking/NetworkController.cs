@@ -97,4 +97,23 @@ public class NetworkController : MonoBehaviorPunSingleton<NetworkController>, IO
         // when it reloads the exact same scene
         PhotonNetwork.LoadLevel(GUIController.Instance.CurrentScene);
     }
+
+    #region PhotonCallbacks
+    public override void OnDisconnected(DisconnectCause cause)
+    {
+        Debug.Log($"Disconnected due to: {cause}");
+        switch (cause)
+        {
+            case DisconnectCause.ExceptionOnConnect:
+                GUIController.Instance.DisplayErrorCanvas("Could not connect to multiplayer");
+                break;
+            case DisconnectCause.DisconnectByClientLogic:
+                // Don't do anything, probably happened on purpose
+                break;
+            default:
+                GUIController.Instance.DisplayErrorCanvas($"Disconnected from multiplayer{System.Environment.NewLine}Try again later");
+                break;
+        }
+    }
+    #endregion PhotonCallbacks
 }
