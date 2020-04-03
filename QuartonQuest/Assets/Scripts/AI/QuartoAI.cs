@@ -1,4 +1,4 @@
-﻿using System;
+﻿using HashFunction;
 
 namespace AI
 {
@@ -32,6 +32,11 @@ namespace AI
 
         public moveData generateTree(string[] newGameBoard, int piece, Piece[] currentPieces)
         {
+            // hashing function would go here
+            // Followed by a lookup in the transposition table
+            //HashFunction.ZobristHash zash = new HashFunction.ZobristHash();
+            //zash.init_zobristHash();
+
             totalGamestates = 0;
             int piecesOnBoard;
             int maxDepth;
