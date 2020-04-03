@@ -117,8 +117,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 128981115444329776}
   m_HandleRect: {fileID: 128981115444329777}
   m_Direction: 2
-  m_Value: -0.00000084338524
-  m_Size: 0.21599996
+  m_Value: 0.000000064875785
+  m_Size: 0.21598382
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -497,7 +497,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 235.20015}
+  m_AnchoredPosition: {x: 0, y: 235.19998}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &128981115978964842
@@ -864,6 +864,7 @@ MonoBehaviour:
   TurnText: {fileID: 4006257269412972265}
   HelpPanel: {fileID: 4479235513524871582}
   GameOverCanvas: {fileID: 8050359390926816841}
+  OpponentName: 
 --- !u!1 &128981117027590534
 GameObject:
   m_ObjectHideFlags: 0
@@ -1072,8 +1073,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: Turn
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: c16648edb8ae60442b7c24cc8e9e07cb, type: 2}
+  m_sharedMaterial: {fileID: -7185469534786823028, guid: c16648edb8ae60442b7c24cc8e9e07cb,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

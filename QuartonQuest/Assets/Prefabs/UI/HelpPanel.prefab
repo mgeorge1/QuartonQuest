@@ -67,8 +67,9 @@ MonoBehaviour:
     in common. This can be done either horizontally, vertically, or diagonally. \r\n\r\n(Need
     image here of a possible winning state with our pieces and gameboard)\r\n"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 191de16211df45642a24d5a939b73281, type: 2}
+  m_sharedMaterial: {fileID: -848960477365117521, guid: 191de16211df45642a24d5a939b73281,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -305,8 +306,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: How to Play Quarto
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: c16648edb8ae60442b7c24cc8e9e07cb, type: 2}
+  m_sharedMaterial: {fileID: -7185469534786823028, guid: c16648edb8ae60442b7c24cc8e9e07cb,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -460,8 +462,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: Game Play
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 191de16211df45642a24d5a939b73281, type: 2}
+  m_sharedMaterial: {fileID: -848960477365117521, guid: 191de16211df45642a24d5a939b73281,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -618,8 +621,9 @@ MonoBehaviour:
     on an unoccupied board slot and select another piece to be used by the first
     player. This process continues until the game is won.
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 191de16211df45642a24d5a939b73281, type: 2}
+  m_sharedMaterial: {fileID: -848960477365117521, guid: 191de16211df45642a24d5a939b73281,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -775,8 +779,9 @@ MonoBehaviour:
     of the same 4 qualities. Those qualities are: \n\n\tHeight (tall or short)\r\n\tColor
     \r\n\tShape (round or squared)\r\n\tFill (hollow-top or solid-top) "
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 191de16211df45642a24d5a939b73281, type: 2}
+  m_sharedMaterial: {fileID: -848960477365117521, guid: 191de16211df45642a24d5a939b73281,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -818,7 +823,7 @@ MonoBehaviour:
   m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
-  m_firstOverflowCharacterIndex: -1
+  m_firstOverflowCharacterIndex: 186
   m_linkedTextComponent: {fileID: 0}
   m_isLinkedTextComponent: 0
   m_isTextTruncated: 0
@@ -932,8 +937,9 @@ MonoBehaviour:
 
 '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 191de16211df45642a24d5a939b73281, type: 2}
+  m_sharedMaterial: {fileID: -848960477365117521, guid: 191de16211df45642a24d5a939b73281,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1091,8 +1097,9 @@ MonoBehaviour:
     line. \r\n\r\nA game can be a tie when a line of four pieces with at least one
     shared characteristic never occurs. \r\n"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 191de16211df45642a24d5a939b73281, type: 2}
+  m_sharedMaterial: {fileID: -848960477365117521, guid: 191de16211df45642a24d5a939b73281,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1134,7 +1141,7 @@ MonoBehaviour:
   m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
-  m_firstOverflowCharacterIndex: -1
+  m_firstOverflowCharacterIndex: 293
   m_linkedTextComponent: {fileID: 0}
   m_isLinkedTextComponent: 0
   m_isTextTruncated: 0
@@ -1246,8 +1253,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: Object of the Game
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 191de16211df45642a24d5a939b73281, type: 2}
+  m_sharedMaterial: {fileID: -848960477365117521, guid: 191de16211df45642a24d5a939b73281,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1401,8 +1409,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: Board and Pieces
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 191de16211df45642a24d5a939b73281, type: 2}
+  m_sharedMaterial: {fileID: -848960477365117521, guid: 191de16211df45642a24d5a939b73281,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1591,7 +1600,7 @@ PrefabInstance:
     - target: {fileID: 6690656162816654865, guid: bf2169c813a08cc4c8097b2f6264b699,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -468
+      value: -475
       objectReference: {fileID: 0}
     - target: {fileID: 6690656162816654865, guid: bf2169c813a08cc4c8097b2f6264b699,
         type: 3}

@@ -141,8 +141,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: Player has left
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: c16648edb8ae60442b7c24cc8e9e07cb, type: 2}
+  m_sharedMaterial: {fileID: -7185469534786823028, guid: c16648edb8ae60442b7c24cc8e9e07cb,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -238,12 +239,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4964916011837308675}
     m_Modifications:
-    - target: {fileID: 6690656162424181770, guid: bf2169c813a08cc4c8097b2f6264b699,
-        type: 3}
-      propertyPath: m_fontAsset
-      value: 
-      objectReference: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee,
-        type: 2}
     - target: {fileID: 6690656162424181770, guid: bf2169c813a08cc4c8097b2f6264b699,
         type: 3}
       propertyPath: m_textInfo.characterCount
@@ -444,12 +439,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4964916011837308675}
     m_Modifications:
-    - target: {fileID: 6690656162424181770, guid: bf2169c813a08cc4c8097b2f6264b699,
-        type: 3}
-      propertyPath: m_fontAsset
-      value: 
-      objectReference: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee,
-        type: 2}
     - target: {fileID: 6690656162424181770, guid: bf2169c813a08cc4c8097b2f6264b699,
         type: 3}
       propertyPath: m_textInfo.characterCount
