@@ -45,6 +45,7 @@ public class GameCoreController : MonoBehaviour
             );
         } 
     }
+    public bool RematchRequestPending = false;
     public Dictionary<String, int> PieceNumberMap { 
         get
         {
@@ -307,12 +308,32 @@ public class GameCoreController : MonoBehaviour
 
     public void RequestRematchFromOpponent()
     {
-        Opponent.RequestRematch();
+        if (RematchRequestPending)
+        {
+            Debug.Log("Rematch already pending. Master client will initiate rematch.");
+            if (!Opponent.IsMaster)
+                Opponent.ReplayGame();
+        }
+        else
+        {
+            RematchRequestPending = true;
+            Opponent.RequestRematch();
+        }
     }
 
     public void RequestRematchFromPlayer()
     {
-        GUIController.Instance.RequestRematchFromPlayer();
+        if (RematchRequestPending)
+        {
+            Debug.Log("Rematch already pending. Master client will initiate rematch.");
+            if (!Opponent.IsMaster)
+                Opponent.ReplayGame();
+        } 
+        else
+        {
+            RematchRequestPending = true;
+            GUIController.Instance.RequestRematchFromPlayer();
+        }
     }
 
     public IEnumerator Disconnect()
