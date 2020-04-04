@@ -310,7 +310,9 @@ public class GameCoreController : MonoBehaviour
     {
         if (RematchRequestPending)
         {
-            Opponent.ReplayGame();
+            Debug.Log("Rematch already pending. Master client will initiate rematch.");
+            if (!Opponent.IsMaster)
+                Opponent.ReplayGame();
         }
         else
         {
@@ -323,7 +325,9 @@ public class GameCoreController : MonoBehaviour
     {
         if (RematchRequestPending)
         {
-            Opponent.ReplayGame();
+            Debug.Log("Rematch already pending. Master client will initiate rematch.");
+            if (!Opponent.IsMaster)
+                Opponent.ReplayGame();
         } 
         else
         {
