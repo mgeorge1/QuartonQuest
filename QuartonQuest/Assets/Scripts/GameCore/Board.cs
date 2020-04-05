@@ -15,33 +15,37 @@ public class Board : MonoBehaviour
     public void DisableTileClicking()
     {
         Tile.OnClickTile -= OnClickedTile;
+        Tile.Disabled = true;
     }
 
     public void EnableTileClicking()
     {
         Tile.OnClickTile += OnClickedTile;
+        Tile.Disabled = false;
     }
 
     public void DisablePieceClicking()
     {
         Piece.OnClickPiece -= OnClickedPiece;
+        Piece.Disabled = true;
     }
 
     public void EnablePieceClicking()
     {
+        Piece.Disabled = false;
         Piece.OnClickPiece += OnClickedPiece;
     }
 
     public void OnClickedTile(string name)
     {
         Tile selectedTile = UnityEngine.GameObject.Find("Tile" + name).GetComponent<Tile>();
+        selectedTile.ResetColor();
         MovePiece(SelectedPiece, selectedTile);
     }
 
     public void OnClickedPiece(string name)
     {
         SelectedPiece = UnityEngine.GameObject.Find("Piece" + name).GetComponent<Piece>();
-        SelectedPiece.transform.GetChild(0).gameObject.GetComponent<Renderer>().material.SetColor("_Color", SelectColor);
         MoveOnDeck();
     }
 
@@ -58,6 +62,7 @@ public class Board : MonoBehaviour
         if (OnDeckTile == null)
             return;
 
+        SelectedPiece.onDeck = true;
         SelectedPiece.transform.position = OnDeckTile.transform.position + new Vector3(0, 1.0f, 0);
     }
 
@@ -69,6 +74,7 @@ public class Board : MonoBehaviour
             piece.transform.position = tile.transform.position + temp;
             tile.localPiece = SelectedPiece;
             SelectedPiece.placed = true;
+            SelectedPiece.onDeck = false;
             SelectedPiece = null;
         }
         

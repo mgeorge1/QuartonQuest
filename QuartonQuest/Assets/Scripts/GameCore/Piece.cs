@@ -8,11 +8,12 @@ public class Piece: MonoBehaviour
     public delegate void ClickedPiece(string name);
     public static event ClickedPiece OnClickPiece;
 
+    public static bool Disabled = false;
     public bool IsClickable
     {
         get
         {
-            return (!EventSystem.current.IsPointerOverGameObject());
+            return (!EventSystem.current.IsPointerOverGameObject() && !placed && !onDeck && !Disabled);
         }
     }
 
@@ -20,6 +21,7 @@ public class Piece: MonoBehaviour
     public Color MouseOverColor;
     public UnityEngine.GameObject PieceVisual;
     public bool placed = false;
+    public bool onDeck = false;
 
     // Start is called before the first frame update
     void Start()
@@ -38,9 +40,6 @@ public class Piece: MonoBehaviour
 
     private void OnMouseExit()
     {
-        if (!IsClickable)
-            return;
-
         PieceVisual.GetComponent<Renderer>().material.SetColor("_Color", DefaultColor);
     }
 

@@ -7,11 +7,13 @@ public class Tile : MonoBehaviour
 {
     public delegate void ClickedTile(string name);
     public static event ClickedTile OnClickTile;
+
+    public static bool Disabled = false;
     public bool IsClickable
     {
         get
         {
-            return (!EventSystem.current.IsPointerOverGameObject());
+            return (!EventSystem.current.IsPointerOverGameObject() && !Disabled);
         }
     }
 
@@ -32,7 +34,7 @@ public class Tile : MonoBehaviour
         if (!IsClickable)
             return;
 
-        if (localPiece==null)
+        if (localPiece == null)
         {
             TileVisual.GetComponent<Renderer>().material.SetColor("_Color", MouseOverColor);
         }
@@ -40,13 +42,12 @@ public class Tile : MonoBehaviour
 
     private void OnMouseExit()
     {
-        if (!IsClickable)
-            return;
+        TileVisual.GetComponent<Renderer>().material.SetColor("_Color", DefaultColor);
+    }
 
-        if (localPiece==null)
-        {
-            TileVisual.GetComponent<Renderer>().material.SetColor("_Color", DefaultColor);
-        }
+    public void ResetColor()
+    {
+        TileVisual.GetComponent<Renderer>().material.SetColor("_Color", DefaultColor);
     }
 
     public void OnMouseDown()
