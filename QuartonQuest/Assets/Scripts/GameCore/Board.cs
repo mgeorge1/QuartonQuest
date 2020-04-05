@@ -63,15 +63,16 @@ public class Board : MonoBehaviour
             return;
 
         SelectedPiece.onDeck = true;
-        SelectedPiece.transform.position = OnDeckTile.transform.position + new Vector3(0, 1.0f, 0);
+        Vector3 offset = new Vector3(0, GameCoreController.Instance.transform.localScale.y, 0);
+        SelectedPiece.transform.position = OnDeckTile.transform.position + offset;
     }
 
     public void MovePiece(Piece piece, Tile tile)
      {
         if(SelectedPiece!=null)
         {
-            Vector3 temp = new Vector3(0, 1.0f, 0);
-            piece.transform.position = tile.transform.position + temp;
+            Vector3 offset = new Vector3(0, GameCoreController.Instance.transform.localScale.y, 0);
+            piece.transform.position = tile.transform.position + offset;
             tile.localPiece = SelectedPiece;
             SelectedPiece.placed = true;
             SelectedPiece.onDeck = false;
