@@ -64,8 +64,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "The goal of Quarto is to line up 4 pieces that have at least one characteristic
-    in common. This can be done either horizontally, vertically, or diagonally. \r\n\r\n(Need
-    image here of a possible winning state with our pieces and gameboard)\r\n"
+    in common. This can be done either horizontally, vertically, or diagonally. \r\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 191de16211df45642a24d5a939b73281, type: 2}
   m_sharedMaterial: {fileID: -848960477365117521, guid: 191de16211df45642a24d5a939b73281,
@@ -135,12 +134,12 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 5721974307664994489}
-    characterCount: 237
+    characterCount: 158
     spriteCount: 0
-    spaceCount: 42
-    wordCount: 40
+    spaceCount: 28
+    wordCount: 27
     linkCount: 0
-    lineCount: 6
+    lineCount: 3
     pageCount: 1
     materialCount: 1
   m_isUsingLegacyAnimationComponent: 0
@@ -170,7 +169,7 @@ GameObject:
   - component: {fileID: 5721974307678971979}
   - component: {fileID: 5721974307678971976}
   m_Layer: 5
-  m_Name: HelpPanel
+  m_Name: WrittenRulesPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -226,7 +225,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.4528302, g: 0.4528302, b: 0.4528302, a: 0.95686275}
+  m_Color: {r: 0.4528302, g: 0.4528302, b: 0.4528302, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -904,7 +903,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 332, y: -84}
+  m_AnchoredPosition: {x: 332, y: 92}
   m_SizeDelta: {x: 493.6, y: 71.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5721974308632957133
@@ -1062,7 +1061,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 475, y: -271}
+  m_AnchoredPosition: {x: 475, y: -95}
   m_SizeDelta: {x: 780.7, y: 301.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5721974308679468842
