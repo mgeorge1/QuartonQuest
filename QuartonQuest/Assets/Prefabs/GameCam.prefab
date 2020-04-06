@@ -272,7 +272,7 @@ GameObject:
   - component: {fileID: 7485073640766814521}
   - component: {fileID: 7485073640766814522}
   - component: {fileID: 7485073640766814523}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: AxisObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -365,7 +365,7 @@ GameObject:
   - component: {fileID: 610998306045936626}
   - component: {fileID: 2741102492433160692}
   - component: {fileID: 9209889219683840297}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
