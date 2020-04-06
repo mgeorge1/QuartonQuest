@@ -34,17 +34,44 @@ namespace AI
         }
 
         // Depths set to perform under 5 seconds in current state
-        public static int setTreeDepth(int piecesOnBoard)
+        public static int setTreeDepth(int piecesOnBoard, int difficulty)
         {
             int newDepth = 1;
-            if (piecesOnBoard >= 2 && piecesOnBoard <= 4)
-                newDepth = 3;
-            else if (piecesOnBoard == 5)
-                newDepth = 4;
-            else if (piecesOnBoard >= 6)
-                newDepth = 5;
-            else if (piecesOnBoard > 7)
-                newDepth = 14;
+            if (difficulty == 3)
+            {
+                if (piecesOnBoard >= 2 && piecesOnBoard <= 4)
+                    newDepth = 3;
+                else if (piecesOnBoard == 5)
+                    newDepth = 4;
+                else if (piecesOnBoard >= 6)
+                    newDepth = 5;
+                else if (piecesOnBoard > 7)
+                    newDepth = 14;
+            }
+
+            else if(difficulty == 2)
+            {
+                if (piecesOnBoard >= 2 && piecesOnBoard <= 4)
+                    newDepth = 3;
+                else if (piecesOnBoard == 5)
+                    newDepth = 3;
+                else if (piecesOnBoard >= 6)
+                    newDepth = 4;
+                else if (piecesOnBoard > 7)
+                    newDepth = 6;
+            }
+
+            else if (difficulty == 1)
+            {
+                if (piecesOnBoard >= 2 && piecesOnBoard <= 4)
+                    newDepth = 2;
+                else if (piecesOnBoard == 5)
+                    newDepth = 2;
+                else if (piecesOnBoard >= 6)
+                    newDepth = 3;
+                else if (piecesOnBoard > 7)
+                    newDepth = 4;
+            }
 
             return newDepth;
         }
@@ -121,6 +148,30 @@ namespace AI
                 }
             }
             return positionsPlayable;
+        }
+
+        public static void checkForBinaryWins(winningMove move)
+        {
+            bool[] rowsWithWins = new bool[10];
+            string oiriginalPieceToPlay = move.winningNode.pieces[move.winningNode.pieceToPlay].piece;
+            Heuristic.winningBits winningBits = new Heuristic.winningBits();
+
+            if (Heuristic.isWin(move.winningNode.gameBoard, oiriginalPieceToPlay, move.winningNode.moveOnBoard))
+            {
+                winningBits = Heuristic.findWinningBit(move.winningNode.gameBoard, oiriginalPieceToPlay, move.winningNode.moveOnBoard);
+            }
+
+
+        }
+
+        public static byte findOppositePiece(string pieceString)
+        {
+            byte pieceBinary;
+            
+
+            pieceBinary = Heuristic.convertToBinaryRepresentation(pieceString);
+            return 0;
+            
         }
     }
 }

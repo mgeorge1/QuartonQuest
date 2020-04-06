@@ -30,7 +30,7 @@ namespace AI
             root = null;
         }
 
-        public moveData generateTree(string[] newGameBoard, int piece, Piece[] currentPieces)
+        public moveData generateTree(string[] newGameBoard, int piece, Piece[] currentPieces, int difficulty)
         {
             // hashing function would go here
             // Followed by a lookup in the transposition table
@@ -53,7 +53,7 @@ namespace AI
 
             // Sets tree depth according to how many pieces are on the board
             piecesOnBoard = AIFunctions.countPiecesOnBoard(newGameBoard);
-            maxDepth = AIFunctions.setTreeDepth(piecesOnBoard);
+            maxDepth = AIFunctions.setTreeDepth(piecesOnBoard, difficulty);
 
             generateChildrenGamestate(currentNode, parentNode, piece, maxDepth, 0);
 
@@ -61,7 +61,7 @@ namespace AI
 
             //Checks for win by opponent, given the piece chosen
             //If win it makes it equal to the next child and so on
-            if (piecesOnBoard != 0 && move.winningNode.pieceToPlay != NULLPIECE)
+            if (piecesOnBoard != 0 && move.winningNode.pieceToPlay != NULLPIECE && difficulty > 1)
                 move.winningNode = AIFunctions.checkForOpponentWin(move.winningNode);
 
             // This is bad but it works.
