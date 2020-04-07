@@ -25,6 +25,7 @@ public class quickPlayMenuController : MonoBehaviour
 
     public void startGame_buttonClicked()
     {
+        GUIController.Opponent = GUIController.OpponentType.AI;
         SceneManager.LoadScene(GUIController.SceneNames.Level1);
     }
 

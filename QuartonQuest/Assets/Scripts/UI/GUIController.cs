@@ -7,7 +7,8 @@ using Photon.Pun;
 
 public class GUIController : MonoBehaviorSingleton<GUIController>
 {
-    [SerializeField] public bool IsNetworkedGame = false;
+    public enum OpponentType {  NETWORK, AI };
+    public static OpponentType Opponent = OpponentType.AI;
     public bool IsPlayerFirst = true;
     public GameObject HUDCanvas;
     public GameObject OpponentControllerObject;
@@ -85,10 +86,15 @@ public class GUIController : MonoBehaviorSingleton<GUIController>
 
     void StartGame()
     {
-        if (IsNetworkedGame)
-            AttachNetworkController();
-        else
-            AttachAIController();
+        switch (Opponent)
+        {
+            case OpponentType.NETWORK:
+                AttachNetworkController();
+                break;
+            case OpponentType.AI:
+                AttachAIController();
+                break;
+        }
 
         GameCoreController.Instance.GameOver += GameOver;
 
@@ -104,7 +110,6 @@ public class GUIController : MonoBehaviorSingleton<GUIController>
 
     void AttachNetworkController()
     {
-        Debug.Log(NetworkController.Instance);
         NetworkController.Instance.InstantiateRPCController();
         GameCoreController.Instance.Opponent = NetworkController.Instance;
 

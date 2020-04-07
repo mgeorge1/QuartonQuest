@@ -165,6 +165,7 @@ namespace Networking
         public void OnRoomButtonClicked(string roomId, string opponentName)
         {
             NetworkController.OpponentName = opponentName;
+            GUIController.Opponent = GUIController.OpponentType.NETWORK;
             PhotonNetwork.JoinRoom(roomId);
         }
 
@@ -181,7 +182,6 @@ namespace Networking
                 CustomRoomProperties = props,
                 CustomRoomPropertiesForLobby = new string[] { MASTERPLAYERNAMEPROPERTY }
             });
-           
         }
 
         public override void OnConnectedToMaster()
@@ -213,6 +213,8 @@ namespace Networking
 
         public override void OnJoinedRoom()
         {
+            // Currently, this code does not always finish because the master client may load the scene 
+            // during this function. 
             Debug.Log("Client successfully joined a room");
 
             int playerCount = PhotonNetwork.CurrentRoom.PlayerCount;
@@ -248,9 +250,10 @@ namespace Networking
                 Debug.Log("Match is ready to begin with " + newPlayer.NickName);
 
                 NetworkController.OpponentName = newPlayer.NickName;
+                GUIController.Opponent = GUIController.OpponentType.NETWORK;
 
                 if (PhotonNetwork.IsMasterClient)
-                    PhotonNetwork.LoadLevel(GUIController.SceneNames.NetworkGame);
+                    PhotonNetwork.LoadLevel(GUIController.SceneNames.Level1);
             }
         }
     }
