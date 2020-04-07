@@ -29,7 +29,4 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/NetworkMenuScene.unity
     guid: 4c690e207e51ec242baee8438b213347
-  - enabled: 1
-    path: Assets/Scenes/NetGameScene.unity
-    guid: a6a722c64d2810547bf476a14085d6ec
   m_configObjects: {}
