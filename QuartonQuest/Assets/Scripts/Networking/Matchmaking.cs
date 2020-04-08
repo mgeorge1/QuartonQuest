@@ -13,6 +13,7 @@ namespace Networking
     {
         [SerializeField] private GameObject JoinGamePanel = null;
         [SerializeField] private GameObject HostGamePanel = null;
+        [SerializeField] private GameObject ConnectingPanel = null;
         [SerializeField] private GameObject NameInputPanel = null;
         [SerializeField] private GameObject RoomListItemsPanel = null;
         [SerializeField] private GameObject RoomListItemPrefab = null;
@@ -25,6 +26,7 @@ namespace Networking
         private const int MAXPLAYERSPERROOM = 2;
         private const string MASTERPLAYERNAMEPROPERTY = "MasterPlayerName";
         private Dictionary<string, GameObject> rooms;
+        private Dictionary<string, RoomInfo> cachedRooms;
 
         private void Awake() => PhotonNetwork.AutomaticallySyncScene = true;
 
@@ -37,6 +39,7 @@ namespace Networking
             jpc.OnCancel += CancelMatchmaking;
 
             rooms = new Dictionary<string, GameObject>();
+            cachedRooms = new Dictionary<string, RoomInfo>();
         }
 
         // This probably shouldn't live here forever
@@ -45,9 +48,13 @@ namespace Networking
             SceneManager.LoadScene("MainMenuScene");
         }
 
-        private void CancelMatchmaking()
+        private System.Collections.IEnumerator CancelMatchmaking()
         {
+            DestroyAllRoomListItems();
             Disconnect();
+            while (PhotonNetwork.IsConnected)
+                yield return null;
+            isMasterClient = false;
             NameInputPanel.SetActive(true);
         }
 
@@ -66,14 +73,14 @@ namespace Networking
 
         public void OnCreateButtonClicked()
         {
-            HostGamePanel.SetActive(true);
+            ConnectingPanel.SetActive(true);
             NameInputPanel.SetActive(false);
             CreateGame();
         }
 
         public void OnJoinButtonClicked()
         {
-            JoinGamePanel.SetActive(true);
+            ConnectingPanel.SetActive(true);
             NameInputPanel.SetActive(false);
             JoinGame();
         }
@@ -81,7 +88,6 @@ namespace Networking
         public void CreateGame()
         {
             isMasterClient = true;
-            waitingStatus.text = "Connecting to server...";
             PhotonNetwork.GameVersion = GameVersion;
             PhotonNetwork.ConnectUsingSettings();
         }
@@ -102,13 +108,42 @@ namespace Networking
         public override void OnRoomListUpdate(List<RoomInfo> roomList)
         {
             Debug.Log("Roomlist update");
-            RemoveUnavailableRooms(roomList);
-            AddNewRoomListItems(roomList);
+            DestroyAllRoomListItems();
+            UpdateCachedRoomList(roomList);
+            AddNewRoomListItems();
         }
 
-        private void AddNewRoomListItems(List<RoomInfo> roomList)
+        private void UpdateCachedRoomList(List<RoomInfo> roomList)
         {
-            foreach (RoomInfo roomInfo in roomList)
+            foreach (RoomInfo info in roomList)
+            {
+                // Remove room from cached room list if it got closed, became invisible or was marked as removed
+                if (!info.IsOpen || !info.IsVisible || info.RemovedFromList)
+                {
+                    if (cachedRooms.ContainsKey(info.Name))
+                    {
+                        cachedRooms.Remove(info.Name);
+                    }
+
+                    continue;
+                }
+
+                // Update cached room info
+                if (cachedRooms.ContainsKey(info.Name))
+                {
+                    cachedRooms[info.Name] = info;
+                }
+                // Add new room info to cache
+                else
+                {
+                    cachedRooms.Add(info.Name, info);
+                }
+            }
+        }
+
+        private void AddNewRoomListItems()
+        {
+            foreach (RoomInfo roomInfo in cachedRooms.Values)
             {
                 if (!rooms.ContainsKey(roomInfo.Name) && roomInfo.IsOpen && roomInfo.IsVisible)
                 {
@@ -126,40 +161,13 @@ namespace Networking
             }
         }
 
-        private void RemoveUnavailableRooms(List<RoomInfo> roomList)
+        private void DestroyAllRoomListItems()
         {
-            List<string> keysToRemove = new List<string>();
-            foreach (string roomName in rooms.Keys)
+            foreach (GameObject room in rooms.Values)
             {
-                Debug.Log("Rooms on server:");
-                foreach (var info in roomList)
-                    Debug.Log(info.Name);
-
-                if (!roomList.Exists(roomInfo => roomInfo.Name == roomName))
-                {
-                    DestroyRoomListItem(roomName);
-                    keysToRemove.Add(roomName);
-                } 
-                else
-                {
-                    RoomInfo ri = roomList.Find(roomInfo => roomInfo.Name == roomName);
-                    Debug.Log(ri.IsVisible + " " + ri.IsOpen + " " + ri.RemovedFromList);
-                    if (!ri.IsVisible || !ri.IsOpen || ri.RemovedFromList)
-                    {
-                        DestroyRoomListItem(roomName);
-                    }
-                }
+                Destroy(room);
             }
-
-            foreach (string key in keysToRemove)
-                rooms.Remove(key);
-        }
-
-        private void DestroyRoomListItem(string roomName)
-        {
-            Debug.Log(("Destroying room that doesn't exist on server..."));
-            GameObject item = rooms[roomName];
-            Destroy(item);
+            rooms.Clear();
         }
 
         public void OnRoomButtonClicked(string roomId, string opponentName)
@@ -195,12 +203,16 @@ namespace Networking
             } else
             {
                 PhotonNetwork.JoinLobby();
+                JoinGamePanel.SetActive(true);
+                ConnectingPanel.SetActive(false);
             }
         }
 
         public override void OnCreatedRoom()
         {
             Debug.Log("Room " + PhotonNetwork.CurrentRoom.Name + " created.");
+            ConnectingPanel.SetActive(false);
+            HostGamePanel.SetActive(true);
         }
 
         public override void OnCreateRoomFailed(short returnCode, string message)
@@ -221,7 +233,6 @@ namespace Networking
 
             if(playerCount != MAXPLAYERSPERROOM)
             {
-                waitingStatus.text = "Waiting For Opponent...";
                 Debug.Log("Client is waiting for an opponent");
             }
             else
