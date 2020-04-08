@@ -1,4 +1,5 @@
 ﻿using HashFunction;
+using HeuristicCalculator;
 
 namespace AI
 {
@@ -36,10 +37,20 @@ namespace AI
             // Followed by a lookup in the transposition table
             //HashFunction.ZobristHash zash = new HashFunction.ZobristHash();
             //zash.init_zobristHash();
-
+            
+           
             totalGamestates = 0;
             int piecesOnBoard;
             int maxDepth;
+            int positionToBlock;
+            bool boardBlockable = false;
+            string moveToSend;
+
+            positionToBlock = AIFunctions.findWinningPositionToBlock(newGameBoard, currentPieces[piece].piece);
+            if (difficulty == 3 && positionToBlock != -1 && Heuristic.calculateHeuristic(newGameBoard, currentPieces[piece].piece) > 0)
+            {
+                boardBlockable = true;
+            }
 
             Node newNode = new Node();
             newNode.gameBoard = newGameBoard;
@@ -68,9 +79,14 @@ namespace AI
             string pieceOnDeck = move.winningNode.pieceToPlay == NULLPIECE ?
                 NULLPIECE.ToString() : move.winningNode.pieces[move.winningNode.pieceToPlay].piece;
 
+            if (boardBlockable)
+                moveToSend = move.winningNode.pieces[positionToBlock].piece;
+            else
+                moveToSend = move.winningNode.pieces[move.winningNode.moveOnBoard].piece;
+
             return new moveData
             {
-                lastMoveOnBoard = move.winningNode.pieces[move.winningNode.moveOnBoard].piece,
+                lastMoveOnBoard = moveToSend,
                 pieceToPlay = pieceOnDeck
             };
         }

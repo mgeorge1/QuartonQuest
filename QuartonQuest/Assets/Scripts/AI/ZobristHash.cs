@@ -13,14 +13,27 @@ namespace HashFunction
     {
         public const int MAXINTVALUE = 2147483647;
         int[,] randomNumbers = new int[QuartoSearchTree.MAXGAMEBOARD + 1, QuartoSearchTree.MAXGAMEBOARD + 1];
-        public void init_zobristHash()
+        String filePath = @"randomHashSeeds.txt";
+        public bool init_zobristHash()
         {
+            Encoding unicode = Encoding.Unicode;
+            string numToPrint;
+
             // Check if file seed file is there.
             // If nothing in the file then produce random values.
             // If it is, then just read random values from it.
             // If not create the file and produce random hashes.
-            string filePath = "randomHashSeeds.bin";
-            FileStream randomSeeds = File.Create(filePath);
+            //fullPath = Path.GetFullPath(@"mydir");
+
+
+            if (File.Exists(filePath))
+            {
+                if (!readRandomHashFile())
+                    return false;
+            }
+
+            FileStream randomSeeds;
+            randomSeeds = File.Create(filePath);
             var rnd = new System.Random();
             for (int i = 0; i < QuartoSearchTree.MAXGAMEBOARD + 1; i++)
             {
@@ -28,15 +41,41 @@ namespace HashFunction
                 {
                     randomNumbers[i, j] = rnd.Next(0, MAXINTVALUE);
 
-                    byte[] byteValue = BitConverter.GetBytes(randomNumbers[i, j]);
-                    if (BitConverter.IsLittleEndian)
-                        Array.Reverse(byteValue);
-
-                    randomSeeds.Write(byteValue, 0, byteValue.Length);
+                    numToPrint = randomNumbers[i, j].ToString();
+                    randomSeeds.Write(unicode.GetBytes(numToPrint), 0, unicode.GetByteCount(numToPrint));
+                    byte[] newline = Encoding.ASCII.GetBytes(Environment.NewLine);
+                    randomSeeds.Write(newline, 0, newline.Length);
                 }
             }
+
+            randomSeeds.Close();
+            return true;
         }
 
+        public bool readRandomHashFile()
+        {
+            FileStream randomSeeds;
+            randomSeeds = new FileStream(filePath, FileMode.Open);
+            if (new FileInfo(filePath).Length != 0)
+            {
+                for (int i = 0; i < QuartoSearchTree.MAXGAMEBOARD + 1; i++)
+                {
+                    for (int j = 0; j < QuartoSearchTree.MAXGAMEBOARD + 1; j++)
+                    {
+                        byte[] buffer = null; // wont read!!!!!!!!
+                        randomNumbers[i, j] = randomSeeds.Read(buffer, 0, Int32.MaxValue);
+                    }
+                }
+                randomSeeds.Close();
+                return true;
+            }
+
+            else
+            {
+                randomSeeds.Close();
+                return false;
+            }
+        }
         //Creates the hash for a gameBoard and a pieceToPlay using the XOR operation on random 32 bit numbers.
         public int zobristHash(string[] gameBoard, int pieceToPlay)
         {
