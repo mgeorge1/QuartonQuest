@@ -279,6 +279,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   JoinPanel: {fileID: 8691565981270258039}
   cancelButton: {fileID: 2614156383775664780}
+  joinGameText: {fileID: 8691565981430640025}
 --- !u!1 &8691565981430640027
 GameObject:
   m_ObjectHideFlags: 0

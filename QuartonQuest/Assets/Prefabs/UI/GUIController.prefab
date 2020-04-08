@@ -44,7 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 291b0446bd5d6be44977eb1ef37b6a3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsNetworkedGame: 0
   IsPlayerFirst: 1
   HUDCanvas: {fileID: 0}
   OpponentControllerObject: {fileID: 0}
@@ -80,6 +79,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_textInfo.pageCount
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2662194353497000342, guid: 685839a1fadb4b5448465f6486043588,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -58
+      objectReference: {fileID: 0}
+    - target: {fileID: 8659296166777084925, guid: 685839a1fadb4b5448465f6486043588,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: -1133.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8659296166777084925, guid: 685839a1fadb4b5448465f6486043588,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: -793.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8659296167718115524, guid: 685839a1fadb4b5448465f6486043588,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 46
       objectReference: {fileID: 0}
     - target: {fileID: 8659296167718115527, guid: 685839a1fadb4b5448465f6486043588,
         type: 3}

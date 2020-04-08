@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Util;
 using Photon.Pun;
@@ -16,7 +15,6 @@ public class NetworkController : MonoBehaviorPunSingleton<NetworkController>, IO
     }
     public static string OpponentName = "";
     private RPCController rpcController;
-    private static bool messageReceived = false;
     public Move NextMove
     {
         get
@@ -88,7 +86,8 @@ public class NetworkController : MonoBehaviorPunSingleton<NetworkController>, IO
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         Debug.Log("Player " + otherPlayer.NickName + " has left the room.");
-        //GUIController.Instance.DisplayGameOverCanvas(otherPlayer.NickName);
+        GUIController.Instance.DisplayErrorCanvas($"{otherPlayer.NickName} has left the game");
+        PhotonNetwork.Disconnect();
     }
 
     public void ReplayGame()

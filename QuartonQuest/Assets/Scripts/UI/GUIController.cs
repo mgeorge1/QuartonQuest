@@ -153,7 +153,7 @@ public class GUIController : MonoBehaviorSingleton<GUIController>
 
         // This string should have the opponent's name in it. 
         // Or maybe this should be a whole different panel.
-        script.DisplayGameOverCanvas($"Requesting rematch from {script.OpponentName}...");
+        script.SetGameOverText($"Requesting rematch from {script.OpponentName}...");
     }
 
     public void RequestRematchFromPlayer()
@@ -170,10 +170,24 @@ public class GUIController : MonoBehaviorSingleton<GUIController>
         SceneManager.LoadScene(sceneName);
     }
 
-    public void DisplayErrorCanvas(string errorText)
+    public void DisplayErrorCanvas(string errorText, ErrorCanvas.HandleBackNavigation handleBackNavigation = null)
     {
-        ErrorCanvas script = ErrorCanvas.GetComponent<ErrorCanvas>();
-        script.SetErrorText(errorText);
-        ErrorCanvas.SetActive(true);
+        // Set other canvases and panels to hidden
+        // When this canvas shows, the user should be blocked from all 
+        // action accepting quiting out of current state
+        if (HUDCanvas != null)
+        {
+            HUDCanvasController hudController = HUDCanvas.GetComponent<HUDCanvasController>();
+            hudController.HideAllPanels();
+        }
+
+        ErrorCanvas errorCanvas = ErrorCanvas.GetComponent<ErrorCanvas>();
+        errorCanvas.Display(errorText, handleBackNavigation);
+    }
+
+    public void HideErrorCanvas()
+    {
+        ErrorCanvas errorCanvas = ErrorCanvas.GetComponent<ErrorCanvas>();
+        errorCanvas.Hide();
     }
 }

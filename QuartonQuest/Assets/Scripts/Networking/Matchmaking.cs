@@ -102,6 +102,7 @@ namespace Networking
             else
             {
                 PhotonNetwork.JoinLobby();
+                AdvanceToJoinPanel();
             }
         }
 
@@ -172,6 +173,9 @@ namespace Networking
 
         public void OnRoomButtonClicked(string roomId, string opponentName)
         {
+            JoinPanelController jpc = JoinGamePanel.GetComponent<JoinPanelController>();
+            jpc.SetJoiningStatus();
+
             NetworkController.OpponentName = opponentName;
             GUIController.Opponent = GUIController.OpponentType.NETWORK;
             PhotonNetwork.JoinRoom(roomId);
@@ -198,14 +202,19 @@ namespace Networking
 
             if (isMasterClient)
             {
-                waitingStatus.text = "Creating room...";
+                waitingStatus.text = "Creating match...";
                 CreateRoom();
             } else
             {
                 PhotonNetwork.JoinLobby();
-                JoinGamePanel.SetActive(true);
-                ConnectingPanel.SetActive(false);
+                AdvanceToJoinPanel();
             }
+        }
+
+        public void AdvanceToJoinPanel()
+        {
+            JoinGamePanel.SetActive(true);
+            ConnectingPanel.SetActive(false);
         }
 
         public override void OnCreatedRoom()
@@ -218,15 +227,12 @@ namespace Networking
         public override void OnCreateRoomFailed(short returnCode, string message)
         {
             // Set a limit to how many times this can happen?
-            Debug.LogError("Creating room failed. Trying again...");
-            waitingStatus.text = "Creating room failed. Trying again...";
-            CreateRoom();
+            Debug.LogError("Creating room failed.");
+            GUIController.Instance.DisplayErrorCanvas("Could not create game");
         }
 
         public override void OnJoinedRoom()
         {
-            // Currently, this code does not always finish because the master client may load the scene 
-            // during this function. 
             Debug.Log("Client successfully joined a room");
 
             int playerCount = PhotonNetwork.CurrentRoom.PlayerCount;
@@ -237,6 +243,8 @@ namespace Networking
             }
             else
             {
+                // Currently, this code does not always finish because the master client may load the scene 
+                // during this function. 
                 string opponent = PhotonNetwork.CurrentRoom.CustomProperties[MASTERPLAYERNAMEPROPERTY].ToString();
                 waitingStatus.text = "Opponent Found: " + opponent;
                 Debug.Log("Match is ready to begin");
@@ -247,6 +255,23 @@ namespace Networking
         {
             base.OnJoinRoomFailed(returnCode, message);
             Debug.Log("Client failed to join the room");
+            JoinPanelController jpc = JoinGamePanel.GetComponent<JoinPanelController>();
+            jpc.ResetStatus();
+
+            string errorMessage;
+            if (!isMasterClient)
+            {
+                errorMessage = $"Could not join {NetworkController.OpponentName}'s match";
+                GUIController.Instance.DisplayErrorCanvas(errorMessage, () => GUIController.Instance.HideErrorCanvas());
+            }
+            else
+            {
+                errorMessage = "Could not create match";
+                GUIController.Instance.DisplayErrorCanvas(errorMessage, () => {
+                    StartCoroutine(CancelMatchmaking());
+                    GUIController.Instance.HideErrorCanvas();
+                });
+            }
         }
 
         public override void OnPlayerEnteredRoom(Player newPlayer)

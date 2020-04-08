@@ -81,4 +81,10 @@ public class HUDCanvasController : MonoBehaviour
     {
         gameOverCanvasScript.DisplayRematchRequest($"{OpponentName} has requested a rematch");
     }
+
+    public void HideAllPanels()
+    {
+        HelpPanel.SetActive(false);
+        HideGameOverCanvas();
+    }
 }

@@ -1,7 +1,7 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class JoinPanelController : MonoBehaviour
 {
@@ -9,6 +9,22 @@ public class JoinPanelController : MonoBehaviour
     public event CancelHandler OnCancel;
     public GameObject JoinPanel = null;
     public Button cancelButton;
+    public TextMeshProUGUI joinGameText;
+
+    private void Start()
+    {
+        ResetStatus();
+    }
+
+    public void SetJoiningStatus()
+    {
+        joinGameText.text = "Joining Game...";
+    }
+
+    public void ResetStatus()
+    {
+        joinGameText.text = "Join Game";
+    }
 
     public void OnCancelButtonClicked()
     {

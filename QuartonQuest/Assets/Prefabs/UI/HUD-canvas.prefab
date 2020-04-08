@@ -117,7 +117,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 128981115444329776}
   m_HandleRect: {fileID: 128981115444329777}
   m_Direction: 2
-  m_Value: -0.00000009731368
+  m_Value: -0.0000015570189
   m_Size: 0.21599996
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -497,7 +497,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 235.20001}
+  m_AnchoredPosition: {x: 0, y: 235.20036}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &128981116119270107
@@ -1629,6 +1629,21 @@ PrefabInstance:
       value: GameOverCanvas
       objectReference: {fileID: 0}
     - target: {fileID: 6471793388422701768, guid: 00f072096226d08478b28ed15ab13b00,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8486110986565147689, guid: 00f072096226d08478b28ed15ab13b00,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: -1138.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8486110986565147689, guid: 00f072096226d08478b28ed15ab13b00,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: -785.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8564119309964326988, guid: 00f072096226d08478b28ed15ab13b00,
         type: 3}
       propertyPath: m_IsActive
       value: 0
