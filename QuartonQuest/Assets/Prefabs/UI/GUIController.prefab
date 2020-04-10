@@ -48,6 +48,7 @@ MonoBehaviour:
   HUDCanvas: {fileID: 0}
   OpponentControllerObject: {fileID: 0}
   ErrorCanvas: {fileID: 920823195959441764}
+  FadeColor: {r: 0.41176474, g: 0.41176474, b: 0.41176474, a: 0}
 --- !u!1001 &8425271924708946459
 PrefabInstance:
   m_ObjectHideFlags: 0

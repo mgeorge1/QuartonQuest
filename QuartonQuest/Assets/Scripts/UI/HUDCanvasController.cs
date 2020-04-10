@@ -62,6 +62,10 @@ public class HUDCanvasController : MonoBehaviour
         {
             gameOverText = DecideTurnText();
         }
+
+        if (GameCoreController.Instance.CurrentTurn == GameCoreController.GameTurnState.PLAYERWON)
+            gameOverCanvasScript.DisplayStoryGameOverPanel();
+
         gameOverCanvasScript.SetGameOverText(gameOverText);
         GameOverCanvas.SetActive(true);
     }

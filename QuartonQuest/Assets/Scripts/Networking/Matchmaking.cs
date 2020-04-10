@@ -45,7 +45,7 @@ namespace Networking
         // This probably shouldn't live here forever
         public void ReturnToMainMenu()
         {
-            SceneManager.LoadScene("MainMenuScene");
+            GUIController.Instance.LoadSceneWithTransition(GUIController.SceneNames.MainMenu);
         }
 
         private System.Collections.IEnumerator CancelMatchmaking()

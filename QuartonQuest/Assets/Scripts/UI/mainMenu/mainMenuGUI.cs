@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.Audio;
 
 public class mainMenuGUI : MonoBehaviour
@@ -49,19 +48,19 @@ public class mainMenuGUI : MonoBehaviour
         Debug.Log("storyMode_button was clicked");
         //audio.clip = storyModeButtonSound;
         //audio.Play(0);
-        SceneManager.LoadScene(storyModePath);
+        GUIController.Instance.LoadSceneWithTransition(GUIController.SceneNames.Story1);
     }
 
     public void quickPlay_buttonClicked()
     {
         Debug.Log("quickPlay_button was clicked");
-        SceneManager.LoadScene(quickPlayPath);
+        GUIController.Instance.LoadSceneWithTransition(GUIController.SceneNames.QuickPlayMenu);
     }
 
     public void multiplayer_buttonClicked()
     {
         Debug.Log("multiplayer_button was clicked");
-        SceneManager.LoadScene(multiplayerPath);
+        GUIController.Instance.LoadSceneWithTransition(GUIController.SceneNames.NetworkMenu);
     }
 
     public void quit_buttonClicked()

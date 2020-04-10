@@ -41,7 +41,8 @@ public class GameCoreController : MonoBehaviour
         {
             return (
                 CurrentTurn == GameTurnState.PLAYERDONE ||
-                CurrentTurn == GameTurnState.PLAYERWON
+                CurrentTurn == GameTurnState.PLAYERWON ||
+                CurrentTurn == GameTurnState.GAMETIED
             );
         } 
     }

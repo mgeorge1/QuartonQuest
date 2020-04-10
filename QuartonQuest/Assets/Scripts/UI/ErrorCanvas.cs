@@ -16,7 +16,7 @@ public class ErrorCanvas : MonoBehaviour
     public void OnBackButtonClicked()
     {
         if (BackButtonClicked == null)
-            GUIController.Instance.LoadScene(GUIController.SceneNames.MainMenu);
+            GUIController.Instance.LoadSceneWithTransition(GUIController.SceneNames.MainMenu);
         else
             BackButtonClicked.Invoke();
 

@@ -13,10 +13,49 @@ public class AIController : MonoBehaviour, IOpponent
 
     public static AI.moveData AIMoveData;
 
-    
+    public enum DifficultySetting { ONE, TWO, THREE }
+    public DifficultySetting Difficulty
+    {
+        get
+        {
+            switch (difficulty)
+            {
+                case 1:
+                    return DifficultySetting.ONE;
+                case 2:
+                    return DifficultySetting.TWO;
+                case 3:
+                    return DifficultySetting.THREE;
+                default:
+                    throw new System.Exception("Invalid difficulty for AIController");
+            }
+        }
+
+        set
+        {
+            switch (value)
+            {
+                case DifficultySetting.ONE:
+                    difficulty = 1;
+                    break;
+                case DifficultySetting.TWO:
+                    difficulty = 2;
+                    break;
+                case DifficultySetting.THREE:
+                    difficulty = 3;
+                    break;
+                default:
+                    throw new System.Exception("Invalid difficulty for AIController");
+            }
+        }
+    }
+    private int difficulty = 1;
+
+
     public IEnumerator AIThreadProcedure()
     {
         Debug.Log("AI thread is running...");
+        float startTime = Time.deltaTime;
         string[,] board = GameCoreController.Instance.GetBoard();
         string[] newBoard = new string[board.Length];
         AI.Piece[] pieces = new AI.Piece[GameCoreController.Instance.PieceNumberMap.Count];
@@ -36,11 +75,14 @@ public class AIController : MonoBehaviour, IOpponent
 
         string onDeckPiece = GameCoreController.Instance.OnDeckPiece;
         int pieceToFind = GameCoreController.Instance.PieceNumberMap[onDeckPiece];
-        int difficulty = 3;
+        
         Task<AI.moveData> AITask = Task.Run(() => quartoAI.generateTree(newBoard, pieceToFind, pieces, difficulty));
 
         while (AITask.Status != TaskStatus.RanToCompletion)
             yield return null;
+
+        if (Time.deltaTime - startTime < 1.0f)
+            yield return new WaitForSeconds(1);
 
         AIMoveData = AITask.Result;
     }

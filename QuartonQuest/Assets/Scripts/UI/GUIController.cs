@@ -13,7 +13,7 @@ public class GUIController : MonoBehaviorSingleton<GUIController>
     public GameObject HUDCanvas;
     public GameObject OpponentControllerObject;
     public GameObject ErrorCanvas;
-    private IOpponent OpponentController;
+    public Color FadeColor = Color.white;
 
     private static bool playerGoesFirst = true;
     private static bool playerDidSelectTurn = false;
@@ -39,6 +39,9 @@ public class GUIController : MonoBehaviorSingleton<GUIController>
             return SceneManager.GetActiveScene().name;
         }
     }
+
+    public static string CurrentStoryScene = null;
+    public static AIController.DifficultySetting AIDifficulty = AIController.DifficultySetting.ONE;
 
     public struct SceneNames
     {
@@ -78,8 +81,17 @@ public class GUIController : MonoBehaviorSingleton<GUIController>
             case SceneNames.Level1:
             case SceneNames.Level2:
             case SceneNames.Level3:
-            case SceneNames.NetworkGame:
                 StartGame();
+                break;
+            case SceneNames.Story1:
+                Debug.Log("Setting current story to 1");
+                CurrentStoryScene = SceneNames.Story1;
+                break;
+            case SceneNames.Story2:
+                CurrentStoryScene = SceneNames.Story2;
+                break;
+            case SceneNames.MainMenu:
+                CurrentStoryScene = null;
                 break;
         }
     }
@@ -120,12 +132,23 @@ public class GUIController : MonoBehaviorSingleton<GUIController>
     void AttachAIController()
     {
         OpponentControllerObject = new GameObject();
-        OpponentControllerObject.AddComponent(typeof(AIController));
+        AIController controllerScript = OpponentControllerObject.AddComponent(typeof(AIController)) as AIController;
+        controllerScript.Difficulty = AIDifficulty;
         OpponentControllerObject.name = typeof(AIController).ToString();
         GameCoreController.Instance.Opponent = OpponentControllerObject.GetComponent<IOpponent>();
 
-        HUDCanvasController script = HUDCanvas.GetComponent<HUDCanvasController>();
-        script.OpponentName = "Opponent";
+        HUDCanvasController canvasScript = HUDCanvas.GetComponent<HUDCanvasController>();
+
+        switch (CurrentScene)
+        {
+            case SceneNames.Level1:
+            case SceneNames.Level3:
+                canvasScript.OpponentName = "Pirate Captain";
+                break;
+            case SceneNames.Level2:
+                canvasScript.OpponentName = "Quartonian";
+                break;
+        }
     }
 
     public void GameOver()
@@ -168,6 +191,11 @@ public class GUIController : MonoBehaviorSingleton<GUIController>
     public void LoadScene(string sceneName)
     {
         SceneManager.LoadScene(sceneName);
+    }
+
+    public void LoadSceneWithTransition(string sceneName)
+    {
+        Initiate.Fade(sceneName, Color.gray, 2.0f);
     }
 
     public void DisplayErrorCanvas(string errorText, ErrorCanvas.HandleBackNavigation handleBackNavigation = null)

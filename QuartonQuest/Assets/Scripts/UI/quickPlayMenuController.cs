@@ -6,40 +6,82 @@ using TMPro;
 
 public class quickPlayMenuController : MonoBehaviour
 {
-    public TextMeshProUGUI FirstTurnToggleLabel;
-    private const string PLAYER = "Player";
-    private const string OPPONENT = "Opponent";
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        FirstTurnToggleLabel.text = PLAYER;
-        GUIController.Instance.PlayerGoesFirst = true;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    string SceneToLoad = GUIController.SceneNames.Level1;
+    AIController.DifficultySetting Difficulty = AIController.DifficultySetting.ONE;
 
     public void startGame_buttonClicked()
     {
         GUIController.Opponent = GUIController.OpponentType.AI;
-        SceneManager.LoadScene(GUIController.SceneNames.Level1);
+        GUIController.AIDifficulty = Difficulty;
+        GUIController.Instance.LoadScene(SceneToLoad);
     }
 
-    public void OnFirstTurnButtonClicked()
+    public void OnSelectedPlayerFirst(bool isOn)
     {
-        if(FirstTurnToggleLabel.text == PLAYER)
-        {
-            GUIController.Instance.PlayerGoesFirst = false;
-            FirstTurnToggleLabel.text = OPPONENT;
-        }
-        else
+        if (isOn)
         {
             GUIController.Instance.PlayerGoesFirst = true;
-            FirstTurnToggleLabel.text = PLAYER;
         }
+    }
+
+    public void OnSelectedOpponentFirst(bool isOn)
+    {
+        if (isOn)
+        {
+            GUIController.Instance.PlayerGoesFirst = false;
+        }
+    }
+
+    public void OnSelectedLevel1(bool isOn)
+    {
+        if (isOn)
+        {
+            SceneToLoad = GUIController.SceneNames.Level1;
+        }
+    }
+
+    public void OnSelectedLevel2(bool isOn)
+    {
+        if (isOn)
+        {
+            SceneToLoad = GUIController.SceneNames.Level2;
+        }
+    }
+
+    public void OnSelectedLevel3(bool isOn)
+    {
+        if (isOn)
+        {
+            SceneToLoad = GUIController.SceneNames.Level3;
+        }
+    }
+
+    public void OnSelectedEasy(bool isOn)
+    {
+        if (isOn)
+        {
+            Difficulty = AIController.DifficultySetting.ONE;
+        }
+    }
+
+    public void OnSelectedMedium(bool isOn)
+    {
+        if (isOn)
+        {
+            Difficulty = AIController.DifficultySetting.TWO;
+        }
+    }
+
+    public void OnSelectedHard(bool isOn)
+    {
+        if (isOn)
+        {
+            Difficulty = AIController.DifficultySetting.THREE;
+        }
+    }
+
+    public void ReturnToMainMenu()
+    {
+        GUIController.Instance.LoadSceneWithTransition(GUIController.SceneNames.MainMenu);
     }
 }
