@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.07511812, g: 0.00056408596, b: 0.0005326175, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3874,7 +3874,7 @@ PrefabInstance:
     - target: {fileID: 2200112975186431744, guid: 2a39f598f4580344182bc8fc86e58703,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 235.19998
+      value: 235.20003
       objectReference: {fileID: 0}
     - target: {fileID: 2200112975707738734, guid: 2a39f598f4580344182bc8fc86e58703,
         type: 3}
@@ -3956,6 +3956,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2806465637367112689, guid: 2a39f598f4580344182bc8fc86e58703,
+        type: 3}
+      propertyPath: zoomMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2806465637367112689, guid: 2a39f598f4580344182bc8fc86e58703,
+        type: 3}
+      propertyPath: startRotationX
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2944071569785630103, guid: 2a39f598f4580344182bc8fc86e58703,
         type: 3}
       propertyPath: m_textInfo.characterCount
@@ -3975,6 +3985,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_textInfo.pageCount
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5393883815835154427, guid: 2a39f598f4580344182bc8fc86e58703,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 7.38
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2a39f598f4580344182bc8fc86e58703, type: 3}

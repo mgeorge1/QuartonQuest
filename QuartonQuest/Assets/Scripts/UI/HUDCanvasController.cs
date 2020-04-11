@@ -8,8 +8,9 @@ public class HUDCanvasController : MonoBehaviour
     public TextMeshProUGUI TurnText;
     public GameObject HelpPanel;
     public GameObject GameOverCanvas;
-    private GameOverCanvas gameOverCanvasScript;
+    public GameObject Blocker;
     public string OpponentName;
+    private GameOverCanvas gameOverCanvasScript;
 
     // Start is called before the first frame update
     void Start()
@@ -63,7 +64,8 @@ public class HUDCanvasController : MonoBehaviour
             gameOverText = DecideTurnText();
         }
 
-        if (GameCoreController.Instance.CurrentTurn == GameCoreController.GameTurnState.PLAYERWON)
+        if (GUIController.CurrentStoryScene != null && 
+            GameCoreController.Instance.CurrentTurn == GameCoreController.GameTurnState.PLAYERWON)
             gameOverCanvasScript.DisplayStoryGameOverPanel();
 
         gameOverCanvasScript.SetGameOverText(gameOverText);
@@ -90,5 +92,20 @@ public class HUDCanvasController : MonoBehaviour
     {
         HelpPanel.SetActive(false);
         HideGameOverCanvas();
+    }
+
+    public void EnableBlocker()
+    {
+        Blocker.SetActive(true);
+    }
+
+    public void DisableBlocker()
+    {
+        Blocker.SetActive(false);
+    }
+
+    public void ResetCameraButtonClicked()
+    {
+        GUIController.Instance.ResetCamera();
     }
 }

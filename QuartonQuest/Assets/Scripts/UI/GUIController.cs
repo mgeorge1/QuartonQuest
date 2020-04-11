@@ -13,8 +13,11 @@ public class GUIController : MonoBehaviorSingleton<GUIController>
     public GameObject HUDCanvas;
     public GameObject OpponentControllerObject;
     public GameObject ErrorCanvas;
+    public Camera GameCamera;
     public Color FadeColor = Color.white;
 
+    private HUDCanvasController canvasController;
+    private CameraMotionControls cameraControls;
     private static bool playerGoesFirst = true;
     private static bool playerDidSelectTurn = false;
     public bool PlayerGoesFirst
@@ -40,6 +43,19 @@ public class GUIController : MonoBehaviorSingleton<GUIController>
         }
     }
 
+    public bool CurrentSceneIsLevel
+    {
+        get
+        {
+            return (
+                CurrentScene == SceneNames.Level1 ||
+                CurrentScene == SceneNames.Level2 ||
+                CurrentScene == SceneNames.Level3
+            );
+
+        }
+    }
+
     public static string CurrentStoryScene = null;
     public static AIController.DifficultySetting AIDifficulty = AIController.DifficultySetting.ONE;
 
@@ -57,9 +73,32 @@ public class GUIController : MonoBehaviorSingleton<GUIController>
         public const string Credits = "CreditsScene";
     }
 
-   void Awake()
+    void Awake()
     {
         Debug.Log("GUIController initializing");
+        
+        if (HUDCanvas != null)
+            canvasController = HUDCanvas.GetComponent<HUDCanvasController>();
+
+        if (GameCamera != null)
+            cameraControls = GameCamera.GetComponent<CameraMotionControls>();
+    }
+
+    private void FixedUpdate()
+    {
+        if (!CurrentSceneIsLevel)
+            return;
+
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            canvasController.EnableBlocker();
+            CameraMotionControls.IsEnabled = true;
+        } 
+        else
+        {
+            CameraMotionControls.IsEnabled = false;
+            canvasController.DisableBlocker();
+        }
     }
 
     void OnEnable()
@@ -137,16 +176,14 @@ public class GUIController : MonoBehaviorSingleton<GUIController>
         OpponentControllerObject.name = typeof(AIController).ToString();
         GameCoreController.Instance.Opponent = OpponentControllerObject.GetComponent<IOpponent>();
 
-        HUDCanvasController canvasScript = HUDCanvas.GetComponent<HUDCanvasController>();
-
         switch (CurrentScene)
         {
             case SceneNames.Level1:
             case SceneNames.Level3:
-                canvasScript.OpponentName = "Pirate Captain";
+                canvasController.OpponentName = "Pirate Captain";
                 break;
             case SceneNames.Level2:
-                canvasScript.OpponentName = "Quartonian";
+                canvasController.OpponentName = "Quartonian";
                 break;
         }
     }
@@ -154,10 +191,9 @@ public class GUIController : MonoBehaviorSingleton<GUIController>
     public void GameOver()
     {
         Debug.Log("GameOver from the GUIController");
-        if (HUDCanvas != null)
+        if (canvasController != null)
         {
-            HUDCanvasController script = HUDCanvas.GetComponent<HUDCanvasController>();
-            script.DisplayGameOverCanvas();
+            canvasController.DisplayGameOverCanvas();
         }
     }
 
@@ -172,20 +208,18 @@ public class GUIController : MonoBehaviorSingleton<GUIController>
     {
         Debug.Log("Requesting rematch from opponent in the GUIController");
         GameCoreController.Instance.RequestRematchFromOpponent();
-        HUDCanvasController script = HUDCanvas.GetComponent<HUDCanvasController>();
 
         // This string should have the opponent's name in it. 
         // Or maybe this should be a whole different panel.
-        script.SetGameOverText($"Requesting rematch from {script.OpponentName}...");
+        canvasController.SetGameOverText($"Requesting rematch from {canvasController.OpponentName}...");
     }
 
     public void RequestRematchFromPlayer()
     {
         Debug.Log("Requesting rematch from player in the GUIController");
-        HUDCanvasController script = HUDCanvas.GetComponent<HUDCanvasController>();
 
         // This string should have the opponents name in it
-        script.DisplayRematchRequest();
+        canvasController.DisplayRematchRequest();
     }
 
     public void LoadScene(string sceneName)
@@ -195,7 +229,7 @@ public class GUIController : MonoBehaviorSingleton<GUIController>
 
     public void LoadSceneWithTransition(string sceneName)
     {
-        Initiate.Fade(sceneName, Color.gray, 2.0f);
+        Initiate.Fade(sceneName, Color.black, 2.0f);
     }
 
     public void DisplayErrorCanvas(string errorText, ErrorCanvas.HandleBackNavigation handleBackNavigation = null)
@@ -203,10 +237,9 @@ public class GUIController : MonoBehaviorSingleton<GUIController>
         // Set other canvases and panels to hidden
         // When this canvas shows, the user should be blocked from all 
         // action accepting quiting out of current state
-        if (HUDCanvas != null)
+        if (canvasController != null)
         {
-            HUDCanvasController hudController = HUDCanvas.GetComponent<HUDCanvasController>();
-            hudController.HideAllPanels();
+            canvasController.HideAllPanels();
         }
 
         ErrorCanvas errorCanvas = ErrorCanvas.GetComponent<ErrorCanvas>();
@@ -217,5 +250,10 @@ public class GUIController : MonoBehaviorSingleton<GUIController>
     {
         ErrorCanvas errorCanvas = ErrorCanvas.GetComponent<ErrorCanvas>();
         errorCanvas.Hide();
+    }
+
+    public void ResetCamera()
+    {
+        cameraControls.ResetCamera();
     }
 }
