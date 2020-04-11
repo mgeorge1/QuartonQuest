@@ -37,14 +37,15 @@ namespace AI
             // Followed by a lookup in the transposition table
             //HashFunction.ZobristHash zash = new HashFunction.ZobristHash();
             //zash.init_zobristHash();
-            
-           
+
+
             totalGamestates = 0;
             int piecesOnBoard;
             int maxDepth;
             int positionToBlock;
             bool boardBlockable = false;
             string moveToSend;
+            string pieceOnDeck;
 
             positionToBlock = AIFunctions.findWinningPositionToBlock(newGameBoard, currentPieces[piece].piece);
             if (difficulty == 3 && positionToBlock != -1 && Heuristic.calculateHeuristic(newGameBoard, currentPieces[piece].piece) > 0)
@@ -73,16 +74,24 @@ namespace AI
             //Checks for win by opponent, given the piece chosen
             //If win it makes it equal to the next child and so on
             if (piecesOnBoard != 0 && move.winningNode.pieceToPlay != NULLPIECE && difficulty > 1)
-                move.winningNode = AIFunctions.checkForOpponentWin(move.winningNode);
+                move.winningNode = AIFunctions.checkForOpponentWin(move.winningNode, null);
 
-            // This is bad but it works.
-            string pieceOnDeck = move.winningNode.pieceToPlay == NULLPIECE ?
-                NULLPIECE.ToString() : move.winningNode.pieces[move.winningNode.pieceToPlay].piece;
+            if (boardBlockable && !move.isWin)
+            {
+                move.winningNode.gameBoard[positionToBlock] = currentPieces[piece].piece;
+                move.winningNode = AIFunctions.checkForOpponentWin(move.winningNode, currentPieces[piece].piece);
+                
+                pieceOnDeck = move.winningNode.pieceToPlay == NULLPIECE ?
+                    NULLPIECE.ToString() : move.winningNode.pieces[move.winningNode.pieceToPlay].piece;
 
-            if (boardBlockable)
                 moveToSend = move.winningNode.pieces[positionToBlock].piece;
+            }
             else
+            {
                 moveToSend = move.winningNode.pieces[move.winningNode.moveOnBoard].piece;
+                pieceOnDeck = move.winningNode.pieceToPlay == NULLPIECE ?
+                    NULLPIECE.ToString() : move.winningNode.pieces[move.winningNode.pieceToPlay].piece;
+            }
 
             return new moveData
             {

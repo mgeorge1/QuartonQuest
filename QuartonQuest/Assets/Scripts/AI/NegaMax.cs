@@ -10,6 +10,7 @@ namespace AI
     {
         public QuartoSearchTree.Node winningNode;
         public int heuristicValue;
+        public bool isWin;
     }
     class NegaMax
     {
@@ -25,6 +26,7 @@ namespace AI
             winningMove winChoice = new winningMove();
             winningMove winChoice2 = new winningMove();
             winChoice.winningNode = new QuartoSearchTree.Node();
+            winChoice.isWin = false;
 
             // If only root in tree
             if (currentNode.parent == null && currentNode.children[0] == null)
@@ -52,6 +54,7 @@ namespace AI
                     {
                         winChoice.winningNode = currentNode.children[i];
                         winChoice.heuristicValue = 0;
+                        winChoice.isWin = true;
                         return winChoice;
                     }
                     boardPosition++;

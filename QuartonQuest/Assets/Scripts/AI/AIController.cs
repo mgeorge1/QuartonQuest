@@ -75,7 +75,6 @@ public class AIController : MonoBehaviour, IOpponent
 
         string onDeckPiece = GameCoreController.Instance.OnDeckPiece;
         int pieceToFind = GameCoreController.Instance.PieceNumberMap[onDeckPiece];
-        
         Task<AI.moveData> AITask = Task.Run(() => quartoAI.generateTree(newBoard, pieceToFind, pieces, difficulty));
 
         while (AITask.Status != TaskStatus.RanToCompletion)

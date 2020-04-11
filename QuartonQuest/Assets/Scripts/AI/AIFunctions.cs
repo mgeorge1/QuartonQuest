@@ -49,7 +49,7 @@ namespace AI
                     newDepth = 14;
             }
 
-            else if(difficulty == 2)
+            else if (difficulty == 2)
             {
                 if (piecesOnBoard >= 2 && piecesOnBoard <= 4)
                     newDepth = 3;
@@ -78,7 +78,7 @@ namespace AI
 
         // Checks if the game state that is being sent back to the oppenent will cause the opponent to win. If so find another solution,
         // if no solution or no win send that game state. 
-        public static QuartoSearchTree.Node checkForOpponentWin(QuartoSearchTree.Node currentNode)
+        public static QuartoSearchTree.Node checkForOpponentWin(QuartoSearchTree.Node currentNode, string winBlockPiece)
         {
             QuartoSearchTree.Node newWinNode = null;
             bool hasWon = true;
@@ -93,7 +93,7 @@ namespace AI
 
                 hasWon = isWinOnBoard(gameBoard, piece);
 
-                if (!hasWon)
+                if (!hasWon && piece != winBlockPiece)
                 {
                     newWinNode = currentNode.parent.children[i];
                 }
@@ -126,9 +126,9 @@ namespace AI
         public static List<int> makePlayablePiecesOnly(Piece[] pieces)
         {
             List<int> piecesPlayable = new List<int>();
-            for(int i = 0; i < QuartoSearchTree.MAXGAMEBOARD; i++)
+            for (int i = 0; i < QuartoSearchTree.MAXGAMEBOARD; i++)
             {
-                if(pieces[i].playable == true)
+                if (pieces[i].playable == true)
                 {
                     piecesPlayable.Add(i);
                 }
@@ -393,7 +393,7 @@ namespace AI
                         position = 2;
                         return position;
                     }
-                    else if(slot2 % 2 == oddBit && slot3 % 2 == oddBit && slot4 % 2 == oddBit)
+                    else if (slot2 % 2 == oddBit && slot3 % 2 == oddBit && slot4 % 2 == oddBit)
                     {
                         position = 1;
                         return position;
