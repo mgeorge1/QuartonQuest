@@ -9,9 +9,10 @@ public class observerMove : MonoBehaviour
     public Rigidbody rb;
     public Transform player;
     public Transform axisObject;
-    private float sidewaysForce = 40000f;
-    private float forwardForce =  40000f;
-    private float flyingForce =   4000f;
+    public float sidewaysForce = 40000f;
+    public float forwardForce =  40000f;
+    public float upwardForce =   40000f;
+    public float zoomForce = 40000f;
     public string nextScene;
     private Vector3 zero = new Vector3(0, 0, 0);
     // Start is called before the first frame update
@@ -28,23 +29,26 @@ public class observerMove : MonoBehaviour
 
     void FixedUpdate()
     {
+        rb.velocity = Vector3.zero;
         player.LookAt(axisObject);
-        rb.velocity = zero;
+        
         if (Input.GetKey("w"))
         {
-            rb.AddRelativeForce(0, flyingForce, 0);
+            rb.AddRelativeForce(0, upwardForce, 0);
             //rb.AddRelativeForce(0, 0, forwardForce * Time.deltaTime);
         }
 
         if (Input.GetKey("a"))
         {
+
+            //player.position = new Vector3(player.position.x - 1, player.position.y, player.position.z);
             rb.AddRelativeForce(-sidewaysForce * Time.deltaTime, 0, 0);
         }
 
         if (Input.GetKey("s"))
         {
             //rb.AddRelativeForce(0, 0, -forwardForce * Time.deltaTime);
-            rb.AddRelativeForce(0, -flyingForce, 0);
+            rb.AddRelativeForce(0, -upwardForce, 0);
         }
 
         if (Input.GetKey("d"))
@@ -54,11 +58,11 @@ public class observerMove : MonoBehaviour
 
         if (Input.GetKey("q"))
         {
-            rb.AddRelativeForce(0, 0, forwardForce * Time.deltaTime);
+            rb.AddRelativeForce(0, 0, zoomForce * Time.deltaTime);
         }
         if (Input.GetKey("e"))
         {
-            rb.AddRelativeForce(0, 0, -forwardForce * Time.deltaTime);
+            rb.AddRelativeForce(0, 0, -zoomForce * Time.deltaTime);
         }
         //if (Input.GetKey("d"))
         //{
@@ -76,8 +80,11 @@ public class observerMove : MonoBehaviour
 
         if (Input.GetKey("f"))
         {
-            rb.AddRelativeForce(0, flyingForce, 0);
+            rb.AddRelativeForce(0, upwardForce, 0);
         }
+        rb.velocity = Vector3.zero;
+        rb.velocity = Vector3.ClampMagnitude(rb.velocity, 0);
+        rb.velocity *= 0.99f;
 
         if (Input.GetKey("n"))
         {
