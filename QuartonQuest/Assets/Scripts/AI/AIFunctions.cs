@@ -54,11 +54,11 @@ namespace AI
                 if (piecesOnBoard >= 2 && piecesOnBoard <= 4)
                     newDepth = 3;
                 else if (piecesOnBoard == 5)
-                    newDepth = 3;
-                else if (piecesOnBoard >= 6)
                     newDepth = 4;
+                else if (piecesOnBoard >= 6)
+                    newDepth = 5;
                 else if (piecesOnBoard > 7)
-                    newDepth = 6;
+                    newDepth = 14;
             }
 
             else if (difficulty == 1)
@@ -68,9 +68,9 @@ namespace AI
                 else if (piecesOnBoard == 5)
                     newDepth = 2;
                 else if (piecesOnBoard >= 6)
-                    newDepth = 3;
+                    newDepth = 2;
                 else if (piecesOnBoard > 7)
-                    newDepth = 4;
+                    newDepth = 2;
             }
 
             return newDepth;

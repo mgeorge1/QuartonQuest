@@ -86,7 +86,7 @@ namespace AI
             }
             else
             {
-                if (piecesOnBoard != 0 && move.winningNode.pieceToPlay != NULLPIECE && difficulty > 1)
+                if (piecesOnBoard != 0 && move.winningNode.pieceToPlay != NULLPIECE)
                     move.winningNode = AIFunctions.checkForOpponentWin(move.winningNode, null);
 
                 moveToSend = move.winningNode.pieces[move.winningNode.moveOnBoard].piece;
