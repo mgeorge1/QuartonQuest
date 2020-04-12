@@ -18,12 +18,15 @@ public class OptionsPanel : MonoBehaviour
         }
     }
     public GameObject Panel;
-    public AudioMixer audioMixer;
 
-    public void SetVolume(float volume)
+    public void OnMusicVolumeChanged(float volume)
     {
-        Debug.Log(volume);
-        audioMixer.SetFloat("Volume", volume);
+        AudioManager.instance.SetMusicVolumeLevel(volume / 1);
+    }
+
+    public void OnSoundEffectsVolumeChanged(float volume)
+    {
+        AudioManager.instance.SetSoundEffectsVolumeLevel(volume / 1);
     }
 
     // For opening and closing the panels, we might want to 

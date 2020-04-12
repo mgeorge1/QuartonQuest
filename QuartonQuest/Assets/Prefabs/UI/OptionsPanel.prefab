@@ -276,7 +276,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Panel: {fileID: 9052541957061042582}
-  audioMixer: {fileID: 24100000, guid: 52e0a9c4a88e16647866396ba92d43ce, type: 2}
 --- !u!1 &9052541957184589523
 GameObject:
   m_ObjectHideFlags: 0
@@ -359,15 +358,15 @@ MonoBehaviour:
   m_FillRect: {fileID: 9052541957222353106}
   m_HandleRect: {fileID: 9052541958095846041}
   m_Direction: 0
-  m_MinValue: -80
-  m_MaxValue: 0
+  m_MinValue: 0.0001
+  m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 9052541957061042578}
-        m_MethodName: SetVolume
+        m_MethodName: OnMusicVolumeChanged
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -605,13 +604,24 @@ MonoBehaviour:
   m_FillRect: {fileID: 9052541958708251005}
   m_HandleRect: {fileID: 9052541957538179604}
   m_Direction: 0
-  m_MinValue: 0
+  m_MinValue: 0.0001
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 9052541957061042578}
+        m_MethodName: OnSoundEffectsVolumeChanged
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &9052541957538179605
 GameObject:
   m_ObjectHideFlags: 0
@@ -1607,12 +1617,12 @@ PrefabInstance:
     - target: {fileID: 6690656162424181771, guid: bf2169c813a08cc4c8097b2f6264b699,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6690656162424181771, guid: bf2169c813a08cc4c8097b2f6264b699,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -3.399994
+      value: -0.19999695
       objectReference: {fileID: 0}
     - target: {fileID: 6690656162816654864, guid: bf2169c813a08cc4c8097b2f6264b699,
         type: 3}

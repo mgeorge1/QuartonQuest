@@ -10,11 +10,8 @@ public class mainMenuGUI : MonoBehaviour
     public AudioClip multiplayerButtonSound;
     public AudioClip settingsButtonSound;
 
-    public string storyModePath;
-    public string quickPlayPath;
-    public string multiplayerPath;
-
     public GameObject helpPanel;
+    public GameObject optionsPanel;
 
     private AudioSource audio;
 

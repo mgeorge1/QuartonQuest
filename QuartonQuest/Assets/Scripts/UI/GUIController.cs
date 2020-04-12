@@ -20,6 +20,8 @@ public class GUIController : MonoBehaviorSingleton<GUIController>
     private CameraMotionControls cameraControls;
     private static bool playerGoesFirst = true;
     private static bool playerDidSelectTurn = false;
+    [SerializeField]
+    private GameObject blocker;
     public bool PlayerGoesFirst
     {
         get
@@ -76,7 +78,7 @@ public class GUIController : MonoBehaviorSingleton<GUIController>
     void Awake()
     {
         Debug.Log("GUIController initializing");
-        
+
         if (HUDCanvas != null)
             canvasController = HUDCanvas.GetComponent<HUDCanvasController>();
 
@@ -125,12 +127,18 @@ public class GUIController : MonoBehaviorSingleton<GUIController>
             case SceneNames.Story1:
                 Debug.Log("Setting current story to 1");
                 CurrentStoryScene = SceneNames.Story1;
+                AudioManager.instance.PlaySong("Track3");
                 break;
             case SceneNames.Story2:
                 CurrentStoryScene = SceneNames.Story2;
+                AudioManager.instance.PlaySong("Track2");
                 break;
             case SceneNames.MainMenu:
-                CurrentStoryScene = null;
+                if (CurrentStoryScene != null)
+                {
+                    AudioManager.instance.PlaySong("Track1");
+                    CurrentStoryScene = null;
+                }
                 break;
         }
     }
@@ -229,6 +237,7 @@ public class GUIController : MonoBehaviorSingleton<GUIController>
 
     public void LoadSceneWithTransition(string sceneName)
     {
+        blocker.SetActive(true);
         Initiate.Fade(sceneName, Color.black, 2.0f);
     }
 
