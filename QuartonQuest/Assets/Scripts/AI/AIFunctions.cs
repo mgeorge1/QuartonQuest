@@ -85,9 +85,15 @@ namespace AI
             string[] gameBoard;
             string piece;
             int move;
+
+            
             for (int i = 0; hasWon && currentNode.parent.children[i] != null; i++)
             {
-                gameBoard = currentNode.parent.children[i].gameBoard;
+                if (winBlockPiece != null)
+                    gameBoard = currentNode.gameBoard;
+                else
+                    gameBoard = currentNode.parent.children[i].gameBoard;
+
                 piece = currentNode.parent.children[i].pieces[currentNode.parent.children[i].pieceToPlay].getPiece();
                 move = currentNode.parent.children[i].moveOnBoard;
 
@@ -95,7 +101,14 @@ namespace AI
 
                 if (!hasWon && piece != winBlockPiece)
                 {
-                    newWinNode = currentNode.parent.children[i];
+                    if (winBlockPiece == null)
+                        newWinNode = currentNode.parent.children[i];
+                    else
+                    {
+                        newWinNode = currentNode.parent.children[i];
+                        newWinNode.gameBoard = gameBoard;
+                    }
+
                 }
             }
 

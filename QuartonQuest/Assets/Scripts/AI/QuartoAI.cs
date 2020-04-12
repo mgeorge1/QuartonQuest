@@ -71,14 +71,12 @@ namespace AI
 
             winningMove move = NegaMax.searchForBestPlay(currentNode, maxDepth, 0, -MAXGAMEBOARD, MAXGAMEBOARD, true);
 
-            //Checks for win by opponent, given the piece chosen
-            //If win it makes it equal to the next child and so on
-            if (piecesOnBoard != 0 && move.winningNode.pieceToPlay != NULLPIECE && difficulty > 1)
-                move.winningNode = AIFunctions.checkForOpponentWin(move.winningNode, null);
-
-            if (boardBlockable && !move.isWin)
+            if (boardBlockable && !move.isWin && piecesOnBoard != MAXGAMEBOARD - 1)
             {
+                // Erases old winning move then adds new move to board.
+                move.winningNode.gameBoard[move.winningNode.moveOnBoard] = null;
                 move.winningNode.gameBoard[positionToBlock] = currentPieces[piece].piece;
+
                 move.winningNode = AIFunctions.checkForOpponentWin(move.winningNode, currentPieces[piece].piece);
                 
                 pieceOnDeck = move.winningNode.pieceToPlay == NULLPIECE ?
@@ -88,7 +86,12 @@ namespace AI
             }
             else
             {
+                if (piecesOnBoard != 0 && move.winningNode.pieceToPlay != NULLPIECE && difficulty > 1)
+                    move.winningNode = AIFunctions.checkForOpponentWin(move.winningNode, null);
+
                 moveToSend = move.winningNode.pieces[move.winningNode.moveOnBoard].piece;
+                //Checks for win by opponent, given the piece chosen
+                //If win it makes it equal to the next child and so on
                 pieceOnDeck = move.winningNode.pieceToPlay == NULLPIECE ?
                     NULLPIECE.ToString() : move.winningNode.pieces[move.winningNode.pieceToPlay].piece;
             }
