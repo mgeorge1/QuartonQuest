@@ -9,6 +9,7 @@ public class advanceStoryBoard : MonoBehaviour
     public string nextScene;
     
     public TextMeshProUGUI textBox;
+    public GameObject OptionsPanel;
 
     // Typewriter effect here: http://answers.unity.com/answers/987268/view.html
     string[] storyText = new string[] { 
@@ -25,12 +26,25 @@ public class advanceStoryBoard : MonoBehaviour
     public float keyDelay = .25f; 
     private float timePassed = 0f;
 
+    private bool OptionsIsActive
+    {
+        get
+        {
+            return OptionsPanel.activeInHierarchy;
+        }
+    }
+
     private void Update()
     {
         timePassed += Time.deltaTime;
 
-        if (Input.anyKeyDown && timePassed >= keyDelay)
+        if (!OptionsIsActive && Input.anyKeyDown && timePassed >= keyDelay)
         {
+            if (Input.GetMouseButtonDown(0)
+                 || Input.GetMouseButtonDown(1)
+                 || Input.GetMouseButtonDown(2))
+                return;
+
             timePassed = 0f;
             if (typingText)
             {
@@ -74,5 +88,11 @@ public class advanceStoryBoard : MonoBehaviour
             yield return new WaitForSeconds(.03f);
         }
         currentlyDisplayingText++;
-        typingText = false;    }
+        typingText = false;    
+    }
+
+    public void MainMenuButtonClicked()
+    {
+        GUIController.Instance.LoadSceneWithTransition(GUIController.SceneNames.MainMenu);
+    }
 }

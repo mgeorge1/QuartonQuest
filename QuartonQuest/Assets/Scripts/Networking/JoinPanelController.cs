@@ -26,6 +26,16 @@ public class JoinPanelController : MonoBehaviour
         joinGameText.text = "Join Game";
     }
 
+    public void DisableCancelButton()
+    {
+        cancelButton.interactable = false;
+    }
+
+    public void EnableCancelButton()
+    {
+        cancelButton.interactable = true;
+    }
+
     public void OnCancelButtonClicked()
     {
         StartCoroutine(Cancel_Async());

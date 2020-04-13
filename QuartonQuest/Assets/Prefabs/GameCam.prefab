@@ -151,10 +151,10 @@ MonoBehaviour:
   rotationSensitivity: 1
   rotationLimit: {x: 5, y: 80}
   zAxisDistance: 20
-  zAxisStartingDistance: 25
+  zAxisStartingDistance: 20
   zoomMode: 1
   cameraZoomRangeFOV: {x: 50, y: 500}
-  cameraZoomRangeZAxis: {x: 10, y: 60}
+  cameraZoomRangeZAxis: {x: 10, y: 40}
   zoomSoothness: 10
   zoomSensitivity: 1
 --- !u!1 &7485073640766814524
@@ -188,7 +188,7 @@ Transform:
   m_LocalScale: {x: 30, y: 30, z: 30}
   m_Children: []
   m_Father: {fileID: 1529814311445187971}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &7485073640766814521
 MeshFilter:

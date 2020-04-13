@@ -10,13 +10,13 @@ public class PanelButton : MonoBehaviour
 
     public void OnHover()
     {
-        if (button.interactable)
+        if (button.interactable && AudioManager.instance != null)
             AudioManager.instance.PlaySoundEffect("ButtonHover");
     }
     
     public void OnPressDown()
     {
-        if (button.interactable)
+        if (button.interactable && AudioManager.instance != null)
             AudioManager.instance.PlaySoundEffect("ButtonClick");
     }
 }

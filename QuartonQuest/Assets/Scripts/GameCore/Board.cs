@@ -11,6 +11,9 @@ public class Board : MonoBehaviour
     public GameObject OnDeckTile;
 
     public Vector3 currentOnDeck;
+    private float smallPieceOffset = 0.4f;
+    private float offsetMultiplier = 0.75f;
+    private float pieceMovementSpeed = 0.5f;
 
     public void DisableTileClicking()
     {
@@ -55,24 +58,45 @@ public class Board : MonoBehaviour
         EnablePieceClicking();
     }
 
-
     public void MoveOnDeck()
     {
         // Not sure why this line is necessary, but it really is
         if (OnDeckTile == null)
             return;
 
+        if (AudioManager.instance != null)
+            AudioManager.instance.PlaySoundEffect("PieceTeleport");
+
         SelectedPiece.onDeck = true;
-        Vector3 offset = new Vector3(0, GameCoreController.Instance.transform.localScale.y, 0);
-        SelectedPiece.transform.position = OnDeckTile.transform.position + offset;
+
+        float yOffset;
+        if (SelectedPiece.isSmall)
+            yOffset = (GameCoreController.Instance.transform.localScale.y * offsetMultiplier) - smallPieceOffset;
+        else
+            yOffset = GameCoreController.Instance.transform.localScale.y * offsetMultiplier;
+
+        Vector3 offset = new Vector3(0, yOffset, 0);
+        //SelectedPiece.transform.position = OnDeckTile.transform.position + offset;
+        iTween.MoveTo(SelectedPiece.gameObject, OnDeckTile.transform.position + offset, pieceMovementSpeed);
     }
 
     public void MovePiece(Piece piece, Tile tile)
      {
         if(SelectedPiece!=null)
         {
-            Vector3 offset = new Vector3(0, GameCoreController.Instance.transform.localScale.y, 0);
-            piece.transform.position = tile.transform.position + offset;
+            if (AudioManager.instance != null)
+                AudioManager.instance.PlaySoundEffect("PieceTeleport");
+
+            float yOffset;
+            if (SelectedPiece.isSmall)
+                yOffset = (GameCoreController.Instance.transform.localScale.y * offsetMultiplier) - smallPieceOffset;
+            else
+                yOffset = GameCoreController.Instance.transform.localScale.y * offsetMultiplier;
+
+
+            Vector3 offset = new Vector3(0, yOffset, 0);
+            //piece.transform.position = tile.transform.position + offset;
+            iTween.MoveTo(piece.gameObject, tile.transform.position + offset, pieceMovementSpeed);
             tile.localPiece = SelectedPiece;
             SelectedPiece.placed = true;
             SelectedPiece.onDeck = false;

@@ -7386,6 +7386,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2659565163139363710, guid: 61297b0f304f6694bb5f3074a8b46498,
         type: 3}
+      propertyPath: SoundEffects.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2659565163139363710, guid: 61297b0f304f6694bb5f3074a8b46498,
+        type: 3}
       propertyPath: FadeTime
       value: 0.2
       objectReference: {fileID: 0}
@@ -7404,6 +7409,32 @@ PrefabInstance:
       propertyPath: SoundEffects.Array.data[0].volume
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 2659565163139363710, guid: 61297b0f304f6694bb5f3074a8b46498,
+        type: 3}
+      propertyPath: SoundEffects.Array.data[2].name
+      value: PieceTeleport
+      objectReference: {fileID: 0}
+    - target: {fileID: 2659565163139363710, guid: 61297b0f304f6694bb5f3074a8b46498,
+        type: 3}
+      propertyPath: SoundEffects.Array.data[2].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 6fa08f3339df7644d937d81db34c2b3a, type: 3}
+    - target: {fileID: 2659565163139363710, guid: 61297b0f304f6694bb5f3074a8b46498,
+        type: 3}
+      propertyPath: SoundEffects.Array.data[2].volume
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2659565163139363710, guid: 61297b0f304f6694bb5f3074a8b46498,
+        type: 3}
+      propertyPath: SoundEffects.Array.data[2].pitch
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2659565163139363710, guid: 61297b0f304f6694bb5f3074a8b46498,
+        type: 3}
+      propertyPath: SoundEffects.Array.data[2].mixerGroup
+      value: 
+      objectReference: {fileID: 24300002, guid: e15a4f3b4daa0ea40b2e59971d5e524a,
+        type: 2}
     - target: {fileID: 2659565163139363711, guid: 61297b0f304f6694bb5f3074a8b46498,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -7586,7 +7617,7 @@ PrefabInstance:
     - target: {fileID: 5722416807584881162, guid: fea69c9439543b444bb42b8eebc9607e,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OpenPanel
+      value: ToggleOpen
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fea69c9439543b444bb42b8eebc9607e, type: 3}

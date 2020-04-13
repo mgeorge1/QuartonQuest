@@ -90,8 +90,9 @@ public class AIController : MonoBehaviour, IOpponent
     {
         // Change to pick random piece
         int rand = Random.Range(0, GameCoreController.Instance.GetPlayablePiecesList().Count);
+        yield return new WaitForSeconds(1);
+        
         NextMove.OnDeckPiece = GameCoreController.Instance.NumberPieceMap[rand];
-        return null;
     }
 
     public IEnumerator WaitForTurn()

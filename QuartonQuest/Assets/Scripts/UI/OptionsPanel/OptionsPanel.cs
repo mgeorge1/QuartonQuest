@@ -29,6 +29,11 @@ public class OptionsPanel : MonoBehaviour
         AudioManager.instance.SetSoundEffectsVolumeLevel(volume / 1);
     }
 
+    public void ToggleOpen()
+    {
+        OptionsPanelShowing = !OptionsPanelShowing;
+    }
+
     // For opening and closing the panels, we might want to 
     // pause game time as well. 
     public void OpenPanel()

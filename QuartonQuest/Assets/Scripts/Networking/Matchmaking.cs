@@ -80,6 +80,7 @@ namespace Networking
 
         public void OnJoinButtonClicked()
         {
+            waitingStatus.text = "Connecting to multiplayer...";
             ConnectingPanel.SetActive(true);
             NameInputPanel.SetActive(false);
             JoinGame();
@@ -175,6 +176,7 @@ namespace Networking
         {
             JoinPanelController jpc = JoinGamePanel.GetComponent<JoinPanelController>();
             jpc.SetJoiningStatus();
+            jpc.DisableCancelButton();
 
             NetworkController.OpponentName = opponentName;
             GUIController.Opponent = GUIController.OpponentType.NETWORK;
@@ -257,6 +259,7 @@ namespace Networking
             Debug.Log("Client failed to join the room");
             JoinPanelController jpc = JoinGamePanel.GetComponent<JoinPanelController>();
             jpc.ResetStatus();
+            jpc.EnableCancelButton();
 
             string errorMessage;
             if (!isMasterClient)

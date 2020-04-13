@@ -174,7 +174,8 @@ public class GameCoreController : MonoBehaviour
 
         model.Move(Opponent.NextMove.Tile, OnDeckPiece);
         board.MovePiece(Opponent.NextMove.Tile);
-        
+        yield return new WaitForSeconds(.5f);
+
         if (!IsGameOver)
         {
             board.MoveOnDeck(Opponent.NextMove.OnDeckPiece);

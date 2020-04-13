@@ -62,6 +62,8 @@ MonoBehaviour:
   MouseOverColor: {r: 0, g: 1, b: 0.9800041, a: 0.49803922}
   PieceVisual: {fileID: 0}
   placed: 0
+  onDeck: 0
+  isSmall: 1
 --- !u!1 &2898709611586519928
 GameObject:
   m_ObjectHideFlags: 0

@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3679014421108936348}
   m_LocalRotation: {x: 0.000000030908623, y: 0.7071068, z: 0.7071067, w: 0.000000030908616}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.25, z: 0}
   m_LocalScale: {x: -0.24976519, y: -0.24976519, z: -0.24976519}
   m_Children: []
   m_Father: {fileID: 3415298481916912851}
@@ -141,3 +141,4 @@ MonoBehaviour:
   MouseOverColor: {r: 0, g: 1, b: 0.9800041, a: 0.49803922}
   PieceVisual: {fileID: 0}
   placed: 0
+  onDeck: 0

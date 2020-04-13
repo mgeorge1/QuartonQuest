@@ -63,6 +63,7 @@ MonoBehaviour:
   PieceVisual: {fileID: 0}
   placed: 0
   onDeck: 0
+  isSmall: 1
 --- !u!1 &8645078905208375428
 GameObject:
   m_ObjectHideFlags: 0

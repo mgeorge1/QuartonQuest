@@ -22,6 +22,7 @@ public class Piece: MonoBehaviour
     public UnityEngine.GameObject PieceVisual;
     public bool placed = false;
     public bool onDeck = false;
+    public bool isSmall = false;
 
     // Start is called before the first frame update
     void Start()

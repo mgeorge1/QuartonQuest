@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DefaultColor: {r: 1, g: 1, b: 1, a: 0}
-  MouseOverColor: {r: 0, g: 1, b: 0.94523287, a: 0.5254902}
+  MouseOverColor: {r: 0.31764707, g: 0.40392157, b: 0.40392157, a: 0.5254902}
   TileVisual: {fileID: 0}
   localPiece: {fileID: 0}
 --- !u!54 &3273963842902458854
@@ -137,7 +137,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8648606269778390566}
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.1, z: 0}
   m_LocalScale: {x: 0.3, y: 0.29999998, z: 0.16771697}
   m_Children: []
   m_Father: {fileID: 1960379672870263903}
@@ -216,7 +216,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8648606269825739443}
   m_LocalRotation: {x: -0, y: 0.00013034302, z: -0, w: -1}
-  m_LocalPosition: {x: 28.1, y: 1.72, z: 18.01}
+  m_LocalPosition: {x: 28.1, y: 1.48, z: 18.01}
   m_LocalScale: {x: 4, y: 4, z: 4}
   m_Children:
   - {fileID: 8648606269778390565}
@@ -234,7 +234,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.5, y: 1, z: 0.5}
+  m_Size: {x: 0.5, y: 0.8, z: 0.5}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &8648606269825739442
 MonoBehaviour:
@@ -249,10 +249,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DefaultColor: {r: 1, g: 1, b: 1, a: 0}
-  MouseOverColor: {r: 0, g: 1, b: 0.9800041, a: 0.49803922}
+  MouseOverColor: {r: 0.31572625, g: 0.4056604, b: 0.403897, a: 0.49803922}
   PieceVisual: {fileID: 0}
   placed: 0
   onDeck: 0
+  isSmall: 1
 --- !u!1 &8648606269826058795
 GameObject:
   m_ObjectHideFlags: 0
@@ -299,7 +300,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DefaultColor: {r: 1, g: 1, b: 1, a: 0}
-  MouseOverColor: {r: 0, g: 1, b: 0.94523287, a: 0.5254902}
+  MouseOverColor: {r: 0.31764707, g: 0.40392157, b: 0.40392157, a: 0.5254902}
   TileVisual: {fileID: 0}
   localPiece: {fileID: 0}
 --- !u!54 &8648606269826058794
@@ -344,7 +345,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8648606269827296969}
   m_LocalRotation: {x: 0.000000030908623, y: 0.7071068, z: 0.7071067, w: 0.000000030908616}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.15, z: 0}
   m_LocalScale: {x: -0.24976519, y: -0.24976519, z: -0.24976519}
   m_Children: []
   m_Father: {fileID: 214753384884296185}
@@ -423,7 +424,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8648606269856750014}
   m_LocalRotation: {x: 0.000000030908623, y: 0.7071068, z: 0.7071067, w: 0.000000030908616}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.15, z: 0}
   m_LocalScale: {x: -0.24976519, y: -0.24976519, z: -0.24976519}
   m_Children: []
   m_Father: {fileID: 5114055008847511833}
@@ -522,7 +523,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DefaultColor: {r: 1, g: 1, b: 1, a: 0}
-  MouseOverColor: {r: 0, g: 1, b: 0.94523287, a: 0.5254902}
+  MouseOverColor: {r: 0.31764707, g: 0.40392157, b: 0.40392157, a: 0.5254902}
   TileVisual: {fileID: 0}
   localPiece: {fileID: 0}
 --- !u!54 &8648606269857859810
@@ -567,7 +568,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8648606269868018398}
   m_LocalRotation: {x: -0, y: 0.00013034302, z: -0, w: -1}
-  m_LocalPosition: {x: 28.097906, y: 2.61, z: 25.939985}
+  m_LocalPosition: {x: 28.097906, y: 2.23, z: 25.939985}
   m_LocalScale: {x: 4, y: 4, z: 4}
   m_Children:
   - {fileID: 8648606271648344494}
@@ -585,7 +586,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.5, y: 1, z: 0.5}
+  m_Size: {x: 0.5, y: 1.2, z: 0.5}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &8648606269868018397
 MonoBehaviour:
@@ -600,10 +601,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DefaultColor: {r: 1, g: 1, b: 1, a: 0}
-  MouseOverColor: {r: 0, g: 1, b: 0.9800041, a: 0.49803922}
+  MouseOverColor: {r: 0.31572625, g: 0.4056604, b: 0.403897, a: 0.49803922}
   PieceVisual: {fileID: 0}
   placed: 0
   onDeck: 0
+  isSmall: 0
 --- !u!1 &8648606269892331234
 GameObject:
   m_ObjectHideFlags: 0
@@ -630,7 +632,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8648606269892331234}
   m_LocalRotation: {x: 0.000000030908623, y: 0.7071068, z: 0.7071067, w: 0.000000030908616}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.1, z: 0}
   m_LocalScale: {x: -0.24976517, y: -0.24976517, z: -0.1638121}
   m_Children: []
   m_Father: {fileID: 7180227484287560522}
@@ -729,7 +731,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DefaultColor: {r: 1, g: 1, b: 1, a: 0}
-  MouseOverColor: {r: 0, g: 1, b: 0.94523287, a: 0.5254902}
+  MouseOverColor: {r: 0.31764707, g: 0.40392157, b: 0.40392157, a: 0.5254902}
   TileVisual: {fileID: 0}
   localPiece: {fileID: 0}
 --- !u!54 &8648606270183703544
@@ -774,7 +776,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8648606270189639979}
   m_LocalRotation: {x: -0, y: 0.00013034302, z: -0, w: -1}
-  m_LocalPosition: {x: 20.137907, y: 1.72, z: 18.009985}
+  m_LocalPosition: {x: 20.137907, y: 1.48, z: 18.009985}
   m_LocalScale: {x: 4, y: 4, z: 4}
   m_Children:
   - {fileID: 8648606270973347317}
@@ -792,7 +794,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.5, y: 1, z: 0.5}
+  m_Size: {x: 0.5, y: 0.8, z: 0.5}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &8648606270189639978
 MonoBehaviour:
@@ -807,10 +809,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DefaultColor: {r: 1, g: 1, b: 1, a: 0}
-  MouseOverColor: {r: 0, g: 1, b: 0.9800041, a: 0.49803922}
+  MouseOverColor: {r: 0.31572625, g: 0.4056604, b: 0.403897, a: 0.49803922}
   PieceVisual: {fileID: 0}
   placed: 0
   onDeck: 0
+  isSmall: 1
 --- !u!1 &8648606270223912802
 GameObject:
   m_ObjectHideFlags: 0
@@ -837,7 +840,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8648606270223912802}
   m_LocalRotation: {x: -0, y: -0.00072166306, z: -0, w: 0.99999976}
-  m_LocalPosition: {x: 3.977933, y: 2.69, z: 25.893103}
+  m_LocalPosition: {x: 3.977933, y: 2.23, z: 25.893103}
   m_LocalScale: {x: 4, y: 4, z: 4}
   m_Children:
   - {fileID: 8648606271070831041}
@@ -855,7 +858,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.5, y: 1, z: 0.5}
+  m_Size: {x: 0.5, y: 1.2, z: 0.5}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &8648606270223912801
 MonoBehaviour:
@@ -870,10 +873,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DefaultColor: {r: 1, g: 1, b: 1, a: 0}
-  MouseOverColor: {r: 0, g: 1, b: 0.9800041, a: 0.49803922}
+  MouseOverColor: {r: 0.31572625, g: 0.4056604, b: 0.403897, a: 0.49803922}
   PieceVisual: {fileID: 0}
   placed: 0
   onDeck: 0
+  isSmall: 0
 --- !u!1 &8648606270271754562
 GameObject:
   m_ObjectHideFlags: 0
@@ -900,7 +904,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8648606270271754562}
   m_LocalRotation: {x: -0, y: -0.00072166306, z: -0, w: 0.99999976}
-  m_LocalPosition: {x: -19.992075, y: 1.73, z: 17.968506}
+  m_LocalPosition: {x: -19.992075, y: 1.4, z: 17.968506}
   m_LocalScale: {x: 4, y: 4, z: 4}
   m_Children:
   - {fileID: 8648606269892331233}
@@ -918,7 +922,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.5, y: 1, z: 0.5}
+  m_Size: {x: 0.5, y: 0.8, z: 0.5}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &8648606270271754561
 MonoBehaviour:
@@ -933,10 +937,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DefaultColor: {r: 1, g: 1, b: 1, a: 0}
-  MouseOverColor: {r: 0, g: 1, b: 0.9800041, a: 0.49803922}
+  MouseOverColor: {r: 0.31572625, g: 0.4056604, b: 0.403897, a: 0.49803922}
   PieceVisual: {fileID: 0}
   placed: 0
   onDeck: 0
+  isSmall: 1
 --- !u!1 &8648606270278902189
 GameObject:
   m_ObjectHideFlags: 0
@@ -983,7 +988,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DefaultColor: {r: 1, g: 1, b: 1, a: 0}
-  MouseOverColor: {r: 0, g: 1, b: 0.94523287, a: 0.5254902}
+  MouseOverColor: {r: 0.31764707, g: 0.40392157, b: 0.40392157, a: 0.5254902}
   TileVisual: {fileID: 0}
   localPiece: {fileID: 0}
 --- !u!54 &8648606270278902188
@@ -1048,7 +1053,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DefaultColor: {r: 1, g: 1, b: 1, a: 0}
-  MouseOverColor: {r: 0, g: 1, b: 0.94523287, a: 0.5254902}
+  MouseOverColor: {r: 0.31764707, g: 0.40392157, b: 0.40392157, a: 0.5254902}
   TileVisual: {fileID: 0}
   localPiece: {fileID: 0}
 --- !u!54 &8648606270291460846
@@ -1093,7 +1098,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8648606270382378826}
   m_LocalRotation: {x: -0, y: -0.00072166306, z: -0, w: 0.99999976}
-  m_LocalPosition: {x: -11.872093, y: 1.73, z: 17.979984}
+  m_LocalPosition: {x: -11.872093, y: 1.48, z: 17.979984}
   m_LocalScale: {x: 4, y: 4, z: 4}
   m_Children:
   - {fileID: 8648606270804092465}
@@ -1111,7 +1116,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.5, y: 1, z: 0.5}
+  m_Size: {x: 0.5, y: 0.8, z: 0.5}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &8648606270382378825
 MonoBehaviour:
@@ -1126,10 +1131,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DefaultColor: {r: 1, g: 1, b: 1, a: 0}
-  MouseOverColor: {r: 0, g: 1, b: 0.9800041, a: 0.49803922}
+  MouseOverColor: {r: 0.31572625, g: 0.4056604, b: 0.403897, a: 0.49803922}
   PieceVisual: {fileID: 0}
   placed: 0
   onDeck: 0
+  isSmall: 1
 --- !u!1 &8648606270385107394
 GameObject:
   m_ObjectHideFlags: 0
@@ -1156,7 +1162,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8648606270385107394}
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.1, z: 0}
   m_LocalScale: {x: 0.3, y: 0.29999998, z: 0.16771697}
   m_Children: []
   m_Father: {fileID: 6985873706928207819}
@@ -1329,7 +1335,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8648606270424655141}
   m_LocalRotation: {x: -0, y: -0.00072166306, z: -0, w: 0.99999976}
-  m_LocalPosition: {x: 3.9878864, y: 1.73, z: 18.003078}
+  m_LocalPosition: {x: 3.9878864, y: 1.48, z: 18.003078}
   m_LocalScale: {x: 4, y: 4, z: 4}
   m_Children:
   - {fileID: 8648606270385107393}
@@ -1347,7 +1353,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.5, y: 1, z: 0.5}
+  m_Size: {x: 0.5, y: 0.8, z: 0.5}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &8648606270424655140
 MonoBehaviour:
@@ -1362,10 +1368,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DefaultColor: {r: 1, g: 1, b: 1, a: 0}
-  MouseOverColor: {r: 0, g: 1, b: 0.9800041, a: 0.49803922}
+  MouseOverColor: {r: 0.31572625, g: 0.4056604, b: 0.403897, a: 0.49803922}
   PieceVisual: {fileID: 0}
   placed: 0
   onDeck: 0
+  isSmall: 1
 --- !u!1 &8648606270433325267
 GameObject:
   m_ObjectHideFlags: 0
@@ -1412,7 +1419,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DefaultColor: {r: 1, g: 1, b: 1, a: 0}
-  MouseOverColor: {r: 0, g: 1, b: 0.94523287, a: 0.5254902}
+  MouseOverColor: {r: 0.31764707, g: 0.40392157, b: 0.40392157, a: 0.5254902}
   TileVisual: {fileID: 0}
   localPiece: {fileID: 0}
 --- !u!54 &8648606270433325266
@@ -1457,7 +1464,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8648606270605644777}
   m_LocalRotation: {x: 0.000000030908623, y: 0.7071068, z: 0.7071067, w: 0.000000030908616}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.15, z: 0}
   m_LocalScale: {x: -0.24976519, y: -0.24976519, z: -0.24976519}
   m_Children: []
   m_Father: {fileID: 7885839753603398249}
@@ -1536,7 +1543,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8648606270622381132}
   m_LocalRotation: {x: -0, y: 0.00013034302, z: -0, w: -1}
-  m_LocalPosition: {x: 36.007904, y: 1.72, z: 18.009985}
+  m_LocalPosition: {x: 36.007904, y: 1.48, z: 18.009985}
   m_LocalScale: {x: 4, y: 4, z: 4}
   m_Children:
   - {fileID: 8648606271383540387}
@@ -1554,7 +1561,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.5, y: 1, z: 0.5}
+  m_Size: {x: 0.5, y: 0.8, z: 0.5}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &8648606270622381131
 MonoBehaviour:
@@ -1569,10 +1576,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DefaultColor: {r: 1, g: 1, b: 1, a: 0}
-  MouseOverColor: {r: 0, g: 1, b: 0.9800041, a: 0.49803922}
+  MouseOverColor: {r: 0.31572625, g: 0.4056604, b: 0.403897, a: 0.49803922}
   PieceVisual: {fileID: 0}
   placed: 0
   onDeck: 0
+  isSmall: 1
 --- !u!1 &8648606270676805401
 GameObject:
   m_ObjectHideFlags: 0
@@ -1599,7 +1607,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8648606270676805401}
   m_LocalRotation: {x: 0.000000030908623, y: 0.7071068, z: 0.7071067, w: 0.000000030908616}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.1, z: 0}
   m_LocalScale: {x: -0.24976517, y: -0.24976517, z: -0.1638121}
   m_Children: []
   m_Father: {fileID: 1967271382893361487}
@@ -1724,7 +1732,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8648606270804092466}
   m_LocalRotation: {x: -0.7071068, y: 2.0811312e-15, z: -1.4715817e-15, w: 0.7071067}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.1, z: 0}
   m_LocalScale: {x: 0.3, y: 0.29999995, z: 0.16771695}
   m_Children: []
   m_Father: {fileID: 6949328999042713122}
@@ -1823,7 +1831,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DefaultColor: {r: 1, g: 1, b: 1, a: 0}
-  MouseOverColor: {r: 0, g: 1, b: 0.94523287, a: 0.5254902}
+  MouseOverColor: {r: 0.31764707, g: 0.40392157, b: 0.40392157, a: 0.5254902}
   TileVisual: {fileID: 0}
   localPiece: {fileID: 0}
 --- !u!54 &8648606270809662973
@@ -1868,7 +1876,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8648606270867742775}
   m_LocalRotation: {x: -0, y: 0.00013034302, z: -0, w: -1}
-  m_LocalPosition: {x: 36.00585, y: 2.61, z: 25.939955}
+  m_LocalPosition: {x: 36.00585, y: 2.23, z: 25.939955}
   m_LocalScale: {x: 4, y: 4, z: 4}
   m_Children:
   - {fileID: 8648606270605644776}
@@ -1886,7 +1894,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.5, y: 1, z: 0.5}
+  m_Size: {x: 0.5, y: 1.2, z: 0.5}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &8648606270867742774
 MonoBehaviour:
@@ -1901,10 +1909,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DefaultColor: {r: 1, g: 1, b: 1, a: 0}
-  MouseOverColor: {r: 0, g: 1, b: 0.9800041, a: 0.49803922}
+  MouseOverColor: {r: 0.31572625, g: 0.4056604, b: 0.403897, a: 0.49803922}
   PieceVisual: {fileID: 0}
   placed: 0
   onDeck: 0
+  isSmall: 0
 --- !u!1 &8648606270937511952
 GameObject:
   m_ObjectHideFlags: 0
@@ -1931,7 +1940,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8648606270937511952}
   m_LocalRotation: {x: -0, y: 0.00013034302, z: -0, w: -1}
-  m_LocalPosition: {x: 12.085855, y: 2.61, z: 25.939983}
+  m_LocalPosition: {x: 12.085855, y: 2.23, z: 25.939983}
   m_LocalScale: {x: 4, y: 4, z: 4}
   m_Children:
   - {fileID: 8648606271480573749}
@@ -1949,7 +1958,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.5, y: 1, z: 0.5}
+  m_Size: {x: 0.5, y: 1.2, z: 0.5}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &8648606270937511967
 MonoBehaviour:
@@ -1964,10 +1973,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DefaultColor: {r: 1, g: 1, b: 1, a: 0}
-  MouseOverColor: {r: 0, g: 1, b: 0.9800041, a: 0.49803922}
+  MouseOverColor: {r: 0.31572625, g: 0.4056604, b: 0.403897, a: 0.49803922}
   PieceVisual: {fileID: 0}
   placed: 0
   onDeck: 0
+  isSmall: 0
 --- !u!1 &8648606270973347318
 GameObject:
   m_ObjectHideFlags: 0
@@ -1994,7 +2004,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8648606270973347318}
   m_LocalRotation: {x: 0.000000030908623, y: 0.7071068, z: 0.7071067, w: 0.000000030908616}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.1, z: 0}
   m_LocalScale: {x: -0.24976517, y: -0.24976517, z: -0.1638121}
   m_Children: []
   m_Father: {fileID: 370976337019790521}
@@ -2073,7 +2083,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8648606271011418940}
   m_LocalRotation: {x: -0, y: -0.00072166306, z: -0, w: 0.99999976}
-  m_LocalPosition: {x: -20.002071, y: 2.69, z: 25.858541}
+  m_LocalPosition: {x: -20.002071, y: 2.23, z: 25.858541}
   m_LocalScale: {x: 4, y: 4, z: 4}
   m_Children:
   - {fileID: 8648606271525855221}
@@ -2091,7 +2101,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.5, y: 1, z: 0.5}
+  m_Size: {x: 0.5, y: 1.2, z: 0.5}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &8648606271011418939
 MonoBehaviour:
@@ -2106,10 +2116,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DefaultColor: {r: 1, g: 1, b: 1, a: 0}
-  MouseOverColor: {r: 0, g: 1, b: 0.9800041, a: 0.49803922}
+  MouseOverColor: {r: 0.31572625, g: 0.4056604, b: 0.403897, a: 0.49803922}
   PieceVisual: {fileID: 0}
   placed: 0
   onDeck: 0
+  isSmall: 0
 --- !u!1 &8648606271054769979
 GameObject:
   m_ObjectHideFlags: 0
@@ -2136,7 +2147,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8648606271054769979}
   m_LocalRotation: {x: -0, y: 0.00013034302, z: -0, w: -1}
-  m_LocalPosition: {x: 20.135874, y: 2.61, z: 25.940004}
+  m_LocalPosition: {x: 20.135874, y: 2.23, z: 25.940004}
   m_LocalScale: {x: 4, y: 4, z: 4}
   m_Children:
   - {fileID: 8648606269856750013}
@@ -2154,7 +2165,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.5, y: 1, z: 0.5}
+  m_Size: {x: 0.5, y: 1.2, z: 0.5}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &8648606271054769978
 MonoBehaviour:
@@ -2169,10 +2180,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DefaultColor: {r: 1, g: 1, b: 1, a: 0}
-  MouseOverColor: {r: 0, g: 1, b: 0.9800041, a: 0.49803922}
+  MouseOverColor: {r: 0.31572625, g: 0.4056604, b: 0.403897, a: 0.49803922}
   PieceVisual: {fileID: 0}
   placed: 0
   onDeck: 0
+  isSmall: 0
 --- !u!1 &8648606271070831042
 GameObject:
   m_ObjectHideFlags: 0
@@ -2199,7 +2211,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8648606271070831042}
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.15, z: 0}
   m_LocalScale: {x: 0.3, y: 0.29999998, z: 0.25}
   m_Children: []
   m_Father: {fileID: 4615668212828852080}
@@ -2298,7 +2310,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DefaultColor: {r: 1, g: 1, b: 1, a: 0}
-  MouseOverColor: {r: 0, g: 1, b: 0.94523287, a: 0.5254902}
+  MouseOverColor: {r: 0.31764707, g: 0.40392157, b: 0.40392157, a: 0.5254902}
   TileVisual: {fileID: 0}
   localPiece: {fileID: 0}
 --- !u!54 &8648606271118423874
@@ -2343,7 +2355,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8648606271155883838}
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.15, z: 0}
   m_LocalScale: {x: 0.3, y: 0.29999998, z: 0.25}
   m_Children: []
   m_Father: {fileID: 1082615473598474537}
@@ -2442,7 +2454,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DefaultColor: {r: 1, g: 1, b: 1, a: 0}
-  MouseOverColor: {r: 0, g: 1, b: 0.94523287, a: 0.5254902}
+  MouseOverColor: {r: 0.31764707, g: 0.40392157, b: 0.40392157, a: 0.5254902}
   TileVisual: {fileID: 0}
   localPiece: {fileID: 0}
 --- !u!54 &8648606271168780402
@@ -2556,7 +2568,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DefaultColor: {r: 1, g: 1, b: 1, a: 0}
-  MouseOverColor: {r: 0, g: 1, b: 0.94523287, a: 0.5254902}
+  MouseOverColor: {r: 0.31764707, g: 0.40392157, b: 0.40392157, a: 0.5254902}
   TileVisual: {fileID: 0}
   localPiece: {fileID: 0}
 --- !u!54 &8648606271238177072
@@ -2601,7 +2613,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8648606271252976007}
   m_LocalRotation: {x: -0, y: -0.00072166306, z: -0, w: 0.99999976}
-  m_LocalPosition: {x: -11.882084, y: 2.69, z: 25.87}
+  m_LocalPosition: {x: -11.882084, y: 2.23, z: 25.87}
   m_LocalScale: {x: 4, y: 4, z: 4}
   m_Children:
   - {fileID: 8648606271155883837}
@@ -2619,7 +2631,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.5, y: 1, z: 0.5}
+  m_Size: {x: 0.5, y: 1.2, z: 0.5}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &8648606271252976006
 MonoBehaviour:
@@ -2634,10 +2646,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DefaultColor: {r: 1, g: 1, b: 1, a: 0}
-  MouseOverColor: {r: 0, g: 1, b: 0.9800041, a: 0.49803922}
+  MouseOverColor: {r: 0.31572625, g: 0.4056604, b: 0.403897, a: 0.49803922}
   PieceVisual: {fileID: 0}
   placed: 0
   onDeck: 0
+  isSmall: 0
 --- !u!1 &8648606271256696391
 GameObject:
   m_ObjectHideFlags: 0
@@ -2664,7 +2677,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8648606271256696391}
   m_LocalRotation: {x: -0, y: -0.00072166306, z: -0, w: 0.99999976}
-  m_LocalPosition: {x: -3.9220934, y: 2.69, z: 25.879986}
+  m_LocalPosition: {x: -3.9220934, y: 2.23, z: 25.879986}
   m_LocalScale: {x: 4, y: 4, z: 4}
   m_Children:
   - {fileID: 8648606269827296968}
@@ -2682,7 +2695,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.5, y: 1, z: 0.5}
+  m_Size: {x: 0.5, y: 1.2, z: 0.5}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &8648606271256696390
 MonoBehaviour:
@@ -2697,10 +2710,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DefaultColor: {r: 1, g: 1, b: 1, a: 0}
-  MouseOverColor: {r: 0, g: 1, b: 0.9800041, a: 0.49803922}
+  MouseOverColor: {r: 0.31572625, g: 0.4056604, b: 0.403897, a: 0.49803922}
   PieceVisual: {fileID: 0}
   placed: 0
   onDeck: 0
+  isSmall: 0
 --- !u!1 &8648606271356974692
 GameObject:
   m_ObjectHideFlags: 0
@@ -2747,7 +2761,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DefaultColor: {r: 1, g: 1, b: 1, a: 0}
-  MouseOverColor: {r: 0, g: 1, b: 0.94523287, a: 0.5254902}
+  MouseOverColor: {r: 0.31764707, g: 0.40392157, b: 0.40392157, a: 0.5254902}
   TileVisual: {fileID: 0}
   localPiece: {fileID: 0}
 --- !u!54 &8648606271356974691
@@ -2812,7 +2826,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DefaultColor: {r: 1, g: 1, b: 1, a: 0}
-  MouseOverColor: {r: 0, g: 1, b: 0.94523287, a: 0.5254902}
+  MouseOverColor: {r: 0.31764707, g: 0.40392157, b: 0.40392157, a: 0.5254902}
   TileVisual: {fileID: 0}
   localPiece: {fileID: 0}
 --- !u!54 &8648606271360336433
@@ -2857,7 +2871,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8648606271383540388}
   m_LocalRotation: {x: 0.000000030908623, y: 0.7071068, z: 0.7071067, w: 0.000000030908616}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.1, z: 0}
   m_LocalScale: {x: -0.24976517, y: -0.24976517, z: -0.1638121}
   m_Children: []
   m_Father: {fileID: 8648606271454955076}
@@ -2987,7 +3001,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DefaultColor: {r: 1, g: 1, b: 1, a: 0}
-  MouseOverColor: {r: 0, g: 1, b: 0.94523287, a: 0.5254902}
+  MouseOverColor: {r: 0.31764707, g: 0.40392157, b: 0.40392157, a: 0.5254902}
   TileVisual: {fileID: 0}
   localPiece: {fileID: 0}
 --- !u!54 &8648606271448682644
@@ -3032,7 +3046,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8648606271480573750}
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.15, z: 0}
   m_LocalScale: {x: 0.3, y: 0.29999998, z: 0.25}
   m_Children: []
   m_Father: {fileID: 8455617044009540537}
@@ -3096,7 +3110,6 @@ GameObject:
   - component: {fileID: 8648606271521588470}
   - component: {fileID: 8648606271521588467}
   - component: {fileID: 8648606271521588468}
-  - component: {fileID: 8648606271521588469}
   m_Layer: 0
   m_Name: A4
   m_TagString: Untagged
@@ -3112,7 +3125,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8648606271521588471}
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.1, z: 0}
   m_LocalScale: {x: 0.3, y: 0.29999998, z: 0.16771697}
   m_Children: []
   m_Father: {fileID: 18036369191439288}
@@ -3165,20 +3178,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!64 &8648606271521588469
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8648606271521588471}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 7567532504055388576, guid: 6fe4a64721f6d98419ba66a20bb27c49, type: 3}
 --- !u!1 &8648606271525855222
 GameObject:
   m_ObjectHideFlags: 0
@@ -3205,7 +3204,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8648606271525855222}
   m_LocalRotation: {x: 0.000000030908623, y: 0.7071068, z: 0.7071067, w: 0.000000030908616}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.15, z: 0}
   m_LocalScale: {x: -0.24976519, y: -0.24976519, z: -0.24976519}
   m_Children: []
   m_Father: {fileID: 4512950618774080652}
@@ -3284,7 +3283,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8648606271546577271}
   m_LocalRotation: {x: -0, y: -0.00072166306, z: -0, w: 0.99999976}
-  m_LocalPosition: {x: -3.9120934, y: 1.73, z: 17.989985}
+  m_LocalPosition: {x: -3.9120934, y: 1.48, z: 17.989985}
   m_LocalScale: {x: 4, y: 4, z: 4}
   m_Children:
   - {fileID: 8648606270676805400}
@@ -3302,7 +3301,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.5, y: 1, z: 0.5}
+  m_Size: {x: 0.5, y: 0.8, z: 0.5}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &8648606271546577270
 MonoBehaviour:
@@ -3317,10 +3316,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DefaultColor: {r: 1, g: 1, b: 1, a: 0}
-  MouseOverColor: {r: 0, g: 1, b: 0.9800041, a: 0.49803922}
+  MouseOverColor: {r: 0.31572625, g: 0.4056604, b: 0.403897, a: 0.49803922}
   PieceVisual: {fileID: 0}
   placed: 0
   onDeck: 0
+  isSmall: 1
 --- !u!1 &8648606271648344495
 GameObject:
   m_ObjectHideFlags: 0
@@ -3347,7 +3347,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8648606271648344495}
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.15, z: 0}
   m_LocalScale: {x: 0.3, y: 0.29999998, z: 0.25}
   m_Children: []
   m_Father: {fileID: 154693397894610897}
@@ -3446,7 +3446,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DefaultColor: {r: 1, g: 1, b: 1, a: 0}
-  MouseOverColor: {r: 0, g: 1, b: 0.94523287, a: 0.5254902}
+  MouseOverColor: {r: 0.31764707, g: 0.40392157, b: 0.40392157, a: 0.5254902}
   TileVisual: {fileID: 0}
   localPiece: {fileID: 0}
 --- !u!54 &8648606271718256378
@@ -3491,7 +3491,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8648606271916598781}
   m_LocalRotation: {x: -0, y: 0.00013034302, z: -0, w: -1}
-  m_LocalPosition: {x: 12.087907, y: 1.72, z: 18.009985}
+  m_LocalPosition: {x: 12.087907, y: 1.48, z: 18.009985}
   m_LocalScale: {x: 4, y: 4, z: 4}
   m_Children:
   - {fileID: 8648606271521588470}
@@ -3509,7 +3509,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.5, y: 1, z: 0.5}
+  m_Size: {x: 0.5, y: 0.8, z: 0.5}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &8648606271916598779
 MonoBehaviour:
@@ -3524,10 +3524,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DefaultColor: {r: 1, g: 1, b: 1, a: 0}
-  MouseOverColor: {r: 0, g: 1, b: 0.9800041, a: 0.49803922}
+  MouseOverColor: {r: 0.31572625, g: 0.4056604, b: 0.403897, a: 0.49803922}
   PieceVisual: {fileID: 0}
   placed: 0
   onDeck: 0
+  isSmall: 1
 --- !u!1 &8648606271919298441
 GameObject:
   m_ObjectHideFlags: 0
@@ -3574,7 +3575,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DefaultColor: {r: 1, g: 1, b: 1, a: 0}
-  MouseOverColor: {r: 0, g: 1, b: 0.94523287, a: 0.5254902}
+  MouseOverColor: {r: 0.31764707, g: 0.40392157, b: 0.40392157, a: 0.5254902}
   TileVisual: {fileID: 0}
   localPiece: {fileID: 0}
 --- !u!54 &8648606271919298440

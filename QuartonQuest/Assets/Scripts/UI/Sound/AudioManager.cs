@@ -58,7 +58,7 @@ public class AudioManager : MonoBehaviour
 		Sound s = Array.Find(Music, item => item.name == sound);
 		if (s == null)
 		{
-			Debug.LogWarning("Sound: " + name + " not found!");
+			Debug.LogWarning("Sound: " + sound + " not found!");
 			return;
 		}
 
@@ -82,7 +82,7 @@ public class AudioManager : MonoBehaviour
         Sound s = Array.Find(SoundEffects, item => item.name == sound);
         if (s == null)
         {
-            Debug.LogWarning("Sound: " + name + " not found!");
+            Debug.LogWarning("Sound: " + sound + " not found!");
             return;
         }
 

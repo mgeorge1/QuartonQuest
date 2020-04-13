@@ -84,4 +84,14 @@ public class quickPlayMenuController : MonoBehaviour
     {
         GUIController.Instance.LoadSceneWithTransition(GUIController.SceneNames.MainMenu);
     }
+
+    public void OnToggleHover()
+    {
+        AudioManager.instance.PlaySoundEffect("ButtonHover");
+    }
+
+    public void OnToggleClick()
+    {
+        AudioManager.instance.PlaySoundEffect("ButtonClick");
+    }
 }
